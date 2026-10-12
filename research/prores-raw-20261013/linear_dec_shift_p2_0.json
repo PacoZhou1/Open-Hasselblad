@@ -1,0 +1,114 @@
+{
+ "curve_fit_dec_eq_a_x_pow_g_plus_c": [
+  2973.6290645627646,
+  0.3,
+  -5267.135730561483
+ ],
+ "error_by_level_linear": [
+  {
+   "signal_above_black_16bit": [
+    25,
+    100
+   ],
+   "signal_12bit": [
+    1.5625,
+    6.25
+   ],
+   "n": 23155,
+   "rms_err_16bit": 1068.6,
+   "rms_err_pct_of_signal": 3502.76,
+   "bias_16bit": 316.7
+  },
+  {
+   "signal_above_black_16bit": [
+    100,
+    400
+   ],
+   "signal_12bit": [
+    6.25,
+    25.0
+   ],
+   "n": 139544,
+   "rms_err_16bit": 184.5,
+   "rms_err_pct_of_signal": 65.42,
+   "bias_16bit": 5.4
+  },
+  {
+   "signal_above_black_16bit": [
+    400,
+    1600
+   ],
+   "signal_12bit": [
+    25.0,
+    100.0
+   ],
+   "n": 1445440,
+   "rms_err_16bit": 115.4,
+   "rms_err_pct_of_signal": 14.3,
+   "bias_16bit": 2.8
+  },
+  {
+   "signal_above_black_16bit": [
+    1600,
+    6400
+   ],
+   "signal_12bit": [
+    100.0,
+    400.0
+   ],
+   "n": 6028654,
+   "rms_err_16bit": 232.0,
+   "rms_err_pct_of_signal": 6.77,
+   "bias_16bit": 3.3
+  },
+  {
+   "signal_above_black_16bit": [
+    6400,
+    25600
+   ],
+   "signal_12bit": [
+    400.0,
+    1600.0
+   ],
+   "n": 3708675,
+   "rms_err_16bit": 85.0,
+   "rms_err_pct_of_signal": 0.83,
+   "bias_16bit": 1.7
+  }
+ ],
+ "input_neighbour_noise_reference": [
+  {
+   "signal": [
+    100,
+    400
+   ],
+   "approx_input_noise_16bit": 125.0
+  },
+  {
+   "signal": [
+    400,
+    1600
+   ],
+   "approx_input_noise_16bit": 101.5
+  },
+  {
+   "signal": [
+    1600,
+    6400
+   ],
+   "approx_input_noise_16bit": 118.6
+  }
+ ],
+ "banding_ratio_input": {
+  "centre": 0.7783004610364544,
+  "left": 0.6575165692327635
+ },
+ "banding_ratio_decoded_linearized": {
+  "centre": 0.7783307630081877,
+  "left": 0.6571163024879922
+ },
+ "input_range": [
+  187.0,
+  20233.0
+ ]
+}

@@ -1,0 +1,37 @@
+{
+ "width": 3920,
+ "height": 2944,
+ "bit_depth": 16,
+ "stride": 7936,
+ "ics_size": 47104,
+ "frame_bytes": 23410688,
+ "sources": [
+  {
+   "path": "native-video/outputs/source-isolated-214208/dng-sample-readback/clip1-frame-000031-UNCALIBRATED.dng",
+   "sha256_pixels": "02817155c17c50bab393d8b796efe8256693cdd431dd6baf950e291fdf1bebf3"
+  },
+  {
+   "path": "native-video/outputs/source-isolated-214208/dng-sample-readback/clip2-frame-000031-UNCALIBRATED.dng",
+   "sha256_pixels": "430b1f230017339fbfc0cfcfb66e80def53747d692a101d977038760f56643ba"
+  },
+  {
+   "path": "native-video/outputs/source-isolated-221635/dng-sample-readback/clip1-frame-000031-UNCALIBRATED.dng",
+   "sha256_pixels": "972f6b92f96bf70586663b62a9b8a81ac6dd4b09291a304cfd688294426addb9"
+  },
+  {
+   "path": "native-video/outputs/source-isolated-221635/dng-sample-readback/clip2-frame-000031-UNCALIBRATED.dng",
+   "sha256_pixels": "6b883c1ec6d390f1314abb821ae36b234f5369a8274c47ac9acc5fa5e74b7fa3"
+  },
+  {
+   "path": "native-video/outputs/source-isolated-235857/dng-sample-readback/clip1-frame-000031-UNCALIBRATED.dng",
+   "sha256_pixels": "275c0feb8764ccb4b5c52df2c6f2fc67026f9c7190e242203130158cae9824e5"
+  },
+  {
+   "path": "native-video/outputs/source-isolated-235857/dng-sample-readback/clip2-frame-000031-UNCALIBRATED.dng",
+   "sha256_pixels": "170e9e9e8a69a9121e7349db013ed3e2f8e49669142d0545a83478c946077c91"
+  }
+ ],
+ "file": "msenc_in_16bit_6f.raw",
+ "file_bytes": 140464128,
+ "sha256": "d8349fa58d4306735090ddb22f88cfafcac7eb026d728411e498a9fcae51b338"
+}

@@ -1,0 +1,187 @@
+open input file /data/local/tmp/x2v-claude-prr/msenc_in_16bit_6f.raw success
+open output file /data/local/tmp/x2v-claude-prr/out_6f_16bit.bin success
+2026-10-13 02:30:53.164 21117 21117 DUSS32 :Name: 0x0x76ebc3e040, /dev/msenc0
+2026-10-13 02:30:53.165 21117 21117 DUSS32 :	state: 0, class: 50, index: 0
+2026-10-13 02:30:53.165 21117 21117 DUSS32 :	open: 0x0x76ed2c50d8, close: 0x0x76ed2c5ea0, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x76ed2c6298, stop: 0x0x76ed2c6500
+2026-10-13 02:30:53.165 21117 21117 DUSS32 :Name: 0x0x76ebd09380, /dev/msenc1
+2026-10-13 02:30:53.165 21117 21117 DUSS32 :	state: 0, class: 50, index: 1
+2026-10-13 02:30:53.165 21117 21117 DUSS32 :	open: 0x0x76ed2c50d8, close: 0x0x76ed2c5ea0, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x76ed2c6298, stop: 0x0x76ed2c6500
+2026-10-13 02:30:53.165 21117 21117 DUSS1C :Name: 0x0x76ebce7000, /dev/ion
+2026-10-13 02:30:53.165 21117 21117 DUSS1C :	state: 0, class: 28, index: 0
+2026-10-13 02:30:53.165 21117 21117 DUSS1C :	open: 0x0x76ed4027a8, close: 0x0x76ed402908, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x76ed402a30, stop: 0x0x76ed402a38
+2026-10-13 02:30:53.165 21117 21117 DUSS1C :Name: 0x0x76ebce7200, /dev/ion_codec:ms_enc
+2026-10-13 02:30:53.165 21117 21117 DUSS1C :	state: 0, class: 28, index: 1
+2026-10-13 02:30:53.165 21117 21117 DUSS1C :	open: 0x0x76ed4027a8, close: 0x0x76ed402908, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x76ed402a30, stop: 0x0x76ed402a38
+2026-10-13 02:30:53.165 21117 21117 DUSS32 :duss_hal_device_open(ion) success!
+2026-10-13 02:30:53.165 21117 21117 DUSS32 :[moonshadow_enc_open] Opening... (Instance: 0x76ebc3e0c0)
+2026-10-13 02:30:53.165 21117 21117 DUSS58 :[_debug_hub_create_directory, 77] [DEBUG HUG] Created directory (/data/codec_debug_hub/) successfully
+2026-10-13 02:30:53.165 21117 21117 DUSS58 :[_debug_hub_create_directory, 77] [DEBUG HUG] Created directory (/blackbox/codec_debug_hub/) successfully
+2026-10-13 02:30:53.165 21117 21117 DUSS40 :PID:21117, TID:21117, pPID: 510794351944, Func: 0x0x76ececaf38, Affinity: 0x0
+2026-10-13 02:30:53.165 21117 21120 DUSS40 :debug_hub_inotify: PID:21117, TID:21120, PTHREAD:510761366768, POLICY=0, PRIORITY=0
+2026-10-13 02:30:53.165 21117 21120 DUSS58 :[_inotify_task, 1263] [DEBUG HUG] Stop inotify monitoring task starting...
+2026-10-13 02:30:53.166 21117 21117 DUSS58 :[_init_inotify, 1375] [DEBUG HUG] inotify started...
+2026-10-13 02:30:53.166 21117 21117 DUSS58 :[debug_hub_init, 1494] [DEBUG HUG] Created! Features:
+2026-10-13 02:30:53.166 21117 21117 DUSS58 :[debug_hub_init, 1495] [DEBUG HUG] ------------------
+2026-10-13 02:30:53.166 21117 21117 DUSS58 :[debug_hub_init, 1496] [DEBUG HUG] Dump:             Enable
+2026-10-13 02:30:53.166 21117 21117 DUSS58 :[debug_hub_init, 1497] [DEBUG HUG] Debuggerd:        Enable
+2026-10-13 02:30:53.166 21117 21117 DUSS58 :[debug_hub_init, 1498] [DEBUG HUG] Register Dump:    Enable
+2026-10-13 02:30:53.166 21117 21117 DUSS58 :[debug_hub_init, 1499] [DEBUG HUG] Calculate md5sum: Enable
+2026-10-13 02:30:53.166 21117 21117 DUSS58 :[debug_hub_init, 1500] [DEBUG HUG] ------------------
+.....debug...open /dev/moonshadow-enc, ret fd 10
+.....debug...msenc_get_uio_index_by_name,line=45,find target uio: ms_enc_addr_info index: 4
+.....debug...msenc_uio_dev_index = 4
+.....debug...virt_addr_base_ptr=0x76edb42000, reg_size:4096
+2026-10-13 02:30:53.168 21117 21117 DUSS32 :msenc_init() ret 0, suc!
+duss_hal_device_open(ion) success!
+2026-10-13 02:30:53.171 21117 21117 DUSS40 :PID:21117, TID:21117, pPID: 510794351944, Func: 0x0x76ed29ada8, Affinity: 0x0
+2026-10-13 02:30:53.171 21117 21121 DUSS40 :msenc_hal: PID:21117, TID:21121, PTHREAD:510760326384, POLICY=1073741826, PRIORITY=19
+2026-10-13 02:30:53.172 21117 21121 DUSS40 :PID:21117, TID:21121, pPID: 510760326384, Func: 0x0x76ed29b4f8, Affinity: 0x0
+2026-10-13 02:30:53.172 21117 21117 DUSS40 :PID:21117, TID:21117, pPID: 510794351944, Func: 0x0x76ed29b4f8, Affinity: 0x0
+2026-10-13 02:30:53.172 21117 21123 DUSS40 :task_scheduling_statistic_task: PID:21117, TID:21123, PTHREAD:510754034928, POLICY=0, PRIORITY=0
+2026-10-13 02:30:53.172 21117 21123 DUSS58 :[Task schedulor - input_packs_buf_q] Statistic task starting...
+2026-10-13 02:30:53.173 21117 21124 DUSS40 :task_scheduling_statistic_task: PID:21117, TID:21124, PTHREAD:510752994544, POLICY=0, PRIORITY=0
+2026-10-13 02:30:53.173 21117 21117 DUSS40 :PID:21117, TID:21117, pPID: 510794351944, Func: 0x0x76ed29b4f8, Affinity: 0x0
+2026-10-13 02:30:53.173 21117 21117 DUSS32 :____MSENC:moonshadow_enc_open():595, input_packs_q count:0,         output_packs_q:0
+2026-10-13 02:30:53.173 21117 21117 DUSS32 :[moonshadow_enc_open] Open successfully (Instance: 0x76ebc3e0c0)
+2026-10-13 02:30:53.173 21117 21117 DUSS32 :duss_hal_device_open(msenc) success!
+2026-10-13 02:30:53.173 21117 21117 DUSS32 :inst:0, stride:7936, bit_depth:0x10
+2026-10-13 02:30:53.173 21117 21124 DUSS58 :[Task schedulor - output_packs_buf_q] Statistic task starting...
+2026-10-13 02:30:53.173 21117 21117 DUSS32 :inst:0, allocated frame_raw buffer size:23379456: PhyAddr:0x51fe4000, VirAddr:0x76e9cba000 
+2026-10-13 02:30:53.173 21117 21117 DUSS32 :inst:0, allocated frame_raw buffer size:23379456: PhyAddr:0x53630000, VirAddr:0x76e866e000 
+2026-10-13 02:30:53.174 21117 21117 DUSS32 :inst:0, allocated frame_raw buffer size:23379456: PhyAddr:0x54c7c000, VirAddr:0x76e7022000 
+2026-10-13 02:30:53.174 21117 21117 DUSS32 :inst:0, allocated frame_raw buffer size:23379456: PhyAddr:0x562c8000, VirAddr:0x76e59d6000 
+2026-10-13 02:30:53.174 21117 21117 DUSS32 :inst:0, allocated frame_raw buffer size:23379456: PhyAddr:0x57914000, VirAddr:0x76e438a000 
+2026-10-13 02:30:53.174 21117 21117 DUSS32 :inst:0, allocated frame_raw buffer size:23379456: PhyAddr:0x58f60000, VirAddr:0x76e2d3e000 
+2026-10-13 02:30:53.175 21117 21117 DUSS32 :inst:0, allocated ics buffer size:47360: PhyAddr:0x34bdf000, VirAddr:0x76ed956000 
+2026-10-13 02:30:53.175 21117 21117 DUSS32 :inst:0, allocated ics buffer size:47360: PhyAddr:0x34c62000, VirAddr:0x76ed94a000 
+2026-10-13 02:30:53.175 21117 21117 DUSS32 :inst:0, allocated ics buffer size:47360: PhyAddr:0x34c7e000, VirAddr:0x76ed919000 
+2026-10-13 02:30:53.175 21117 21117 DUSS32 :inst:0, allocated ics buffer size:47360: PhyAddr:0x34d1a000, VirAddr:0x76ed8e4000 
+2026-10-13 02:30:53.175 21117 21117 DUSS32 :inst:0, allocated ics buffer size:47360: PhyAddr:0x3548d000, VirAddr:0x76ed8cf000 
+2026-10-13 02:30:53.175 21117 21117 DUSS32 :inst:0, allocated ics buffer size:47360: PhyAddr:0x35499000, VirAddr:0x76ed8c3000 
+2026-10-13 02:30:53.175 21117 21117 DUSS32 :inst:0, allocated stream buffer size:18703564: PhyAddr:0x5a5ac000, VirAddr:0x76e1b67000 
+2026-10-13 02:30:53.175 21117 21117 DUSS32 :inst:0, allocated stream buffer size:18703564: PhyAddr:0x5b783000, VirAddr:0x76e0990000 
+2026-10-13 02:30:53.175 21117 21122 DUSS40 :task_scheduling_statistic_task: PID:21117, TID:21122, PTHREAD:510755075312, POLICY=0, PRIORITY=0
+2026-10-13 02:30:53.175 21117 21122 DUSS58 :[Task schedulor - msenc_hal] Statistic task starting...
+2026-10-13 02:30:53.175 21117 21117 DUSS32 :inst:0, allocated stream buffer size:18703564: PhyAddr:0x5c95a000, VirAddr:0x76df7b9000 
+2026-10-13 02:30:53.176 21117 21117 DUSS32 :inst:0, allocated stream buffer size:18703564: PhyAddr:0x5db31000, VirAddr:0x76de5e2000 
+2026-10-13 02:30:53.176 21117 21117 DUSS32 :inst:0, allocated stream buffer size:18703564: PhyAddr:0x5ed08000, VirAddr:0x76dd40b000 
+2026-10-13 02:30:53.176 21117 21117 DUSS32 :inst:0, allocated stream buffer size:18703564: PhyAddr:0x5fedf000, VirAddr:0x76dc234000 
+2026-10-13 02:30:53.177 21117 21117 DUSS32 :inst:0, allocated stream buffer size:18703564: PhyAddr:0x610b6000, VirAddr:0x76db05d000 
+2026-10-13 02:30:53.177 21117 21117 DUSS32 :inst:0, allocated stream buffer size:18703564: PhyAddr:0x6228d000, VirAddr:0x76d9e86000 
+2026-10-13 02:30:53.177 21117 21117 DUSS32 :inst:0, allocated stream buffer size:18703564: PhyAddr:0x63464000, VirAddr:0x76d8caf000 
+2026-10-13 02:30:53.177 21117 21117 DUSS32 :inst:0, allocated stream buffer size:18703564: PhyAddr:0x6463b000, VirAddr:0x76d7ad8000 
+2026-10-13 02:30:53.188 21117 21117 DUSS32 :inst:0, allocated stream buffer size:18703564: PhyAddr:0x65812000, VirAddr:0x76d6901000 
+2026-10-13 02:30:53.189 21117 21117 DUSS32 :inst:0, allocated stream buffer size:18703564: PhyAddr:0x669e9000, VirAddr:0x76d572a000 
+2026-10-13 02:30:53.251 21117 21117 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23379456, ics_size:47360!!!
+2026-10-13 02:30:53.294 21117 21117 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23379456, ics_size:47360!!!
+2026-10-13 02:30:53.334 21117 21117 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23379456, ics_size:47360!!!
+2026-10-13 02:30:53.374 21117 21117 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23379456, ics_size:47360!!!
+2026-10-13 02:30:53.417 21117 21117 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23379456, ics_size:47360!!!
+2026-10-13 02:30:53.465 21117 21117 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23379456, ics_size:47360!!!
+2026-10-13 02:30:53.465 21117 21117 DUSS32 :[moonshadow_enc_start] Starting... (Instance: 0x76ebc3e0c0)
+2026-10-13 02:30:53.465 21117 21117 DUSS32 :moonshadow_enc_start(): profile 2
+2026-10-13 02:30:53.465 21117 21117 DUSS32 :____MSENC:msenc_setup_rate_ctrl():Currently, msenc_setup_ratectrl is not implemented.
+2026-10-13 02:30:53.465 21117 21117 DUSS32 :[moonshadow_enc_start] Start successfully (Instance: 0x76ebc3e0c0)
+2026-10-13 02:30:53.465 21117 21117 DUSS32 :duss_hal_device_start(msenc) success!
+2026-10-13 02:30:53.466 21117 21117 DUSS40 :PID:21117, TID:21117, pPID: 510794351944, Func: 0x0x5ea9b414e0, Affinity: 0x0
+2026-10-13 02:30:53.466 21117 21125 DUSS40 :test_msenc_thread0: PID:21117, TID:21125, PTHREAD:510387197168, POLICY=1073741826, PRIORITY=99
+2026-10-13 02:30:53.466 21117 21125 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 0
+2026-10-13 02:30:53.466 21117 21126 DUSS40 :test_ctrl_thread0: PID:21117, TID:21126, PTHREAD:510386156784, POLICY=1073741826, PRIORITY=99
+2026-10-13 02:30:53.466 21117 21117 DUSS40 :PID:21117, TID:21117, pPID: 510794351944, Func: 0x0x5ea9b42128, Affinity: 0x0
+2026-10-13 02:30:53.466 21117 21121 DUSS32 :Invalid register init_q (0), constraint: >= 1 && <= 255
+
+2026-10-13 02:30:53.466 21117 21125 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 1
+2026-10-13 02:30:53.466 21117 21121 DUSS32 :Moonshadow (instance: 0x76ebc3a000) encode frame failed, ret -2 (Reason: no error at beginning!|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+)!
+2026-10-13 02:30:53.466 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 0
+2026-10-13 02:30:53.466 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:30:53.466 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (1)
+2026-10-13 02:30:53.466 21117 21121 DUSS32 :____TEST:msenc_write_stream():No data found in stream buffer1:0x5ea9b5f980, size:0
+2026-10-13 02:30:53.466 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():msenc_write_stream failed:: -1011
+2026-10-13 02:30:53.466 21117 21121 DUSS32 :Invalid register init_q (0), constraint: >= 1 && <= 255
+
+2026-10-13 02:30:53.466 21117 21121 DUSS32 :Moonshadow (instance: 0x76ebc3a000) encode frame failed, ret -2 (Reason: no error at beginning!|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+)!
+2026-10-13 02:30:53.466 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 0
+2026-10-13 02:30:53.466 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:30:53.466 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (1)
+2026-10-13 02:30:53.466 21117 21121 DUSS32 :____TEST:msenc_write_stream():No data found in stream buffer1:0x5ea9b5fd10, size:0
+2026-10-13 02:30:53.466 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():msenc_write_stream failed:: -1011
+2026-10-13 02:30:53.467 21117 21125 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 2
+2026-10-13 02:30:53.467 21117 21121 DUSS32 :Invalid register init_q (0), constraint: >= 1 && <= 255
+
+2026-10-13 02:30:53.467 21117 21121 DUSS32 :Moonshadow (instance: 0x76ebc3a000) encode frame failed, ret -2 (Reason: no error at beginning!|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+)!
+2026-10-13 02:30:53.467 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 0
+2026-10-13 02:30:53.467 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:30:53.467 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (1)
+2026-10-13 02:30:53.467 21117 21121 DUSS32 :____TEST:msenc_write_stream():No data found in stream buffer1:0x5ea9b600a0, size:0
+2026-10-13 02:30:53.467 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():msenc_write_stream failed:: -1011
+2026-10-13 02:30:53.468 21117 21125 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 3
+2026-10-13 02:30:53.468 21117 21121 DUSS32 :Invalid register init_q (0), constraint: >= 1 && <= 255
+
+2026-10-13 02:30:53.468 21117 21121 DUSS32 :Moonshadow (instance: 0x76ebc3a000) encode frame failed, ret -2 (Reason: no error at beginning!|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+)!
+2026-10-13 02:30:53.468 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 0
+2026-10-13 02:30:53.468 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:30:53.468 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (1)
+2026-10-13 02:30:53.468 21117 21121 DUSS32 :____TEST:msenc_write_stream():No data found in stream buffer1:0x5ea9b60430, size:0
+2026-10-13 02:30:53.468 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():msenc_write_stream failed:: -1011
+2026-10-13 02:30:53.469 21117 21125 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 4
+2026-10-13 02:30:53.469 21117 21121 DUSS32 :Invalid register init_q (0), constraint: >= 1 && <= 255
+
+2026-10-13 02:30:53.469 21117 21121 DUSS32 :Moonshadow (instance: 0x76ebc3a000) encode frame failed, ret -2 (Reason: no error at beginning!|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+)!
+2026-10-13 02:30:53.469 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 0
+2026-10-13 02:30:53.469 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:30:53.469 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (1)
+2026-10-13 02:30:53.469 21117 21121 DUSS32 :____TEST:msenc_write_stream():No data found in stream buffer1:0x5ea9b607c0, size:0
+2026-10-13 02:30:53.469 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():msenc_write_stream failed:: -1011
+2026-10-13 02:30:53.470 21117 21125 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 5
+2026-10-13 02:30:53.470 21117 21125 DUSS32 :____TEST:msenc_encode_thread_func():all frame encoded, enc thread exit...
+2026-10-13 02:30:53.470 21117 21121 DUSS32 :Invalid register init_q (0), constraint: >= 1 && <= 255
+
+2026-10-13 02:30:53.470 21117 21121 DUSS32 :Moonshadow (instance: 0x76ebc3a000) encode frame failed, ret -2 (Reason: no error at beginning!|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+|width 3920, height 2946, par is err!|msenc_encode_rc_calc: msenc_check_cfg fail|Register validation failed
+)!
+2026-10-13 02:30:53.470 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 0
+2026-10-13 02:30:53.470 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:30:53.470 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (1)
+2026-10-13 02:30:53.470 21117 21121 DUSS32 :____TEST:msenc_write_stream():No data found in stream buffer1:0x5ea9b60b50, size:0
+2026-10-13 02:30:53.470 21117 21121 DUSS32 :____TEST:stream_buffer_full_callback():msenc_write_stream failed:: -1011
+2026-10-13 02:30:53.471 21117 21126 DUSS32 :____TEST:msenc_ctrl_thread_func():target_duration:0, total:6, enc thread exited, so ctrl thread exit...
+2026-10-13 02:30:53.471 21117 21117 DUSS32 :____TEST:main(),1446:wait enc thread ending success
+2026-10-13 02:30:56.477 21117 21117 DUSS32 :[moonshadow_enc_stop] Stop successfully (Instance: 0x76ebc3e0c0)
+2026-10-13 02:30:56.477 21117 21117 DUSS32 :[moonshadow_enc_close] Closing... (Instance: 0x76ebc3e0c0)
+2026-10-13 02:30:56.478 21117 21124 DUSS58 :[Task schedulor - output_packs_buf_q] statistic (Overall): Percentage in cache = 6/1024, Throughput = 1333.33(task per second), Waiting Cycle = [0.00/0.00/0.00], Response Time(ms) = [0.01/0.04/0.09] (Guide: [min/avg/max])
+2026-10-13 02:30:56.479 21117 21124 DUSS58 :[Task schedulor - output_packs_buf_q] Statistic task stopped
+2026-10-13 02:30:56.479 21117 21123 DUSS58 :[Task schedulor - input_packs_buf_q] statistic (Overall): Percentage in cache = 6/1024, Throughput = 1330.38(task per second), Waiting Cycle = [0.00/0.00/0.00], Response Time(ms) = [0.02/0.04/0.09] (Guide: [min/avg/max])
+2026-10-13 02:30:56.479 21117 21123 DUSS58 :[Task schedulor - input_packs_buf_q] Statistic task stopped
+2026-10-13 02:30:56.479 21117 21117 DUSS32 :____MSENC:moonshadow_enc_close(),802:destroy buffer queue.
+2026-10-13 02:30:56.479 21117 21117 DUSS58 :_looper_handler_destroy, Looper(msenc_hal):_looper_handler_destroy(0x76eb64f000) succeed... 
+2026-10-13 02:30:56.479 21117 21121 DUSS58 :codec_looper_run, Looper(msenc_hal): received NULL msg and exit now...
+2026-10-13 02:30:56.479 21117 21121 DUSS58 :Looper(msenc_hal): flushing the message queue...
+2026-10-13 02:30:56.479 21117 21121 DUSS58 :Looper(msenc_hal): destroying the loop ...
+2026-10-13 02:30:56.479 21117 21122 DUSS58 :[Task schedulor - msenc_hal] statistic (Overall): Percentage in cache = 7/1024, Throughput = 2.32(task per second), Waiting Cycle = [0.00/0.00/0.00], Response Time(ms) = [0.01/0.03/0.07] (Guide: [min/avg/max])
+2026-10-13 02:30:56.483 21117 21122 DUSS58 :[Task schedulor - msenc_hal] Statistic task stopped
+2026-10-13 02:30:56.484 21117 21117 DUSS32 :____MSENC:moonshadow_enc_close():destroy handle and thread
+2026-10-13 02:30:56.484 21117 21117 DUSS58 :[_deinit_inotify, 1388] [DEBUG HUG] inotify stopping...
+2026-10-13 02:30:56.484 21117 21120 DUSS58 :[_inotify_task, 1276] [DEBUG HUG] inotify: inotify_stop
+2026-10-13 02:30:56.488 21117 21117 DUSS58 :[_deinit_inotify, 1417] [DEBUG HUG] inotify stopped...
+2026-10-13 02:30:56.488 21117 21117 DUSS58 :[debug_hub_deinit, 1519] [DEBUG HUG] Released
+2026-10-13 02:30:56.488 21117 21117 DUSS32 :[moonshadow_enc_close] Close successfully (Instance: 0x76ebc3e0c0)
+2026-10-13 02:30:56.488 21117 21117 DUSS32 :duss_hal_device_close(msenc) success!

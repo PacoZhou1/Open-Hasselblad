@@ -1,0 +1,61 @@
+ 0x2678: sub    sp, sp, #0x160
+ 0x267c: str    x28, [sp, #0x110]
+ 0x2680: stp    x24, x23, [sp, #0x120]
+ 0x2684: stp    x22, x21, [sp, #0x130]
+ 0x2688: stp    x20, x19, [sp, #0x140]
+ 0x268c: stp    x29, x30, [sp, #0x150]
+ 0x2690: add    x29, sp, #0x150
+ 0x2694: mrs    x22, tpidr_el0
+ 0x2698: mov    x19, x0
+ 0x269c: ldr    x8, [x22, #0x28]
+ 0x26a0: mov    x21, x1
+ 0x26a4: mov    x1, xzr
+ 0x26a8: mov    w2, wzr
+ 0x26ac: stur   x8, [x29, #-0x48]
+ 0x26b0: ldr    x20, [x19, #0x18]
+ 0x26b4: mov    x0, x20
+ 0x26b8: bl     #0x2388 ; <fseek>
+ 0x26bc: add    x0, sp, #8
+ 0x26c0: mov    w1, #1
+ 0x26c4: mov    w2, #0x100
+ 0x26c8: mov    w4, #0x100
+ 0x26cc: mov    x3, x20
+ 0x26d0: mov    w23, #0x100
+ 0x26d4: add    x24, sp, #8
+ 0x26d8: bl     #0x2398 ; <__fread_chk>
+ 0x26dc: mov    w2, #2
+ 0x26e0: mov    x0, x20
+ 0x26e4: mov    x1, xzr
+ 0x26e8: bl     #0x2388 ; <fseek>
+ 0x26ec: mov    x0, x20
+ 0x26f0: bl     #0x23a8 ; <ftell>
+ 0x26f4: str    w0, [x19, #0x28]
+ 0x26f8: mov    x0, x20
+ 0x26fc: mov    x1, xzr
+ 0x2700: mov    w2, wzr
+ 0x2704: bl     #0x2388 ; <fseek>
+ 0x2708: str    x24, [x21]
+ 0x270c: mov    x1, x21
+ 0x2710: str    w23, [x21, #8]
+ 0x2714: ldr    x0, [x19, #0x30]
+ 0x2718: bl     #0x23b8 ; <duss_hal_msdec_parse_header>
+ 0x271c: mov    w8, w0
+ 0x2720: cbz    w8, #0x2738
+ 0x2724: adrp   x0, #0x7000
+ 0x2728: add    x0, x0, #0xfc8 ; "duss_hal_msdec_parse_header(msdec) error: %d
+"
+ 0x272c: mov    w1, w8
+ 0x2730: bl     #0x23c8 ; <printf>
+ 0x2734: mov    w0, #-1
+ 0x2738: ldr    x8, [x22, #0x28]
+ 0x273c: ldur   x9, [x29, #-0x48]
+ 0x2740: cmp    x8, x9
+ 0x2744: b.ne   #0x2764
+ 0x2748: ldp    x29, x30, [sp, #0x150]
+ 0x274c: ldp    x20, x19, [sp, #0x140]
+ 0x2750: ldp    x22, x21, [sp, #0x130]
+ 0x2754: ldp    x24, x23, [sp, #0x120]
+ 0x2758: ldr    x28, [sp, #0x110]
+ 0x275c: add    sp, sp, #0x160
+ 0x2760: ret    
+ 0x2764: bl     #0x23d8 ; <__stack_chk_fail>

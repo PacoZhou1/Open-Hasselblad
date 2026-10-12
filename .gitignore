@@ -1,0 +1,9 @@
+.venv/
+.zig-cache/
+*.dSYM/
+*.raw
+*.npy
+*.bin
+host-test/out/
+resources/
+- 

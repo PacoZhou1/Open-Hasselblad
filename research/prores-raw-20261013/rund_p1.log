@@ -1,0 +1,66 @@
+2026-10-13 03:02:21.462 31480 31480 DUSS33 :Name: 0x0x77b3647000, /dev/msdec0
+2026-10-13 03:02:21.463 31480 31480 DUSS33 :	state: 0, class: 51, index: 0
+2026-10-13 03:02:21.463 31480 31480 DUSS33 :	open: 0x0x77b48cb290, close: 0x0x77b48cb508, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x0, stop: 0x0x0
+2026-10-13 03:02:21.463 31480 31480 DUSS33 :Name: 0x0x77b36470c0, /dev/msdec1
+2026-10-13 03:02:21.463 31480 31480 DUSS33 :	state: 0, class: 51, index: 1
+2026-10-13 03:02:21.463 31480 31480 DUSS33 :	open: 0x0x77b48cb290, close: 0x0x77b48cb508, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x0, stop: 0x0x0
+2026-10-13 03:02:21.463 31480 31480 DUSS1C :Name: 0x0x77b3652000, /dev/ion
+2026-10-13 03:02:21.463 31480 31480 DUSS1C :	state: 0, class: 28, index: 0
+2026-10-13 03:02:21.463 31480 31480 DUSS1C :	open: 0x0x77b4bc17a8, close: 0x0x77b4bc1908, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x77b4bc1a30, stop: 0x0x77b4bc1a38
+duss_hal_device_open(ion) success!
+open input file /data/local/tmp/x2v-claude-prr/out_p1.bin success
+open output file /data/local/tmp/x2v-claude-prr/msdec_p1.raw success
+2026-10-13 03:02:21.463 31480 31480 DUSS58 :[_debug_hub_create_directory, 77] [DEBUG HUG] Created directory (/data/codec_debug_hub/) successfully
+2026-10-13 03:02:21.463 31480 31480 DUSS58 :[_debug_hub_create_directory, 77] [DEBUG HUG] Created directory (/blackbox/codec_debug_hub/) successfully
+2026-10-13 03:02:21.464 31480 31480 DUSS40 :PID:31480, TID:31480, pPID: 514144277832, Func: 0x0x77b3b10f38, Affinity: 0x0
+2026-10-13 03:02:21.464 31480 31480 DUSS58 :[_init_inotify, 1375] [DEBUG HUG] inotify started...
+2026-10-13 03:02:21.464 31480 31480 DUSS58 :[debug_hub_init, 1494] [DEBUG HUG] Created! Features:
+2026-10-13 03:02:21.464 31480 31480 DUSS58 :[debug_hub_init, 1495] [DEBUG HUG] ------------------
+2026-10-13 03:02:21.464 31480 31480 DUSS58 :[debug_hub_init, 1496] [DEBUG HUG] Dump:             Enable
+2026-10-13 03:02:21.464 31480 31480 DUSS58 :[debug_hub_init, 1497] [DEBUG HUG] Debuggerd:        Enable
+2026-10-13 03:02:21.464 31480 31480 DUSS58 :[debug_hub_init, 1498] [DEBUG HUG] Register Dump:    Enable
+2026-10-13 03:02:21.464 31480 31480 DUSS58 :[debug_hub_init, 1499] [DEBUG HUG] Calculate md5sum: Enable
+2026-10-13 03:02:21.464 31480 31484 DUSS40 :2026-10-13 03:02:21.464 31480 31480 DUSS58 :[debug_hub_init, 1500] [DEBUG HUG] ------------------
+debug_hub_inotify: PID:31480, TID:31484, PTHREAD:514115798256, POLICY=0, PRIORITY=0
+2026-10-13 03:02:21.464 31480 31484 DUSS58 :[_inotify_task, 1263] [DEBUG HUG] Stop inotify monitoring task starting...
+.....debug...msdec_get_uio_index_by_name,line=41,find target uio: ms_dec_addr_info index: 3
+2026-10-13 03:02:21.466 31480 31480 DUSS33 :[moonshadow_dec_open:263] Open ProresRaw decoder (Moonshadow) successfully
+duss_hal_device_open(msdec) success!
+inst:0, parse for msdec is width:3920, height:2944
+inst:0, allocated bit memory size 19271680,PhyAddr:0x51fe4000, VirAddr:0x77b239f000
+inst:0, stride:7936, bit_depth:0x10
+inst:0, allocated frame buffer size:23363584: PhyAddr:0x53245000, VirAddr:0x77b0d57000 
+----read_msdec_file, len_l:19271680, len_r:0, s_length:19271680, count:19271680----
+2026-10-13 03:02:21.603 31480 31480 DUSS40 :PID:31480, TID:31480, pPID: 514144277832, Func: 0x0x5a3887fce0, Affinity: 0x0
+2026-10-13 03:02:21.603 31480 31488 DUSS40 :msdec_thread0: PID:31480, TID:31488, PTHREAD:514067883248, POLICY=1073741826, PRIORITY=99
+inst:0, write  output file, stride 7936, height 2944, len:0!!!
+
+Decoded ProresRaw Metadata:
+horizontal_size: 3920
+vertical_size:   2944
+
+default_crop_left:   0
+default_crop_right:  0
+default_crop_top:    0
+default_crop_bottom: 0
+
+bayer_pattern: 0
+
+sensel_value_range: 65279
+white_balance_red_factor:  0.000000
+white_balance_blue_factor: 0.000000
+
+color_matrix[0][0]: 0.000000
+color_matrix[0][1]: 0.000000
+color_matrix[0][2]: 0.000000
+color_matrix[1][0]: 0.000000
+color_matrix[1][1]: 0.000000
+color_matrix[1][2]: 0.000000
+color_matrix[2][0]: 0.000000
+color_matrix[2][1]: 0.000000
+color_matrix[2][2]: 0.000000
+
+gain_factor: 0.000000
+white_balance_cct: 0
+
+2026-10-13 03:02:22.212 31480 31480 

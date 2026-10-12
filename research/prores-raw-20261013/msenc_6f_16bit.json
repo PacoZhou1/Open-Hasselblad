@@ -1,0 +1,16 @@
+{
+  "msenc": {
+    "instance_active_num": 1,
+    "instances": [
+      {
+        "input_file": "/mnt/media_rw/ssd/x2v-claude-prr-20261013/msenc_in_16bit_6f.raw",
+        "output_file": "/mnt/media_rw/ssd/x2v-claude-prr-20261013/out_6f_16bit.bin",
+        "width": 3920,
+        "height": 2946,
+        "bit_depth": 16,
+        "bayer_type": 0,
+        "num_of_encode_frame": 6
+      }
+    ]
+  }
+}

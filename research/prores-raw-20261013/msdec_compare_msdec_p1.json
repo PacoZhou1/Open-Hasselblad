@@ -1,0 +1,57 @@
+{
+ "fit_dec_eq_a_src_plus_b": [
+  0.99955,
+  2.58
+ ],
+ "max_abs_err_12bit": 21.6,
+ "rows": [
+  {
+   "signal_12bit": [
+    6.25,
+    25
+   ],
+   "n": 139544,
+   "rms_err_12bit": 1.0,
+   "bias_12bit": 0.021,
+   "input_local_diff_12bit": 7.81
+  },
+  {
+   "signal_12bit": [
+    25,
+    100
+   ],
+   "n": 1445440,
+   "rms_err_12bit": 1.08,
+   "bias_12bit": -0.002,
+   "input_local_diff_12bit": 6.35
+  },
+  {
+   "signal_12bit": [
+    100,
+    400
+   ],
+   "n": 6028654,
+   "rms_err_12bit": 1.58,
+   "bias_12bit": -0.055,
+   "input_local_diff_12bit": 7.41
+  },
+  {
+   "signal_12bit": [
+    400,
+    1600
+   ],
+   "n": 3708675,
+   "rms_err_12bit": 2.8,
+   "bias_12bit": -0.227,
+   "input_local_diff_12bit": 5.12
+  }
+ ],
+ "banding_ratio_input": {
+  "centre": 0.7783081410766375,
+  "left": 0.6575192096597146
+ },
+ "banding_ratio_decoded": {
+  "centre": 0.7782167153046451,
+  "left": 0.6577922077922078
+ }
+}

@@ -1,0 +1,27 @@
+{
+ "input": "r1.mov",
+ "samples": 5,
+ "recovered": 0,
+ "fourcc": "aprh",
+ "track_size": [3888, 2912],
+ "timescale": 24000,
+ "sample_duration": 1000,
+ "cached_sync_dir": 0,
+ "copy": 1,
+ "open_rc": 0,
+ "open_ms": 4.82,
+ "frames": [
+  {"index": 0, "bytes": 10329230, "rc": 0, "read_ms": 30.11, "decode_ms": 5.97, "decode_ms_min": 5.97, "copy_ms": 538.27, "render_ms": 121.66, "sync_rc": 0, "width": 3888, "height": 2912, "bayer": 0, "range": 65279, "wb": [2.95421, 1.69005], "gain": 1, "cct": 5946, "crop": [0, 0, 0, 0], "matrix": [0.679142, 0.232644, 0.038684, 0.269303, 0.953732, -0.223035, 0.0519759, -0.295571, 1.33242], "hash": "6992ead8e48ae346"},
+  {"index": 1, "bytes": 4346357, "rc": 0, "read_ms": 10.70, "decode_ms": 7.14, "decode_ms_min": 7.14, "copy_ms": 444.03, "render_ms": 111.11, "sync_rc": 0, "width": 3888, "height": 2912, "bayer": 0, "range": 65279, "wb": [2.95421, 1.69005], "gain": 1, "cct": 5946, "crop": [0, 0, 0, 0], "matrix": [0.679142, 0.232644, 0.038684, 0.269303, 0.953732, -0.223035, 0.0519759, -0.295571, 1.33242], "hash": "163f9181d4525033"},
+  {"index": 2, "bytes": 4350318, "rc": 0, "read_ms": 12.15, "decode_ms": 4.84, "decode_ms_min": 4.84, "copy_ms": 429.97, "render_ms": 105.47, "sync_rc": 0, "width": 3888, "height": 2912, "bayer": 0, "range": 65279, "wb": [2.95421, 1.69005], "gain": 1, "cct": 5946, "crop": [0, 0, 0, 0], "matrix": [0.679142, 0.232644, 0.038684, 0.269303, 0.953732, -0.223035, 0.0519759, -0.295571, 1.33242], "hash": "26bb93a984742a5c"},
+  {"index": 3, "bytes": 4456085, "rc": 0, "read_ms": 8.98, "decode_ms": 4.86, "decode_ms_min": 4.86, "copy_ms": 448.52, "render_ms": 113.26, "sync_rc": 0, "width": 3888, "height": 2912, "bayer": 0, "range": 65279, "wb": [2.95421, 1.69005], "gain": 1, "cct": 5946, "crop": [0, 0, 0, 0], "matrix": [0.679142, 0.232644, 0.038684, 0.269303, 0.953732, -0.223035, 0.0519759, -0.295571, 1.33242], "hash": "cdac100a53a20f4a"},
+  {"index": 4, "bytes": 4182230, "rc": 0, "read_ms": 11.17, "decode_ms": 4.80, "decode_ms_min": 4.80, "copy_ms": 453.81, "render_ms": 116.89, "sync_rc": 0, "width": 3888, "height": 2912, "bayer": 0, "range": 65279, "wb": [2.95421, 1.69005], "gain": 1, "cct": 5946, "crop": [0, 0, 0, 0], "matrix": [0.679142, 0.232644, 0.038684, 0.269303, 0.953732, -0.223035, 0.0519759, -0.295571, 1.33242], "hash": "0ca9533355748569"},
+  {"index": 0, "bytes": 10329230, "rc": 0, "read_ms": 17.41, "decode_ms": 5.49, "decode_ms_min": 5.49, "copy_ms": 435.42, "render_ms": 105.35, "sync_rc": 0, "width": 3888, "height": 2912, "bayer": 0, "range": 65279, "wb": [2.95421, 1.69005], "gain": 1, "cct": 5946, "crop": [0, 0, 0, 0], "matrix": [0.679142, 0.232644, 0.038684, 0.269303, 0.953732, -0.223035, 0.0519759, -0.295571, 1.33242], "hash": "6992ead8e48ae346"},
+  {"index": 2, "bytes": 4350318, "rc": 0, "read_ms": 8.34, "decode_ms": 5.68, "decode_ms_min": 5.68, "copy_ms": 445.62, "render_ms": 105.83, "sync_rc": 0, "width": 3888, "height": 2912, "bayer": 0, "range": 65279, "wb": [2.95421, 1.69005], "gain": 1, "cct": 5946, "crop": [0, 0, 0, 0], "matrix": [0.679142, 0.232644, 0.038684, 0.269303, 0.953732, -0.223035, 0.0519759, -0.295571, 1.33242], "hash": "26bb93a984742a5c"}
+ ],
+ "decoded": 7,
+ "failures": 0,
+ "decode_ms_mean": 5.54,
+ "render_ms_mean": 111.37,
+ "dec_closed": 0
+}

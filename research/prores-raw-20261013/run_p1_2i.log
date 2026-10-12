@@ -1,0 +1,112 @@
+open input file /data/local/tmp/x2v-claude-prr/msenc_in_16bit_6f.raw success
+open output file /dev/null success
+open input file /data/local/tmp/x2v-claude-prr/msenc_in_16bit_6f.raw success
+open output file /dev/null success
+2026-10-13 02:57:44.423 29923 29923 DUSS32 :Name: 0x0x7aeea47380, /dev/msenc0
+2026-10-13 02:57:44.424 29923 29923 DUSS32 :	state: 0, class: 50, index: 0
+2026-10-13 02:57:44.424 29923 29923 DUSS32 :	open: 0x0x7aefd7f0d8, close: 0x0x7aefd7fea0, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x7aefd80298, stop: 0x0x7aefd80500
+2026-10-13 02:57:44.424 29923 29923 DUSS32 :Name: 0x0x7aeeb12380, /dev/msenc1
+2026-10-13 02:57:44.424 29923 29923 DUSS32 :	state: 0, class: 50, index: 1
+2026-10-13 02:57:44.424 29923 29923 DUSS32 :	open: 0x0x7aefd7f0d8, close: 0x0x7aefd7fea0, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x7aefd80298, stop: 0x0x7aefd80500
+2026-10-13 02:57:44.424 29923 29923 DUSS1C :Name: 0x0x7aeeaf0000, /dev/ion
+2026-10-13 02:57:44.424 29923 29923 DUSS1C :	state: 0, class: 28, index: 0
+2026-10-13 02:57:44.424 29923 29923 DUSS1C :	open: 0x0x7aefdef7a8, close: 0x0x7aefdef908, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x7aefdefa30, stop: 0x0x7aefdefa38
+2026-10-13 02:57:44.424 29923 29923 DUSS1C :Name: 0x0x7aeeaf0200, /dev/ion_codec:ms_enc
+2026-10-13 02:57:44.424 29923 29923 DUSS1C :	state: 0, class: 28, index: 1
+2026-10-13 02:57:44.424 29923 29923 DUSS1C :	open: 0x0x7aefdef7a8, close: 0x0x7aefdef908, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x7aefdefa30, stop: 0x0x7aefdefa38
+2026-10-13 02:57:44.424 29923 29923 DUSS32 :duss_hal_device_open(ion) success!
+2026-10-13 02:57:44.425 29923 29923 DUSS32 :[moonshadow_enc_open] Opening... (Instance: 0x7aeea47400)
+2026-10-13 02:57:44.425 29923 29923 DUSS58 :[_debug_hub_create_directory, 77] [DEBUG HUG] Created directory (/data/codec_debug_hub/) successfully
+2026-10-13 02:57:44.425 29923 29923 DUSS58 :[_debug_hub_create_directory, 77] [DEBUG HUG] Created directory (/blackbox/codec_debug_hub/) successfully
+2026-10-13 02:57:44.425 29923 29923 DUSS40 :PID:29923, TID:29923, pPID: 528023835976, Func: 0x0x7af0651f38, Affinity: 0x0
+2026-10-13 02:57:44.425 29923 29923 DUSS58 :[_init_inotify, 1375] [DEBUG HUG] inotify started...
+2026-10-13 02:57:44.425 29923 29923 DUSS58 :[debug_hub_init, 1494] [DEBUG HUG] Created! Features:
+2026-10-13 02:57:44.425 29923 29923 DUSS58 :[debug_hub_init, 1495] [DEBUG HUG] ------------------
+2026-10-13 02:57:44.425 29923 29923 DUSS58 :[debug_hub_init, 1496] [DEBUG HUG] Dump:             Enable
+2026-10-13 02:57:44.426 29923 29923 DUSS58 :[debug_hub_init, 1497] [DEBUG HUG] Debuggerd:        Enable
+2026-10-13 02:57:44.426 29923 29923 DUSS58 :[debug_hub_init, 1498] [DEBUG HUG] Register Dump:    Enable
+2026-10-13 02:57:44.426 29923 29923 DUSS58 :[debug_hub_init, 1499] [DEBUG HUG] Calculate md5sum: Enable
+2026-10-13 02:57:44.426 29923 29923 DUSS58 :[debug_hub_init, 1500] [DEBUG HUG] ------------------
+.....debug...open /dev/moonshadow-enc, ret fd 9
+.....debug...msenc_get_uio_index_by_name,line=45,find target uio: ms_enc_addr_info index: 4
+.....debug...msenc_uio_dev_index = 4
+2026-10-13 02:57:44.432 29923 29927 DUSS40 :debug_hub_inotify: PID:29923, TID:29927, PTHREAD:527994995952, POLICY=0, PRIORITY=0
+2026-10-13 02:57:44.432 29923 29927 DUSS58 :[_inotify_task, 1263] [DEBUG HUG] Stop inotify monitoring task starting...
+.....debug...virt_addr_base_ptr=0x7af0919000, reg_size:4096
+2026-10-13 02:57:44.432 29923 29923 DUSS32 :msenc_init() ret 0, suc!
+duss_hal_device_open(ion) success!
+2026-10-13 02:57:44.435 29923 29923 DUSS40 :PID:29923, TID:29923, pPID: 528023835976, Func: 0x0x7aefd54da8, Affinity: 0x0
+2026-10-13 02:57:44.435 29923 29928 DUSS40 :msenc_hal: PID:29923, TID:29928, PTHREAD:527987373296, POLICY=1073741826, PRIORITY=19
+2026-10-13 02:57:44.436 29923 29928 DUSS40 :PID:29923, TID:29928, pPID: 527987373296, Func: 0x0x7aefd554f8, Affinity: 0x0
+2026-10-13 02:57:44.436 29923 29929 DUSS40 :task_scheduling_statistic_task: PID:29923, TID:29929, PTHREAD:527986332912, POLICY=0, PRIORITY=0
+2026-10-13 02:57:44.436 29923 29929 DUSS58 :[Task schedulor - msenc_hal] Statistic task starting...
+2026-10-13 02:57:44.436 29923 29923 DUSS40 :PID:29923, TID:29923, pPID: 528023835976, Func: 0x0x7aefd554f8, Affinity: 0x0
+2026-10-13 02:57:44.436 29923 29930 DUSS40 :task_scheduling_statistic_task: PID:29923, TID:29930, PTHREAD:527983178992, POLICY=0, PRIORITY=0
+2026-10-13 02:57:44.436 29923 29930 DUSS58 :[Task schedulor - input_packs_buf_q] Statistic task starting...
+2026-10-13 02:57:44.436 29923 29923 DUSS40 :PID:29923, TID:29923, pPID: 528023835976, Func: 0x0x7aefd554f8, Affinity: 0x0
+2026-10-13 02:57:44.436 29923 29923 DUSS32 :____MSENC:moonshadow_enc_open():595, input_packs_q count:0,         output_packs_q:0
+2026-10-13 02:57:44.436 29923 29923 DUSS32 :[moonshadow_enc_open] Open successfully (Instance: 0x7aeea47400)
+2026-10-13 02:57:44.436 29923 29931 DUSS40 :task_scheduling_statistic_task: PID:29923, TID:29931, PTHREAD:527982138608, POLICY=0, PRIORITY=0
+2026-10-13 02:57:44.436 29923 29923 DUSS32 :duss_hal_device_open(msenc) success!
+2026-10-13 02:57:44.436 29923 29923 DUSS32 :2026-10-13 02:57:44.436 29923 29931 DUSS58 :[Task schedulor - output_packs_buf_q] Statistic task starting...
+inst:0, stride:7936, bit_depth:0x10
+2026-10-13 02:57:44.437 29923 29923 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x51fe4000, VirAddr:0x7aecbbc000 
+2026-10-13 02:57:44.437 29923 29923 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x5362c000, VirAddr:0x7aeb574000 
+2026-10-13 02:57:44.437 29923 29923 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x54c74000, VirAddr:0x7ae9f2c000 
+2026-10-13 02:57:44.437 29923 29923 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x562bc000, VirAddr:0x7ae88e4000 
+2026-10-13 02:57:44.438 29923 29923 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x57904000, VirAddr:0x7ae729c000 
+2026-10-13 02:57:44.438 29923 29923 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x58f4c000, VirAddr:0x7ae5c54000 
+2026-10-13 02:57:44.438 29923 29923 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34bdf000, VirAddr:0x7af08a2000 
+2026-10-13 02:57:44.438 29923 29923 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34c62000, VirAddr:0x7af086c000 
+2026-10-13 02:57:44.438 29923 29923 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34c7e000, VirAddr:0x7af082d000 
+2026-10-13 02:57:44.438 29923 29923 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34d1a000, VirAddr:0x7af081d000 
+2026-10-13 02:57:44.438 29923 29923 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x3548d000, VirAddr:0x7af0800000 
+2026-10-13 02:57:44.438 29923 29923 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x35499000, VirAddr:0x7af07df000 
+2026-10-13 02:57:44.438 29923 29923 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5a594000, VirAddr:0x7ae4a80000 
+2026-10-13 02:57:44.438 29923 29923 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5b768000, VirAddr:0x7ae38ac000 
+2026-10-13 02:57:44.439 29923 29923 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5c93c000, VirAddr:0x7ae26d8000 
+2026-10-13 02:57:44.439 29923 29923 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5db10000, VirAddr:0x7ae1504000 
+2026-10-13 02:57:44.439 29923 29923 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5ece4000, VirAddr:0x7ae0330000 
+2026-10-13 02:57:44.439 29923 29923 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5feb8000, VirAddr:0x7adf15c000 
+2026-10-13 02:57:44.440 29923 29923 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x6108c000, VirAddr:0x7addf88000 
+2026-10-13 02:57:44.440 29923 29923 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x62260000, VirAddr:0x7adcdb4000 
+2026-10-13 02:57:44.440 29923 29923 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x63434000, VirAddr:0x7adbbe0000 
+2026-10-13 02:57:44.440 29923 29923 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x64608000, VirAddr:0x7adaa0c000 
+2026-10-13 02:57:44.450 29923 29923 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x657dc000, VirAddr:0x7ad9838000 
+2026-10-13 02:57:44.452 29923 29923 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x669b0000, VirAddr:0x7ad8664000 
+2026-10-13 02:57:44.495 29923 29923 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:57:44.534 29923 29923 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:57:44.579 29923 29923 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:57:44.619 29923 29923 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:57:44.663 29923 29923 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:57:44.704 29923 29923 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:57:44.704 29923 29923 DUSS32 :[moonshadow_enc_start] Starting... (Instance: 0x7aeea47400)
+2026-10-13 02:57:44.704 29923 29923 DUSS32 :moonshadow_enc_start(): profile 1
+2026-10-13 02:57:44.704 29923 29923 DUSS32 :____MSENC:msenc_setup_rate_ctrl():Currently, msenc_setup_ratectrl is not implemented.
+2026-10-13 02:57:44.704 29923 29923 DUSS32 :[moonshadow_enc_start] Start successfully (Instance: 0x7aeea47400)
+2026-10-13 02:57:44.704 29923 29923 DUSS32 :duss_hal_device_start(msenc) success!
+2026-10-13 02:57:44.704 29923 29923 DUSS32 :[moonshadow_enc_open] Opening... (Instance: 0x7aeeb12400)
+2026-10-13 02:57:44.704 29923 29923 DUSS58 :[_debug_hub_create_directory, 77] [DEBUG HUG] Created directory (/data/codec_debug_hub/) successfully
+2026-10-13 02:57:44.704 29923 29923 DUSS58 :[_debug_hub_create_directory, 77] [DEBUG HUG] Created directory (/blackbox/codec_debug_hub/) successfully
+2026-10-13 02:57:44.705 29923 29934 DUSS40 :debug_hub_inotify: PID:29923, TID:29934, PTHREAD:527616586992, POLICY=0, PRIORITY=0
+2026-10-13 02:57:44.705 29923 29934 DUSS58 :[_inotify_task, 1263] [DEBUG HUG] Stop inotify monitoring task starting...
+2026-10-13 02:57:44.705 29923 29923 DUSS40 :PID:29923, TID:29923, pPID: 528023835976, Func: 0x0x7af0651f38, Affinity: 0x0
+2026-10-13 02:57:44.705 29923 29923 DUSS58 :[_init_inotify, 1375] [DEBUG HUG] inotify started...
+2026-10-13 02:57:44.705 29923 29923 DUSS58 :[debug_hub_init, 1494] [DEBUG HUG] Created! Features:
+2026-10-13 02:57:44.705 29923 29923 DUSS58 :[debug_hub_init, 1495] [DEBUG HUG] ------------------
+2026-10-13 02:57:44.705 29923 29923 DUSS58 :[debug_hub_init, 1496] [DEBUG HUG] Dump:             Enable
+2026-10-13 02:57:44.705 29923 29923 DUSS58 :[debug_hub_init, 1497] [DEBUG HUG] Debuggerd:        Enable
+2026-10-13 02:57:44.705 29923 29923 DUSS58 :[debug_hub_init, 1498] [DEBUG HUG] Register Dump:    Enable
+2026-10-13 02:57:44.705 29923 29923 DUSS58 :[debug_hub_init, 1499] [DEBUG HUG] Calculate md5sum: Enable
+2026-10-13 02:57:44.705 29923 29923 DUSS58 :[debug_hub_init, 1500] [DEBUG HUG] ------------------
+.....debug...open /dev/moonshadow-enc, ret fd 68
+.....debug...msenc_get_uio_index_by_name,line=45,find target uio: ms_enc_addr_info index: 4
+.....debug...msenc_uio_dev_index = 4
+.....debug...virt_addr_base_ptr=0x7af08f8000, reg_size:4096
+2026-10-13 02:57:44.707 29923 29923 DUSS32 :msenc_init() ret 0, suc!
+2026-10-13 02:57:44.707 29923 29923 DUSS1C :open /dev/ion_codec:ms_enc fail for state mismatch!
+2026-10-13 02:57:44.707 29923 29923 DUSS32 :moonshadow_enc_open: duss_hal_mem_open(ion vmem) err: -1004
+2026-10-13 02:57:44.707 29923 29923 DUSS32 :Moonshadow encoder require "/dev/ion_codec:ms_enc" for internal usage.
+2026-10-13 02:57:44.707 29923 29923 DUSS32 :Please check the device list if it contain the device!
+2026-10-13 02:57:44.707 29923 29923 DUSS32 :open /dev/msenc1 fail!
+2026-10-13 02:57:44.707 29923 29923 DUSS32 :duss_hal_device_open(msenc) error: -1007

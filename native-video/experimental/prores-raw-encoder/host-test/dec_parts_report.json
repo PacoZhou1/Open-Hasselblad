@@ -1,0 +1,67 @@
+{
+ "r1.mov": {
+  "count": 5,
+  "ffprobe_count": 5,
+  "match": true,
+  "bad": 0,
+  "fourcc": "aprh",
+  "size": [
+   3888,
+   2912
+  ],
+  "timescale": 24000,
+  "duration": 1000,
+  "recovered": 0
+ },
+ "r3.mov": {
+  "count": 24,
+  "ffprobe_count": 24,
+  "match": true,
+  "bad": 0,
+  "fourcc": "aprh",
+  "size": [
+   3888,
+   2912
+  ],
+  "timescale": 24000,
+  "duration": 1000,
+  "recovered": 0
+ },
+ "r1_5frames_nopatch.mov": {
+  "count": 5,
+  "ffprobe_count": 5,
+  "match": true,
+  "bad": 0,
+  "fourcc": "aprh",
+  "size": [
+   3888,
+   2912
+  ],
+  "timescale": 24000,
+  "duration": 1000,
+  "recovered": 0
+ },
+ "recovery": {
+  "source": "r3.mov",
+  "cut_at": 60493091,
+  "count": 10,
+  "expected": 10,
+  "recovered": 1,
+  "match": true
+ },
+ "view_max_abs_diff_8bit": {
+  "bayer0_scale2": 0,
+  "bayer0_scale4": 0,
+  "bayer0_scale6": 0,
+  "bayer1_scale2": 0,
+  "bayer1_scale4": 0,
+  "bayer1_scale6": 0,
+  "bayer2_scale2": 0,
+  "bayer2_scale4": 0,
+  "bayer2_scale6": 0,
+  "bayer3_scale2": 0,
+  "bayer3_scale4": 0,
+  "bayer3_scale6": 0
+ },
+ "passed": true
+}

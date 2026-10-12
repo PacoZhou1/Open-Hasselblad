@@ -1,0 +1,66 @@
+{
+ "mapping_dec_eq_a_src_plus_b": [
+  1.1028477524213254,
+  30626.23400066308
+ ],
+ "psnr_db_vs_16bit_full_scale": 35.73151846862659,
+ "psnr_db_vs_12bit_signal": 35.72953016836883,
+ "error_by_level": [
+  {
+   "signal_16bit": [
+    100,
+    400
+   ],
+   "n": 139544,
+   "rms_err_16bit": 2241.688981788077,
+   "rms_err_pct_of_signal": 956.2224606209264,
+   "mean_err_16bit": -1929.557026379864
+  },
+  {
+   "signal_16bit": [
+    400,
+    1600
+   ],
+   "n": 1445440,
+   "rms_err_16bit": 1623.5706682267228,
+   "rms_err_pct_of_signal": 195.3692622899916,
+   "mean_err_16bit": -1305.9314363621713
+  },
+  {
+   "signal_16bit": [
+    1600,
+    6400
+   ],
+   "n": 6028654,
+   "rms_err_16bit": 1012.0150599208268,
+   "rms_err_pct_of_signal": 31.094287819712406,
+   "mean_err_16bit": 377.3555194821951
+  },
+  {
+   "signal_16bit": [
+    6400,
+    25600
+   ],
+   "n": 3708675,
+   "rms_err_16bit": 821.6487353743718,
+   "rms_err_pct_of_signal": 7.489397601062857,
+   "mean_err_16bit": 146.77848868636588
+  }
+ ],
+ "banding_ratio_input": {
+  "centre": 0.7783081410766375,
+  "left": 0.6575192096597146
+ },
+ "banding_ratio_decoded": {
+  "centre": 0.8200632243463424,
+  "left": -0.003859676258186639
+ },
+ "input_minmax": [
+  3968.0,
+  22592.0
+ ],
+ "decoded_minmax": [
+  64.0,
+  65456.0
+ ]
+}

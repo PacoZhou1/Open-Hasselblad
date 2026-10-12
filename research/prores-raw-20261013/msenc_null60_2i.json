@@ -1,0 +1,25 @@
+{
+ "msenc": {
+  "instance_active_num": 2,
+  "instances": [
+   {
+    "input_file": "/data/local/tmp/x2v-claude-prr/msenc_in_16bit_6f.raw",
+    "output_file": "/dev/null",
+    "width": 3920,
+    "height": 2944,
+    "bit_depth": 16,
+    "bayer_type": 0,
+    "num_of_encode_frame": 60
+   },
+   {
+    "input_file": "/data/local/tmp/x2v-claude-prr/msenc_in_16bit_6f.raw",
+    "output_file": "/dev/null",
+    "width": 3920,
+    "height": 2944,
+    "bit_depth": 16,
+    "bayer_type": 0,
+    "num_of_encode_frame": 60
+   }
+  ]
+ }
+}

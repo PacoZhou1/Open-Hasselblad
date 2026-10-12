@@ -1,0 +1,221 @@
+{
+ "frames": [
+  "dark_212801",
+  "flat_214208_c1",
+  "flat_214208_c2",
+  "wall_221635_c1",
+  "desk_235857_c1"
+ ],
+ "checks": {
+  "banding_0": {
+   "rc": 0,
+   "timing": {
+    "neon_scalar_mismatch": 0,
+    "neon_ms": 0.87,
+    "scalar_ms": 3.08
+   },
+   "frames": {
+    "dark_212801": {
+     "black_c": 3903.654,
+     "black_numpy": 3903.654,
+     "max_diff_plain": 1,
+     "max_diff_class": 0
+    },
+    "flat_214208_c1": {
+     "black_c": 4051.576,
+     "black_numpy": 4051.576,
+     "max_diff_plain": 1,
+     "max_diff_class": 0,
+     "class_ratio_in": {
+      "tiles": 3203,
+      "median": 0.7151888577683061,
+      "p5": 0.6575341192797114,
+      "p95": 0.7855124259039135,
+      "max_abs_dev": 0.3959940570653451
+     },
+     "class_ratio_out": {
+      "tiles": 3249,
+      "median": 0.7137184115523466,
+      "p5": 0.657516524250634,
+      "p95": 0.7854862404077665,
+      "max_abs_dev": 0.38456403678532625
+     }
+    },
+    "flat_214208_c2": {
+     "black_c": 4051.674,
+     "black_numpy": 4051.674,
+     "max_diff_plain": 1,
+     "max_diff_class": 0,
+     "class_ratio_in": {
+      "tiles": 3201,
+      "median": 0.7155936246341494,
+      "p5": 0.6573326340113813,
+      "p95": 0.7856871647136783,
+      "max_abs_dev": 0.382167173028503
+     },
+     "class_ratio_out": {
+      "tiles": 3248,
+      "median": 0.7137374538256803,
+      "p5": 0.6566567502913574,
+      "p95": 0.7855845075434174,
+      "max_abs_dev": 0.3821651936882027
+     }
+    },
+    "wall_221635_c1": {
+     "black_c": 4051.492,
+     "black_numpy": 4051.492,
+     "max_diff_plain": 1,
+     "max_diff_class": 0,
+     "class_ratio_in": {
+      "tiles": 3104,
+      "median": 0.7173218527199301,
+      "p5": 0.6566571286602012,
+      "p95": 0.7836727698103483,
+      "max_abs_dev": 0.4163990517100842
+     },
+     "class_ratio_out": {
+      "tiles": 3174,
+      "median": 0.714849811925859,
+      "p5": 0.656939324801283,
+      "p95": 0.7836727772979037,
+      "max_abs_dev": 0.3914888211730321
+     }
+    },
+    "desk_235857_c1": {
+     "black_c": 4062.709,
+     "black_numpy": 4062.709,
+     "max_diff_plain": 1,
+     "max_diff_class": 0,
+     "class_ratio_in": {
+      "tiles": 2909,
+      "median": 0.7119458343877332,
+      "p5": 0.6603721391234144,
+      "p95": 0.7846732410470455,
+      "max_abs_dev": 0.3807085839375677
+     },
+     "class_ratio_out": {
+      "tiles": 2999,
+      "median": 0.7090860918733025,
+      "p5": 0.6601569231045377,
+      "p95": 0.7847691961974369,
+      "max_abs_dev": 0.3796661208609321
+     }
+    }
+   }
+  },
+  "banding_1": {
+   "rc": 0,
+   "timing": {
+    "neon_scalar_mismatch": 0,
+    "neon_ms": 0.95,
+    "scalar_ms": 3.56
+   },
+   "frames": {
+    "dark_212801": {
+     "black_c": 3903.654,
+     "black_numpy": 3903.654,
+     "max_diff_plain": 1,
+     "max_diff_class": 1
+    },
+    "flat_214208_c1": {
+     "black_c": 4051.576,
+     "black_numpy": 4051.576,
+     "max_diff_plain": 1,
+     "max_diff_class": 2,
+     "class_ratio_in": {
+      "tiles": 3203,
+      "median": 0.7151888577683061,
+      "p5": 0.6575341192797114,
+      "p95": 0.7855124259039135,
+      "max_abs_dev": 0.3959940570653451
+     },
+     "class_ratio_out": {
+      "tiles": 3249,
+      "median": 0.9999537508093608,
+      "p5": 0.995866840179632,
+      "p95": 1.0035948871318094,
+      "max_abs_dev": 0.06030389363722699
+     }
+    },
+    "flat_214208_c2": {
+     "black_c": 4051.674,
+     "black_numpy": 4051.674,
+     "max_diff_plain": 1,
+     "max_diff_class": 2,
+     "class_ratio_in": {
+      "tiles": 3201,
+      "median": 0.7155936246341494,
+      "p5": 0.6573326340113813,
+      "p95": 0.7856871647136783,
+      "max_abs_dev": 0.382167173028503
+     },
+     "class_ratio_out": {
+      "tiles": 3248,
+      "median": 0.9999512403614834,
+      "p5": 0.9956870730768017,
+      "p95": 1.0034788922046463,
+      "max_abs_dev": 0.05607043558850788
+     }
+    },
+    "wall_221635_c1": {
+     "black_c": 4051.492,
+     "black_numpy": 4051.492,
+     "max_diff_plain": 1,
+     "max_diff_class": 2,
+     "class_ratio_in": {
+      "tiles": 3104,
+      "median": 0.7173218527199301,
+      "p5": 0.6566571286602012,
+      "p95": 0.7836727698103483,
+      "max_abs_dev": 0.4163990517100842
+     },
+     "class_ratio_out": {
+      "tiles": 3174,
+      "median": 0.9982267580069506,
+      "p5": 0.992855244288944,
+      "p95": 1.0027736454673837,
+      "max_abs_dev": 0.07799823847956544
+     }
+    },
+    "desk_235857_c1": {
+     "black_c": 4062.709,
+     "black_numpy": 4062.709,
+     "max_diff_plain": 1,
+     "max_diff_class": 2,
+     "class_ratio_in": {
+      "tiles": 2909,
+      "median": 0.7119458343877332,
+      "p5": 0.6603721391234144,
+      "p95": 0.7846732410470455,
+      "max_abs_dev": 0.3807085839375677
+     },
+     "class_ratio_out": {
+      "tiles": 2999,
+      "median": 0.9972640686999585,
+      "p5": 0.9671624444356502,
+      "p95": 1.024415713016855,
+      "max_abs_dev": 0.19420200119996112
+     }
+    }
+   }
+  },
+  "mov": {
+   "frames_in": 5,
+   "input_tail_truncated_bytes": 4602866,
+   "codec_tag": "aprh",
+   "width": 3920,
+   "height": 2944,
+   "nb_frames": "5",
+   "duration": "0.208333",
+   "mdat_box_size": 23028758,
+   "first_sample_size_field": 4605750,
+   "bytes_match_input": true,
+   "avfoundation": {
+    "rc": 0,
+    "out": "MVideoDimensions(width: 3920, height: 2944)\nstartReading: true nil\ndecoded 3920 2944\nwrote /Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/prores-raw-encoder/host-test/out/colour_frame0.png",
+    "png": "native-video/experimental/prores-raw-encoder/host-test/out/colour_frame0.png"
+   }
+  }
+ },
+ "passed": true
+}

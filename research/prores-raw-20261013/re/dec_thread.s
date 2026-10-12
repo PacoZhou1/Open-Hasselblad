@@ -1,0 +1,190 @@
+ 0x2ce0: stp    x28, x27, [sp, #-0x60]!
+ 0x2ce4: stp    x26, x25, [sp, #0x10]
+ 0x2ce8: stp    x24, x23, [sp, #0x20]
+ 0x2cec: stp    x22, x21, [sp, #0x30]
+ 0x2cf0: stp    x20, x19, [sp, #0x40]
+ 0x2cf4: stp    x29, x30, [sp, #0x50]
+ 0x2cf8: add    x29, sp, #0x50
+ 0x2cfc: mov    x19, x0
+ 0x2d00: adrp   x23, #0x8000
+ 0x2d04: adrp   x24, #0x8000
+ 0x2d08: adrp   x25, #0x8000
+ 0x2d0c: adrp   x26, #0x8000
+ 0x2d10: adrp   x27, #0x8000
+ 0x2d14: adrp   x28, #0x8000
+ 0x2d18: adrp   x22, #0x8000
+ 0x2d1c: mov    w20, #0xa
+ 0x2d20: add    x21, x19, #0x38
+ 0x2d24: add    x23, x23, #0x3cc ; "sensel_value_range: %u
+"
+ 0x2d28: add    x24, x24, #0x3e4 ; "white_balance_red_factor:  %f
+"
+ 0x2d2c: add    x25, x25, #0x403 ; "white_balance_blue_factor: %f
+"
+ 0x2d30: add    x26, x26, #0x422 ; "color_matrix[%d][%d]: %f
+"
+ 0x2d34: add    x27, x27, #0x43c ; "gain_factor: %f
+"
+ 0x2d38: add    x28, x28, #0x44d ; "white_balance_cct: %u
+"
+ 0x2d3c: add    x22, x22, #0x19c ; "inst:%d, duss_hal_msdec_decstrm,  %d decstrm ret err %d!!!
+"
+ 0x2d40: ldr    w8, [x19, #4]
+ 0x2d44: mov    x1, x21
+ 0x2d48: ldr    x0, [x19, #0x30]
+ 0x2d4c: add    w8, w8, #1
+ 0x2d50: str    w8, [x19, #4]
+ 0x2d54: bl     #0x2458 ; <duss_hal_msdec_decstrm>
+ 0x2d58: mov    w8, w0
+ 0x2d5c: cbz    w8, #0x2d74
+ 0x2d60: ldp    w1, w2, [x19]
+ 0x2d64: mov    x0, x22
+ 0x2d68: mov    w3, w8
+ 0x2d6c: bl     #0x23c8 ; <printf>
+ 0x2d70: b      #0x2f64
+ 0x2d74: ldr    x0, [x19, #0x20]
+ 0x2d78: ldr    w1, [x19]
+ 0x2d7c: ldr    w2, [x19, #0x2c]
+ 0x2d80: ldr    x3, [x19, #0x40]
+ 0x2d84: bl     #0x2878
+ 0x2d88: ldr    x8, [x19, #0x20]
+ 0x2d8c: cbz    x8, #0x2f64
+ 0x2d90: mov    w0, w20
+ 0x2d94: bl     #0x2468 ; <putchar>
+ 0x2d98: adrp   x0, #0x8000
+ 0x2d9c: add    x0, x0, #0x6d0 ; "Decoded ProresRaw Metadata:"
+ 0x2da0: bl     #0x2478 ; <puts>
+ 0x2da4: ldrh   w1, [x19, #0x48]
+ 0x2da8: adrp   x0, #0x8000
+ 0x2dac: add    x0, x0, #0x32b ; "horizontal_size: %u
+"
+ 0x2db0: bl     #0x23c8 ; <printf>
+ 0x2db4: ldrh   w1, [x19, #0x4a]
+ 0x2db8: adrp   x0, #0x8000
+ 0x2dbc: add    x0, x0, #0x340 ; "vertical_size:   %u
+"
+ 0x2dc0: bl     #0x23c8 ; <printf>
+ 0x2dc4: mov    w0, w20
+ 0x2dc8: bl     #0x2468 ; <putchar>
+ 0x2dcc: ldrb   w1, [x19, #0x4c]
+ 0x2dd0: adrp   x0, #0x8000
+ 0x2dd4: add    x0, x0, #0x355 ; "default_crop_left:   %u
+"
+ 0x2dd8: bl     #0x23c8 ; <printf>
+ 0x2ddc: ldrb   w1, [x19, #0x4d]
+ 0x2de0: adrp   x0, #0x8000
+ 0x2de4: add    x0, x0, #0x36e ; "default_crop_right:  %u
+"
+ 0x2de8: bl     #0x23c8 ; <printf>
+ 0x2dec: ldrb   w1, [x19, #0x4e]
+ 0x2df0: adrp   x0, #0x8000
+ 0x2df4: add    x0, x0, #0x387 ; "default_crop_top:    %u
+"
+ 0x2df8: bl     #0x23c8 ; <printf>
+ 0x2dfc: ldrb   w1, [x19, #0x4f]
+ 0x2e00: adrp   x0, #0x8000
+ 0x2e04: add    x0, x0, #0x3a0 ; "default_crop_bottom: %u
+"
+ 0x2e08: bl     #0x23c8 ; <printf>
+ 0x2e0c: mov    w0, w20
+ 0x2e10: bl     #0x2468 ; <putchar>
+ 0x2e14: ldrb   w1, [x19, #0x50]
+ 0x2e18: adrp   x0, #0x8000
+ 0x2e1c: add    x0, x0, #0x3b9 ; "bayer_pattern: %u
+"
+ 0x2e20: bl     #0x23c8 ; <printf>
+ 0x2e24: mov    w0, w20
+ 0x2e28: bl     #0x2468 ; <putchar>
+ 0x2e2c: ldrh   w1, [x19, #0x52]
+ 0x2e30: mov    x0, x23
+ 0x2e34: bl     #0x23c8 ; <printf>
+ 0x2e38: ldr    s0, [x19, #0x54]
+ 0x2e3c: mov    x0, x24
+ 0x2e40: fcvt   d0, s0
+ 0x2e44: bl     #0x23c8 ; <printf>
+ 0x2e48: ldr    s0, [x19, #0x58]
+ 0x2e4c: mov    x0, x25
+ 0x2e50: fcvt   d0, s0
+ 0x2e54: bl     #0x23c8 ; <printf>
+ 0x2e58: mov    w0, w20
+ 0x2e5c: bl     #0x2468 ; <putchar>
+ 0x2e60: ldr    s0, [x19, #0x5c]
+ 0x2e64: mov    x0, x26
+ 0x2e68: mov    w1, wzr
+ 0x2e6c: mov    w2, wzr
+ 0x2e70: fcvt   d0, s0
+ 0x2e74: bl     #0x23c8 ; <printf>
+ 0x2e78: ldr    s0, [x19, #0x60]
+ 0x2e7c: mov    w2, #1
+ 0x2e80: mov    x0, x26
+ 0x2e84: mov    w1, wzr
+ 0x2e88: fcvt   d0, s0
+ 0x2e8c: bl     #0x23c8 ; <printf>
+ 0x2e90: ldr    s0, [x19, #0x64]
+ 0x2e94: mov    w2, #2
+ 0x2e98: mov    x0, x26
+ 0x2e9c: mov    w1, wzr
+ 0x2ea0: fcvt   d0, s0
+ 0x2ea4: bl     #0x23c8 ; <printf>
+ 0x2ea8: ldr    s0, [x19, #0x68]
+ 0x2eac: mov    w1, #1
+ 0x2eb0: mov    x0, x26
+ 0x2eb4: mov    w2, wzr
+ 0x2eb8: fcvt   d0, s0
+ 0x2ebc: bl     #0x23c8 ; <printf>
+ 0x2ec0: ldr    s0, [x19, #0x6c]
+ 0x2ec4: mov    w1, #1
+ 0x2ec8: mov    w2, #1
+ 0x2ecc: mov    x0, x26
+ 0x2ed0: fcvt   d0, s0
+ 0x2ed4: bl     #0x23c8 ; <printf>
+ 0x2ed8: ldr    s0, [x19, #0x70]
+ 0x2edc: mov    w1, #1
+ 0x2ee0: mov    w2, #2
+ 0x2ee4: mov    x0, x26
+ 0x2ee8: fcvt   d0, s0
+ 0x2eec: bl     #0x23c8 ; <printf>
+ 0x2ef0: ldr    s0, [x19, #0x74]
+ 0x2ef4: mov    w1, #2
+ 0x2ef8: mov    x0, x26
+ 0x2efc: mov    w2, wzr
+ 0x2f00: fcvt   d0, s0
+ 0x2f04: bl     #0x23c8 ; <printf>
+ 0x2f08: ldr    s0, [x19, #0x78]
+ 0x2f0c: mov    w1, #2
+ 0x2f10: mov    w2, #1
+ 0x2f14: mov    x0, x26
+ 0x2f18: fcvt   d0, s0
+ 0x2f1c: bl     #0x23c8 ; <printf>
+ 0x2f20: ldr    s0, [x19, #0x7c]
+ 0x2f24: mov    w1, #2
+ 0x2f28: mov    w2, #2
+ 0x2f2c: mov    x0, x26
+ 0x2f30: fcvt   d0, s0
+ 0x2f34: bl     #0x23c8 ; <printf>
+ 0x2f38: mov    w0, w20
+ 0x2f3c: bl     #0x2468 ; <putchar>
+ 0x2f40: ldr    s0, [x19, #0x80]
+ 0x2f44: mov    x0, x27
+ 0x2f48: fcvt   d0, s0
+ 0x2f4c: bl     #0x23c8 ; <printf>
+ 0x2f50: ldrh   w1, [x19, #0x84]
+ 0x2f54: mov    x0, x28
+ 0x2f58: bl     #0x23c8 ; <printf>
+ 0x2f5c: mov    w0, w20
+ 0x2f60: bl     #0x2468 ; <putchar>
+ 0x2f64: ldr    w8, [x19, #8]
+ 0x2f68: ldr    w9, [x19, #0x10]
+ 0x2f6c: add    w8, w8, #1
+ 0x2f70: cmp    w8, w9
+ 0x2f74: str    w8, [x19, #8]
+ 0x2f78: b.lt   #0x2d40
+ 0x2f7c: mov    w8, #1
+ 0x2f80: str    w8, [x19, #0xc]
+ 0x2f84: ldp    x29, x30, [sp, #0x50]
+ 0x2f88: ldp    x20, x19, [sp, #0x40]
+ 0x2f8c: ldp    x22, x21, [sp, #0x30]
+ 0x2f90: ldp    x24, x23, [sp, #0x20]
+ 0x2f94: ldp    x26, x25, [sp, #0x10]
+ 0x2f98: ldp    x28, x27, [sp], #0x60
+ 0x2f9c: ret    

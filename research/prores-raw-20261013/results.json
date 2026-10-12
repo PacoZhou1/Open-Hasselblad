@@ -1,0 +1,247 @@
+{
+ "date": "2026-10-13",
+ "operator": "z-claude-prores-raw",
+ "scene": "214208 clip1 frame 31, MODE21 3920x2944 (bottom 2 rows dropped), dark indoor, median 270/4095",
+ "encoder": {
+  "hardware": "Moonshadow ProRes RAW encoder /dev/msenc0 via libduml_vcodec HAL + lib_msenc",
+  "hal_config_struct": "width u32 +0, height u32 +4, profile u32 +8 (0..3, mapped 0->1 1->0 2->2 3->3), pixfmt u32 +0xc",
+  "input": "16-bit LE, stride round_up(2*W,256)=7936, then zero ICS block ceil(W/2/128)*ceil(H/2/8)*16 bytes; W,H multiple of 8",
+  "profiles": {
+   "1": {
+    "note": "highest working, likely HQ",
+    "frame_bytes_orig_black": 3212130,
+    "frame_bytes_black_subtracted": 4605750,
+    "frame_bytes_bright_synthetic": 4794503,
+    "bits_per_pixel": [
+     2.23,
+     3.19,
+     3.32
+    ]
+   },
+   "0": {
+    "note": "bitstream identical to profile 2"
+   },
+   "2": {
+    "note": "stock test_msenc default",
+    "frame_bytes_orig_black": 879484,
+    "frame_bytes_black_subtracted": 2433161,
+    "frame_bytes_bright_synthetic": 2613240,
+    "bits_per_pixel": [
+     0.61,
+     1.69,
+     1.81
+    ]
+   },
+   "3": {
+    "note": "rejected by hardware: Register validation failed"
+   }
+  },
+  "throughput_single_instance_fps": {
+   "profile1": 147.9,
+   "profile2": 152.8,
+   "interval_ms": 7,
+   "output": "/dev/null, 60 frames"
+  },
+  "second_instance": "fails: /dev/ion_codec:ms_enc state mismatch",
+  "frame_size_behaviour": "fixed-quality, frame size depends on profile and black level more than on content"
+ },
+ "hal_recipe": {
+  "source": "test_msenc main/msenc_encode_thread_func/callbacks + libduml_vcodec moonshadow_enc_open/encfrm + libdcam_venc_proresraw enc_frame, mini-debuginfo symbols; disassembly in re/",
+  "device_table": "duss_hal_initialize(table): entries {name, attach, detach, 0} x4 then zero: /dev/msenc0 + /dev/msenc1 (duss_hal_attach_msenc/detach_msenc), /dev/ion + /dev/ion_codec:ms_enc (duss_hal_attach_ion_mem/detach_ion_mem)",
+  "sequence": [
+   "duss_hal_device_open(\"/dev/ion\", NULL, &mem); duss_hal_device_start(mem, NULL)",
+   "duss_hal_device_open(\"/dev/msenc0\", &open_cfg, &enc)",
+   "duss_hal_mem_alloc(mem, &buf, size, 0x100, 0, 0); duss_hal_mem_get_phys_addr(buf,&pa); duss_hal_mem_map(buf,&va) for 6 frame, 6 ics, 12 stream buffers",
+   "duss_hal_device_start(enc, &start_cfg)",
+   "duss_hal_msenc_encfrm(enc, &packet) per frame; callbacks return buffers",
+   "duss_hal_device_stop(enc); duss_hal_device_close(enc); duss_hal_mem_free(buf)..."
+  ],
+  "open_cfg": {
+   "+0x08": "u8, stock plugin 1",
+   "+0x10": "ctx passed to stream cb",
+   "+0x18": "ctx passed to frame cb",
+   "+0x20": "frame_buffer_empty_cb(ctx, {frame*, ics*})",
+   "+0x28": "stream_buffer_full_cb(ctx, {int result, stream1*, stream2* or NULL})",
+   "+0x30": "u16 width",
+   "+0x32": "u16 height",
+   "+0x34..0x37": "u8 crop fields, plugin 0",
+   "+0x38": "u8 bayer pattern",
+   "+0x39": "u8, plugin 1",
+   "+0x3a": "u16 sensel_value_range, default 0xfeff",
+   "+0x3c": "u32, plugin 0x1000"
+  },
+  "start_cfg": {
+   "+0x0": "width",
+   "+0x4": "height",
+   "+0x8": "profile (0..3; HW mapping 0->1 1->0 2->2 3->3)",
+   "+0xc": "pixfmt = base(bit_depth) + 15*bayer_type; base 10:10017 12:10021 14:10027 16:10031"
+  },
+  "frame_struct": {
+   "+0x20": "mem buffer handle",
+   "+0x28": "pix_fmt",
+   "+0x30": "u64 timestamp",
+   "+0x38": "width",
+   "+0x3c": "height",
+   "+0x40": "plane0 bytes_per_line",
+   "+0x44": "plane0 offset",
+   "+0x4c": "plane0 height",
+   "+0x50": "plane0 bytes_written",
+   "+0xb0": "plane_count = 1",
+   "+0xb4": "frame_id",
+   "+0xb8": "u8 eos",
+   "test_msenc_slot_size": "0x330"
+  },
+  "ics_struct": {
+   "+0x08": "mem buffer handle",
+   "size": "ceil(W/2/128)*ceil(H/2/8)*16 rounded to 256, zero-filled",
+   "test_msenc_slot_size": "0x10"
+  },
+  "stream_struct": {
+   "+0x20": "mem buffer handle",
+   "+0x28": "pix_fmt",
+   "+0x38": "bytes_allocated",
+   "+0x3c": "offset",
+   "+0x40": "bytes_written (set by encoder)",
+   "+0x44": "data_offset",
+   "+0x1b8": "plane_count = 1",
+   "+0x1c0": "timestamp",
+   "data": "va + data_offset + offset, length bytes_written; stream2 continues stream1",
+   "test_msenc_slot_size": "0x1c8",
+   "test_msenc_size": "0.8 * frame bytes"
+  },
+  "packet": {
+   "+0x00": "frame*",
+   "+0x08": "ics*",
+   "+0x10": "stream1*",
+   "+0x18": "stream2*",
+   "+0x20": "f32 wb red factor",
+   "+0x24": "f32 wb blue factor",
+   "+0x28": "f32 gain factor (plugin default 1.0)",
+   "+0x2c": "f32[9] color matrix",
+   "+0x50": "u16 cct",
+   "+0x54": "u32 matrix type: 0 use packet matrix, 1/2 built-in tables",
+   "+0x60": "u64",
+   "+0x68": "u64"
+  },
+  "stock_colour": "plugins.conf proresraw: xyz2cam_2800k=1.6925,-0.8402,-0.1037,0.0317,0.8516,0.1087,0.1236,0.1105,0.7091; xyz2cam_6500k=1.3598,-0.5154,-0.0809,-0.1960,1.0357,0.1383,0.0070,0.1604,0.7650; plugin wb default rgain 11194 bgain 8086 (integer scale), cct from ISP adj",
+  "stock_bitrate": "dji_camera_codec_bps.conf proresraw_RAWHQ 8192x4320@24 2548039680 bps; pixel-scaled to 3920x2944 about 830 Mbps, matches measured HQ"
+ },
+ "hardware_decode_fidelity_rms_12bit_codes": {
+  "method": "camera test_msdec 16-bit output vs exact encoder input, per signal band (12-bit codes above black)",
+  "input_local_diff_12bit": {
+   "6-25": 7.81,
+   "25-100": 6.35,
+   "100-400": 7.41,
+   "400-1600": 5.12
+  },
+  "profile1_orig_black": {
+   "6-25": 1.0,
+   "25-100": 1.08,
+   "100-400": 1.58,
+   "400-1600": 2.8
+  },
+  "profile1_black_subtracted": {
+   "6-25": 0.12,
+   "25-100": 0.24,
+   "100-400": 0.8,
+   "400-1600": 2.16
+  },
+  "profile2_black_subtracted": {
+   "6-25": 0.35,
+   "25-100": 0.71,
+   "100-400": 2.34,
+   "400-1600": 5.26
+  },
+  "bias_max_abs_12bit": 0.46
+ },
+ "ffmpeg_prores_raw_decoder": "outputs the non-linear coded domain (input 4048 -> ~32624), not linear sensels; do not use it for error metrics",
+ "banding": {
+  "class": "x odd, y%6==1 blue sub-pixels",
+  "ratio_input_centre_left": [
+   0.7783,
+   0.6575
+  ],
+  "ratio_after_hw_decode_profile1": [
+   0.7782,
+   0.6578
+  ],
+  "conclusion": "reproduced exactly; must be corrected before encoding, ProRes RAW carries no gain map"
+ },
+ "bitstream_metadata_fields": [
+  "horizontal_size",
+  "vertical_size",
+  "default_crop_*",
+  "bayer_pattern",
+  "sensel_value_range (65279)",
+  "white_balance_red/blue_factor",
+  "color_matrix 3x3",
+  "gain_factor",
+  "white_balance_cct"
+ ],
+ "metadata_note": "no black-level field: feed black-subtracted data; all colour fields are zero from test_msenc and must be filled by our writer",
+ "stock_tools": {
+  "test_msenc": "encoder test, profile hard-coded 2",
+  "test_msdec": "hardware decoder, prints metadata",
+  "test_remux": "-I proresRaw -O mov muxer",
+  "test_plenc": "/dev/prores_encoder ProRes 422 HQ/LT/Proxy/4444/XQ",
+  "libdcam_venc_proresraw.so": "camera-framework plugin, profile <= DUSS_PRORESRAW_PROFILE_XQ"
+ },
+ "run_contexts": "factory (hbl_camera_service) cannot exec files from /data; adb su can exec but codec debug hub asserts on inotify_add_watch, worked around with LD_PRELOAD libno_inotify_watch.so; processes then hang at exit after flushing all but the last page",
+ "device_recovery_report": "device-finish/report.json",
+ "x2v_prr_enc_device_20261013": {
+  "tool": "native-video/experimental/prores-raw-encoder (own HAL client: prr_enc.c + NEON prr_pre.c + prr_mov.c), run from adb su",
+  "build_sha256": "23394316c306a3aa14f3c89ed921a86575934839cade85901425bf1e1caeb03c",
+  "input": "5 camera-layout MODE21 frames (stride 3968 px, 2946 rows) from DNG readbacks: dark_212801, flat_214208_c1/c2 (G4 Cube scene), wall_221635_c1, desk_235857_c1",
+  "encode_window": "x0=16 y0=32 3888x2912, profile cfg 1 = RAW HQ, bayer 0 RGGB, pixfmt 10031",
+  "header_metadata": "packet wb/matrix/gain/cct written verbatim into prrf header by HAL: 120/120 frames match with --no-patch; no header patch needed",
+  "open_cfg": "test_msenc style (callbacks + ctx only) works",
+  "mov": "ffprobe: prores_raw RAW HQ aprh 3888x2912 24/1; AVFoundation decodes all frames (5 and 24 frame files)",
+  "frame_bytes": {
+   "bright_scenes": [
+    4182230,
+    4456085
+   ],
+   "dark_frame": 10329230
+  },
+  "throughput_no_write_120f": {
+   "threads1": {
+    "fps": 18.84,
+    "pre_ms": 36.77
+   },
+   "threads2": {
+    "fps": 26.21,
+    "pre_ms": 21.35
+   },
+   "threads4": {
+    "fps": 28.89,
+    "pre_ms": 17.46
+   }
+  },
+  "write_to_data_emmc": "about 300 ms per frame (about 18 MB/s, /data eMMC); not representative of SSD",
+  "banding_after_decode_row_fold_pct": {
+   "uncorrected_flat_c1": {
+    "B": -27.82,
+    "G": 6.38,
+    "R": 3.42
+   },
+   "corrected_flat_c1": {
+    "B": -0.03,
+    "G": 0.17,
+    "R": -0.01
+   },
+   "corrected_wall_holdout": {
+    "B": -0.19,
+    "G": 0.19
+   },
+   "corrected_desk_holdout": {
+    "B": -0.27,
+    "G": 0.22
+   }
+  },
+  "banding_surface": "refit with per-frame optical-black level, 96x72 grid (tools/banding_fit.json); old surface used a dark frame from another setting as black and under-corrected by about 1.2%",
+  "dark_frame_note": "class gain (about 1.4x) raises noise of class rows near black; visible only as slightly higher noise in deep shadows",
+  "exit": "device_close blocks (codec debug hub inotify thread under adb su); closed on a helper thread with 3 s timeout, process exits rc 0, no leftover process",
+  "recovery": "research/prores-raw-20261013/device-finish/z-claude-prores-raw/report.json (recovery_rc 0, services untouched since 02:12)",
+  "evidence": "research/prores-raw-20261013/x2v_prr_enc-20261013/"
+ }
+}

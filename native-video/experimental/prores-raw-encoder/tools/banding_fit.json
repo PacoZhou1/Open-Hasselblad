@@ -1,0 +1,142 @@
+{
+ "black": {
+  "flat_214208_c1": 4051.5763218390803,
+  "flat_214208_c2": 4051.674252873563,
+  "wall_221635_c1": 4051.492183908046,
+  "wall_221635_c2": 4051.495172413793,
+  "desk_235857_c1": 4062.708735632184
+ },
+ "train": [
+  "flat_214208_c1",
+  "flat_214208_c2"
+ ],
+ "grid_range": [
+  0.597725551725548,
+  0.8540435187982581
+ ],
+ "x_edges": [
+  41.0,
+  3880.0
+ ],
+ "y_edges": [
+  55.0,
+  2888.0
+ ],
+ "eval": {
+  "flat_214208_c1": {
+   "uncorrected": {
+    "tile_p5_p50_p95": [
+     0.6505,
+     0.7058,
+     0.7842
+    ],
+    "tile_max_abs_err_pct": 37.41,
+    "pixel_median_abs_err_pct": 29.26,
+    "tiles": 432
+   },
+   "corrected": {
+    "tile_p5_p50_p95": [
+     0.999,
+     1.0,
+     1.0009
+    ],
+    "tile_max_abs_err_pct": 0.62,
+    "pixel_median_abs_err_pct": 1.31,
+    "tiles": 432
+   },
+   "role": "train"
+  },
+  "flat_214208_c2": {
+   "uncorrected": {
+    "tile_p5_p50_p95": [
+     0.6498,
+     0.7059,
+     0.7842
+    ],
+    "tile_max_abs_err_pct": 37.43,
+    "pixel_median_abs_err_pct": 29.27,
+    "tiles": 432
+   },
+   "corrected": {
+    "tile_p5_p50_p95": [
+     0.9988,
+     1.0,
+     1.0009
+    ],
+    "tile_max_abs_err_pct": 0.33,
+    "pixel_median_abs_err_pct": 1.3,
+    "tiles": 432
+   },
+   "role": "train"
+  },
+  "wall_221635_c1": {
+   "uncorrected": {
+    "tile_p5_p50_p95": [
+     0.6484,
+     0.7039,
+     0.7825
+    ],
+    "tile_max_abs_err_pct": 37.59,
+    "pixel_median_abs_err_pct": 29.32,
+    "tiles": 432
+   },
+   "corrected": {
+    "tile_p5_p50_p95": [
+     0.9959,
+     0.9982,
+     1.0001
+    ],
+    "tile_max_abs_err_pct": 0.89,
+    "pixel_median_abs_err_pct": 1.39,
+    "tiles": 432
+   },
+   "role": "holdout"
+  },
+  "wall_221635_c2": {
+   "uncorrected": {
+    "tile_p5_p50_p95": [
+     0.6486,
+     0.7041,
+     0.7826
+    ],
+    "tile_max_abs_err_pct": 37.52,
+    "pixel_median_abs_err_pct": 29.33,
+    "tiles": 432
+   },
+   "corrected": {
+    "tile_p5_p50_p95": [
+     0.9961,
+     0.9983,
+     1.0002
+    ],
+    "tile_max_abs_err_pct": 1.01,
+    "pixel_median_abs_err_pct": 1.39,
+    "tiles": 432
+   },
+   "role": "holdout"
+  },
+  "desk_235857_c1": {
+   "uncorrected": {
+    "tile_p5_p50_p95": [
+     0.6606,
+     0.704,
+     0.7826
+    ],
+    "tile_max_abs_err_pct": 36.58,
+    "pixel_median_abs_err_pct": 29.53,
+    "tiles": 416
+   },
+   "corrected": {
+    "tile_p5_p50_p95": [
+     0.9685,
+     0.9985,
+     1.0263
+    ],
+    "tile_max_abs_err_pct": 12.97,
+    "pixel_median_abs_err_pct": 1.64,
+    "tiles": 416
+   },
+   "role": "holdout"
+  }
+ }
+}

@@ -1,0 +1,166 @@
+open input file /data/local/tmp/x2v-claude-prr/msenc_in_16bit_6f.raw success
+open output file /data/local/tmp/x2v-claude-prr/out_6f_16bit.bin success
+2026-10-13 02:51:10.125 27531 27531 DUSS32 :Name: 0x0x7282a45b40, /dev/msenc0
+2026-10-13 02:51:10.125 27531 27531 DUSS32 :	state: 0, class: 50, index: 0
+2026-10-13 02:51:10.125 27531 27531 DUSS32 :	open: 0x0x72830c30d8, close: 0x0x72830c3ea0, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x72830c4298, stop: 0x0x72830c4500
+2026-10-13 02:51:10.126 27531 27531 DUSS32 :Name: 0x0x7282b10680, /dev/msenc1
+2026-10-13 02:51:10.126 27531 27531 DUSS32 :	state: 0, class: 50, index: 1
+2026-10-13 02:51:10.126 27531 27531 DUSS32 :	open: 0x0x72830c30d8, close: 0x0x72830c3ea0, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x72830c4298, stop: 0x0x72830c4500
+2026-10-13 02:51:10.126 27531 27531 DUSS1C :Name: 0x0x7282aee000, /dev/ion
+2026-10-13 02:51:10.126 27531 27531 DUSS1C :	state: 0, class: 28, index: 0
+2026-10-13 02:51:10.126 27531 27531 DUSS1C :	open: 0x0x72832467a8, close: 0x0x7283246908, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x7283246a30, stop: 0x0x7283246a38
+2026-10-13 02:51:10.126 27531 27531 DUSS1C :Name: 0x0x7282aee200, /dev/ion_codec:ms_enc
+2026-10-13 02:51:10.126 27531 27531 DUSS1C :	state: 0, class: 28, index: 1
+2026-10-13 02:51:10.126 27531 27531 DUSS1C :	open: 0x0x72832467a8, close: 0x0x7283246908, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x7283246a30, stop: 0x0x7283246a38
+2026-10-13 02:51:10.126 27531 27531 DUSS32 :duss_hal_device_open(ion) success!
+2026-10-13 02:51:10.126 27531 27531 DUSS32 :[moonshadow_enc_open] Opening... (Instance: 0x7282a45bc0)
+2026-10-13 02:51:10.127 27531 27531 DUSS58 :[_debug_hub_create_directory, 77] [DEBUG HUG] Created directory (/data/codec_debug_hub/) successfully
+2026-10-13 02:51:10.127 27531 27531 DUSS58 :[_debug_hub_create_directory, 77] [DEBUG HUG] Created directory (/blackbox/codec_debug_hub/) successfully
+2026-10-13 02:51:10.127 27531 27531 DUSS40 :PID:27531, TID:27531, pPID: 491852559688, Func: 0x0x7283e53f38, Affinity: 0x0
+2026-10-13 02:51:10.127 27531 27532 DUSS40 :debug_hub_inotify: PID:27531, TID:27532, PTHREAD:491823559920, POLICY=0, PRIORITY=0
+2026-10-13 02:51:10.127 27531 27532 DUSS58 :[_inotify_task, 1263] [DEBUG HUG] Stop inotify monitoring task starting...
+2026-10-13 02:51:10.127 27531 27531 DUSS58 :[_init_inotify, 1375] [DEBUG HUG] inotify started...
+2026-10-13 02:51:10.127 27531 27531 DUSS58 :[debug_hub_init, 1494] [DEBUG HUG] Created! Features:
+2026-10-13 02:51:10.127 27531 27531 DUSS58 :[debug_hub_init, 1495] [DEBUG HUG] ------------------
+2026-10-13 02:51:10.127 27531 27531 DUSS58 :[debug_hub_init, 1496] [DEBUG HUG] Dump:             Enable
+2026-10-13 02:51:10.127 27531 27531 DUSS58 :[debug_hub_init, 1497] [DEBUG HUG] Debuggerd:        Enable
+2026-10-13 02:51:10.127 27531 27531 DUSS58 :[debug_hub_init, 1498] [DEBUG HUG] Register Dump:    Enable
+2026-10-13 02:51:10.127 27531 27531 DUSS58 :[debug_hub_init, 1499] [DEBUG HUG] Calculate md5sum: Enable
+2026-10-13 02:51:10.127 27531 27531 DUSS58 :[debug_hub_init, 1500] [DEBUG HUG] ------------------
+.....debug...open /dev/moonshadow-enc, ret fd 7
+.....debug...msenc_get_uio_index_by_name,line=45,find target uio: ms_enc_addr_info index: 4
+.....debug...msenc_uio_dev_index = 4
+.....debug...virt_addr_base_ptr=0x728497b000, reg_size:4096
+2026-10-13 02:51:10.128 27531 27531 DUSS32 :msenc_init() ret 0, suc!
+duss_hal_device_open(ion) success!
+2026-10-13 02:51:10.131 27531 27531 DUSS40 :PID:27531, TID:27531, pPID: 491852559688, Func: 0x0x7283098da8, Affinity: 0x0
+2026-10-13 02:51:10.131 27531 27533 DUSS40 :msenc_hal: PID:27531, TID:27533, PTHREAD:491815695600, POLICY=1073741826, PRIORITY=19
+2026-10-13 02:51:10.132 27531 27533 DUSS40 :PID:27531, TID:27533, pPID: 491815695600, Func: 0x0x72830994f8, Affinity: 0x0
+2026-10-13 02:51:10.133 27531 27531 DUSS40 :PID:27531, TID:27531, pPID: 491852559688, Func: 0x0x72830994f8, Affinity: 0x0
+2026-10-13 02:51:10.133 27531 27534 DUSS40 :task_scheduling_statistic_task: PID:27531, TID:27534, PTHREAD:491814655216, POLICY=0, PRIORITY=0
+2026-10-13 02:51:10.133 27531 27535 DUSS40 :task_scheduling_statistic_task: PID:27531, TID:27535, PTHREAD:491811501296, POLICY=0, PRIORITY=0
+2026-10-13 02:51:10.133 27531 27531 DUSS40 :PID:27531, TID:27531, pPID: 491852559688, Func: 0x0x72830994f8, Affinity: 0x0
+2026-10-13 02:51:10.133 27531 27536 DUSS40 :2026-10-13 02:51:10.133 27531 27535 DUSS58 :2026-10-13 02:51:10.133 27531 27534 DUSS58 :[Task schedulor - input_packs_buf_q] Statistic task starting...
+[Task schedulor - msenc_hal] Statistic task starting...
+task_scheduling_statistic_task: PID:27531, TID:27536, PTHREAD:491810460912, POLICY=0, PRIORITY=0
+2026-10-13 02:51:10.133 27531 27531 DUSS32 :____MSENC:moonshadow_enc_open():595, input_packs_q count:0,         output_packs_q:0
+2026-10-13 02:51:10.133 27531 27536 DUSS58 :[Task schedulor - output_packs_buf_q] Statistic task starting...
+2026-10-13 02:51:10.133 27531 27531 DUSS32 :[moonshadow_enc_open] Open successfully (Instance: 0x7282a45bc0)
+2026-10-13 02:51:10.133 27531 27531 DUSS32 :duss_hal_device_open(msenc) success!
+2026-10-13 02:51:10.133 27531 27531 DUSS32 :inst:0, stride:7936, bit_depth:0x10
+2026-10-13 02:51:10.134 27531 27531 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x51fe4000, VirAddr:0x7280bbc000 
+2026-10-13 02:51:10.134 27531 27531 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x5362c000, VirAddr:0x727f574000 
+2026-10-13 02:51:10.134 27531 27531 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x54c74000, VirAddr:0x727df2c000 
+2026-10-13 02:51:10.134 27531 27531 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x562bc000, VirAddr:0x727c8e4000 
+2026-10-13 02:51:10.134 27531 27531 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x57904000, VirAddr:0x727b29c000 
+2026-10-13 02:51:10.135 27531 27531 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x58f4c000, VirAddr:0x7279c54000 
+2026-10-13 02:51:10.135 27531 27531 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34bdf000, VirAddr:0x7284904000 
+2026-10-13 02:51:10.135 27531 27531 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34c62000, VirAddr:0x72848ce000 
+2026-10-13 02:51:10.135 27531 27531 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34c7e000, VirAddr:0x728488f000 
+2026-10-13 02:51:10.135 27531 27531 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34d1a000, VirAddr:0x728487f000 
+2026-10-13 02:51:10.135 27531 27531 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x3548d000, VirAddr:0x7284862000 
+2026-10-13 02:51:10.135 27531 27531 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x35499000, VirAddr:0x7284841000 
+2026-10-13 02:51:10.135 27531 27531 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5a594000, VirAddr:0x7278a80000 
+2026-10-13 02:51:10.137 27531 27531 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5b768000, VirAddr:0x72778ac000 
+2026-10-13 02:51:10.138 27531 27531 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5c93c000, VirAddr:0x72766d8000 
+2026-10-13 02:51:10.139 27531 27531 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5db10000, VirAddr:0x7275504000 
+2026-10-13 02:51:10.140 27531 27531 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5ece4000, VirAddr:0x7274330000 
+2026-10-13 02:51:10.140 27531 27531 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5feb8000, VirAddr:0x727315c000 
+2026-10-13 02:51:10.140 27531 27531 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x6108c000, VirAddr:0x7271f88000 
+2026-10-13 02:51:10.140 27531 27531 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x62260000, VirAddr:0x7270db4000 
+2026-10-13 02:51:10.140 27531 27531 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x63434000, VirAddr:0x726fbe0000 
+2026-10-13 02:51:10.140 27531 27531 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x64608000, VirAddr:0x726ea0c000 
+2026-10-13 02:51:10.141 27531 27531 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x657dc000, VirAddr:0x726d838000 
+2026-10-13 02:51:10.147 27531 27531 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x669b0000, VirAddr:0x726c664000 
+2026-10-13 02:51:10.189 27531 27531 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:51:10.233 27531 27531 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:51:10.280 27531 27531 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:51:10.328 27531 27531 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:51:10.375 27531 27531 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:51:10.425 27531 27531 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:51:10.425 27531 27531 DUSS32 :[moonshadow_enc_start] Starting... (Instance: 0x7282a45bc0)
+2026-10-13 02:51:10.425 27531 27531 DUSS32 :moonshadow_enc_start(): profile 3
+2026-10-13 02:51:10.425 27531 27531 DUSS32 :____MSENC:msenc_setup_rate_ctrl():Currently, msenc_setup_ratectrl is not implemented.
+2026-10-13 02:51:10.425 27531 27531 DUSS32 :[moonshadow_enc_start] Start successfully (Instance: 0x7282a45bc0)
+2026-10-13 02:51:10.425 27531 27531 DUSS32 :duss_hal_device_start(msenc) success!
+2026-10-13 02:51:10.425 27531 27531 DUSS40 :PID:27531, TID:27531, pPID: 491852559688, Func: 0x0x634339c4e0, Affinity: 0x0
+2026-10-13 02:51:10.425 27531 27541 DUSS40 :test_msenc_thread0: PID:27531, TID:27541, PTHREAD:491444909296, POLICY=1073741826, PRIORITY=99
+2026-10-13 02:51:10.425 27531 27541 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 0
+2026-10-13 02:51:10.426 27531 27531 DUSS40 :PID:27531, TID:27531, pPID: 491852559688, Func: 0x0x634339d128, Affinity: 0x0
+2026-10-13 02:51:10.426 27531 27542 DUSS40 :test_ctrl_thread0: PID:27531, TID:27542, PTHREAD:491443868912, POLICY=1073741826, PRIORITY=99
+2026-10-13 02:51:10.432 27531 27541 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 1
+2026-10-13 02:51:10.432 27531 27533 DUSS32 :Invalid register init_q (0), constraint: >= 1 && <= 255
+
+2026-10-13 02:51:10.432 27531 27533 DUSS32 :Moonshadow (instance: 0x7282a41000) encode frame failed, ret -2 (Reason: no error at beginning!|Register validation failed
+)!
+2026-10-13 02:51:10.432 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 0
+2026-10-13 02:51:10.432 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:51:10.432 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (1)
+2026-10-13 02:51:10.432 27531 27533 DUSS32 :____TEST:msenc_write_stream():No data found in stream buffer1:0x63433ba980, size:0
+2026-10-13 02:51:10.432 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():msenc_write_stream failed:: -1011
+2026-10-13 02:51:10.439 27531 27541 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 2
+2026-10-13 02:51:10.439 27531 27533 DUSS32 :Invalid register init_q (0), constraint: >= 1 && <= 255
+
+2026-10-13 02:51:10.439 27531 27533 DUSS32 :Moonshadow (instance: 0x7282a41000) encode frame failed, ret -2 (Reason: no error at beginning!|Register validation failed
+|Register validation failed
+)!
+2026-10-13 02:51:10.439 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 0
+2026-10-13 02:51:10.439 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:51:10.439 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (1)
+2026-10-13 02:51:10.439 27531 27533 DUSS32 :____TEST:msenc_write_stream():No data found in stream buffer1:0x63433bad10, size:0
+2026-10-13 02:51:10.439 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():msenc_write_stream failed:: -1011
+2026-10-13 02:51:10.445 27531 27541 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 3
+2026-10-13 02:51:10.445 27531 27533 DUSS32 :Invalid register init_q (0), constraint: >= 1 && <= 255
+
+2026-10-13 02:51:10.445 27531 27533 DUSS32 :Moonshadow (instance: 0x7282a41000) encode frame failed, ret -2 (Reason: no error at beginning!|Register validation failed
+|Register validation failed
+|Register validation failed
+)!
+2026-10-13 02:51:10.445 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 0
+2026-10-13 02:51:10.445 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:51:10.445 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (1)
+2026-10-13 02:51:10.445 27531 27533 DUSS32 :____TEST:msenc_write_stream():No data found in stream buffer1:0x63433bb0a0, size:0
+2026-10-13 02:51:10.445 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():msenc_write_stream failed:: -1011
+2026-10-13 02:51:10.451 27531 27541 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 4
+2026-10-13 02:51:10.451 27531 27533 DUSS32 :Invalid register init_q (0), constraint: >= 1 && <= 255
+
+2026-10-13 02:51:10.451 27531 27533 DUSS32 :Moonshadow (instance: 0x7282a41000) encode frame failed, ret -2 (Reason: no error at beginning!|Register validation failed
+|Register validation failed
+|Register validation failed
+|Register validation failed
+)!
+2026-10-13 02:51:10.451 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 0
+2026-10-13 02:51:10.451 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:51:10.451 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (1)
+2026-10-13 02:51:10.451 27531 27533 DUSS32 :____TEST:msenc_write_stream():No data found in stream buffer1:0x63433bb430, size:0
+2026-10-13 02:51:10.451 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():msenc_write_stream failed:: -1011
+2026-10-13 02:51:10.457 27531 27541 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 5
+2026-10-13 02:51:10.459 27531 27533 DUSS32 :Invalid register init_q (0), constraint: >= 1 && <= 255
+
+2026-10-13 02:51:10.459 27531 27533 DUSS32 :Moonshadow (instance: 0x7282a41000) encode frame failed, ret -2 (Reason: no error at beginning!|Register validation failed
+|Register validation failed
+|Register validation failed
+|Register validation failed
+|Register validation failed
+)!
+2026-10-13 02:51:10.459 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 0
+2026-10-13 02:51:10.459 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:51:10.459 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (1)
+2026-10-13 02:51:10.459 27531 27533 DUSS32 :____TEST:msenc_write_stream():No data found in stream buffer1:0x63433bb7c0, size:0
+2026-10-13 02:51:10.459 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():msenc_write_stream failed:: -1011
+2026-10-13 02:51:10.464 27531 27541 DUSS32 :____TEST:msenc_encode_thread_func():all frame encoded, enc thread exit...
+2026-10-13 02:51:10.464 27531 27533 DUSS32 :Invalid register init_q (0), constraint: >= 1 && <= 255
+
+2026-10-13 02:51:10.464 27531 27533 DUSS32 :Moonshadow (instance: 0x7282a41000) encode frame failed, ret -2 (Reason: no error at beginning!|Register validation failed
+|Register validation failed
+|Register validation failed
+|Register validation failed
+|Register validation failed
+|Register validation failed
+)!
+2026-10-13 02:51:10.464 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 0
+2026-10-13 02:51:10.464 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:51:10.464 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (1)
+2026-10-13 02:51:10.464 27531 27533 DUSS32 :____TEST:msenc_write_stream():No data found in stream buffer1:0x63433bbb50, size:0
+2026-10-13 02:51:10.464 27531 27533 DUSS32 :____TEST:stream_buffer_full_callback():msenc_write_stream failed:: -1011
+2026-10-13 02:51:10.464 27531 27542 DUSS32 :____TEST:msenc_ctrl_thread_func():

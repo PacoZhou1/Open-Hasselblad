@@ -1,0 +1,902 @@
+0x390d8: stp    x28, x27, [sp, #-0x60]!
+0x390dc: stp    x26, x25, [sp, #0x10]
+0x390e0: stp    x24, x23, [sp, #0x20]
+0x390e4: stp    x22, x21, [sp, #0x30]
+0x390e8: stp    x20, x19, [sp, #0x40]
+0x390ec: stp    x29, x30, [sp, #0x50]
+0x390f0: add    x29, sp, #0x50
+0x390f4: sub    sp, sp, #0x310
+0x390f8: mrs    x28, tpidr_el0
+0x390fc: adrp   x4, #0x4c000
+0x39100: ldr    x8, [x28, #0x28]
+0x39104: adrp   x5, #0x4c000
+0x39108: mov    x21, x1
+0x3910c: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x39110: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x39114: stur   x8, [x29, #-0x58]
+0x39118: mov    w6, #0x1d5
+0x3911c: ldr    x19, [x0, #0x70]
+0x39120: mov    w0, #0x32
+0x39124: mov    w1, #3
+0x39128: str    xzr, [sp, #0x28]
+0x3912c: add    x2, sp, #0xb0
+0x39130: mov    w3, #0x80
+0x39134: bl     #0x95a8 ; <duss_log_gen_head>
+0x39138: cbz    w0, #0x39160
+0x3913c: adrp   x3, #0x4c000
+0x39140: adrp   x4, #0x4c000
+0x39144: add    x3, x3, #0xcfb ; "[%s] Opening... (Instance: %p)
+"
+0x39148: add    x4, x4, #0xce7 ; "moonshadow_enc_open"
+0x3914c: mov    w0, #0x32
+0x39150: mov    w1, #3
+0x39154: add    x2, sp, #0xb0
+0x39158: mov    x5, x19
+0x3915c: bl     #0x95b8 ; <duss_log_print>
+0x39160: adrp   x0, #0x40000
+0x39164: add    x0, x0, #0x6cb ; "cam_tracer"
+0x39168: bl     #0x97c8 ; <perf_trace_get_instance>
+0x3916c: mov    w8, #0x398
+0x39170: movk   w8, #8, lsl #16
+0x39174: add    x20, x19, x8
+0x39178: str    x0, [x20]
+0x3917c: cbz    x0, #0x39294
+0x39180: mov    w8, #0x3a0
+0x39184: movk   w8, #8, lsl #16
+0x39188: adrp   x1, #0x4d000
+0x3918c: add    x2, x19, x8
+0x39190: add    x1, x1, #0xe6 ; "rc_calc"
+0x39194: bl     #0x9948 ; <perf_trace_register_slice>
+0x39198: mov    w8, #0x3a2
+0x3919c: ldr    x0, [x20]
+0x391a0: movk   w8, #8, lsl #16
+0x391a4: adrp   x1, #0x4d000
+0x391a8: add    x2, x19, x8
+0x391ac: add    x1, x1, #0xee ; "encode_task"
+0x391b0: bl     #0x9948 ; <perf_trace_register_slice>
+0x391b4: mov    w8, #0x3a4
+0x391b8: ldr    x0, [x20]
+0x391bc: movk   w8, #8, lsl #16
+0x391c0: adrp   x1, #0x4c000
+0x391c4: add    x2, x19, x8
+0x391c8: add    x1, x1, #0x364 ; "stream_full_cb"
+0x391cc: bl     #0x9948 ; <perf_trace_register_slice>
+0x391d0: mov    w8, #0x3a6
+0x391d4: ldr    x0, [x20]
+0x391d8: movk   w8, #8, lsl #16
+0x391dc: adrp   x1, #0x4c000
+0x391e0: add    x2, x19, x8
+0x391e4: add    x1, x1, #0x373 ; "frame_empty_cb"
+0x391e8: bl     #0x9948 ; <perf_trace_register_slice>
+0x391ec: mov    w8, #0x3a8
+0x391f0: ldr    x0, [x20]
+0x391f4: movk   w8, #8, lsl #16
+0x391f8: adrp   x1, #0x4d000
+0x391fc: add    x2, x19, x8
+0x39200: add    x1, x1, #0xfa ; "hw_encode"
+0x39204: bl     #0x9948 ; <perf_trace_register_slice>
+0x39208: mov    w8, #0x3aa
+0x3920c: ldr    x0, [x20]
+0x39210: movk   w8, #8, lsl #16
+0x39214: adrp   x1, #0x4c000
+0x39218: add    x2, x19, x8
+0x3921c: add    x1, x1, #0x38b ; "mem_map_region"
+0x39220: bl     #0x9948 ; <perf_trace_register_slice>
+0x39224: mov    w8, #0x3ac
+0x39228: ldr    x0, [x20]
+0x3922c: movk   w8, #8, lsl #16
+0x39230: adrp   x1, #0x4d000
+0x39234: add    x2, x19, x8
+0x39238: add    x1, x1, #0x104 ; "mem_sync_read"
+0x3923c: bl     #0x9948 ; <perf_trace_register_slice>
+0x39240: mov    w8, #0x3ae
+0x39244: ldr    x0, [x20]
+0x39248: movk   w8, #8, lsl #16
+0x3924c: adrp   x1, #0x4d000
+0x39250: add    x2, x19, x8
+0x39254: add    x1, x1, #0x112 ; "mem_sync_write"
+0x39258: bl     #0x9948 ; <perf_trace_register_slice>
+0x3925c: mov    w8, #0x3b0
+0x39260: ldr    x0, [x20]
+0x39264: movk   w8, #8, lsl #16
+0x39268: adrp   x1, #0x4d000
+0x3926c: add    x2, x19, x8
+0x39270: add    x1, x1, #0x121 ; "write_header"
+0x39274: bl     #0x9948 ; <perf_trace_register_slice>
+0x39278: mov    w8, #0x3b2
+0x3927c: ldr    x0, [x20]
+0x39280: movk   w8, #8, lsl #16
+0x39284: adrp   x1, #0x4d000
+0x39288: add    x2, x19, x8
+0x3928c: add    x1, x1, #0x12e ; "clean_buffer"
+0x39290: bl     #0x9948 ; <perf_trace_register_slice>
+0x39294: adrp   x0, #0x3a000
+0x39298: add    x0, x0, #0xf70 ; =0x3af70
+0x3929c: bl     #0xa948 ; <msenc_register_log_callback>
+0x392a0: movi   v0.2d, #0000000000000000
+0x392a4: mov    w9, #0x736d
+0x392a8: add    x10, sp, #0xb0
+0x392ac: str    x19, [sp, #0x2b0]
+0x392b0: mov    w8, #0x63
+0x392b4: str    wzr, [sp, #0x2d0]
+0x392b8: movk   w9, #0x6e65, lsl #16
+0x392bc: str    wzr, [sp, #0x2e8]
+0x392c0: add    x10, x10, #0x228
+0x392c4: add    x0, x19, #0x100
+0x392c8: strh   w8, [sp, #0xb4]
+0x392cc: add    x1, sp, #0xb0
+0x392d0: str    w9, [sp, #0xb0]
+0x392d4: str    q0, [sp, #0x2c0]
+0x392d8: str    q0, [x10]
+0x392dc: str    q0, [sp, #0x2f0]
+0x392e0: bl     #0x9c18 ; <debug_hub_init>
+0x392e4: cbz    w0, #0x39384
+0x392e8: adrp   x4, #0x4c000
+0x392ec: adrp   x5, #0x4d000
+0x392f0: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x392f4: add    x5, x5, #0x14e ; "priv_moonshadow_init_debug_hub"
+0x392f8: mov    w0, #0x32
+0x392fc: mov    w6, #0x17c
+0x39300: mov    w1, #1
+0x39304: add    x2, sp, #0x30
+0x39308: mov    w3, #0x80
+0x3930c: bl     #0x95a8 ; <duss_log_gen_head>
+0x39310: cbz    w0, #0x39334
+0x39314: adrp   x3, #0x4a000
+0x39318: adrp   x4, #0x4d000
+0x3931c: add    x3, x3, #0xd4a ; "[%s] Failed to call debug_hub_init
+"
+0x39320: add    x4, x4, #0x14e ; "priv_moonshadow_init_debug_hub"
+0x39324: mov    w0, #0x32
+0x39328: mov    w1, #1
+0x3932c: add    x2, sp, #0x30
+0x39330: bl     #0x95b8 ; <duss_log_print>
+0x39334: adrp   x4, #0x4c000
+0x39338: adrp   x5, #0x4c000
+0x3933c: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x39340: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x39344: mov    w0, #0x32
+0x39348: mov    w1, #1
+0x3934c: add    x2, sp, #0xb0
+0x39350: mov    w3, #0x80
+0x39354: mov    w6, #0x1e0
+0x39358: bl     #0x95a8 ; <duss_log_gen_head>
+0x3935c: cbz    w0, #0x3940c
+0x39360: adrp   x3, #0x4a000
+0x39364: adrp   x4, #0x4c000
+0x39368: add    x3, x3, #0xcde ; "[%s] Failed to initialize DEBUG HUG
+"
+0x3936c: add    x4, x4, #0xce7 ; "moonshadow_enc_open"
+0x39370: mov    w0, #0x32
+0x39374: mov    w1, #1
+0x39378: add    x2, sp, #0xb0
+0x3937c: bl     #0x95b8 ; <duss_log_print>
+0x39380: b      #0x3940c
+0x39384: adrp   x0, #0x40000
+0x39388: add    x0, x0, #0x6cb ; "cam_tracer"
+0x3938c: bl     #0x97c8 ; <perf_trace_get_instance>
+0x39390: add    x8, x19, #0x150
+0x39394: str    x0, [sp, #0x28]
+0x39398: add    x1, sp, #0x28
+0x3939c: mov    x0, x8
+0x393a0: bl     #0xa958 ; <msenc_init>
+0x393a4: adrp   x4, #0x4c000
+0x393a8: adrp   x5, #0x4c000
+0x393ac: mov    w20, w0
+0x393b0: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x393b4: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x393b8: mov    w0, #0x32
+0x393bc: mov    w6, #0x1e9
+0x393c0: mov    w1, #2
+0x393c4: add    x2, sp, #0xb0
+0x393c8: mov    w3, #0x80
+0x393cc: bl     #0x95a8 ; <duss_log_gen_head>
+0x393d0: cbz    w0, #0x39408
+0x393d4: adrp   x8, #0x49000
+0x393d8: adrp   x9, #0x49000
+0x393dc: add    x8, x8, #0xedd ; "fail"
+0x393e0: add    x9, x9, #0xed9 ; "suc"
+0x393e4: cmp    w20, #0
+0x393e8: adrp   x3, #0x4c000
+0x393ec: csel   x5, x9, x8, eq
+0x393f0: add    x3, x3, #0xd1b ; "msenc_init() ret %d, %s!
+"
+0x393f4: mov    w0, #0x32
+0x393f8: mov    w1, #2
+0x393fc: add    x2, sp, #0xb0
+0x39400: mov    w4, w20
+0x39404: bl     #0x95b8 ; <duss_log_print>
+0x39408: cbz    w20, #0x39444
+0x3940c: mov    w19, #-0x3e9
+0x39410: ldr    x8, [x28, #0x28]
+0x39414: ldur   x9, [x29, #-0x58]
+0x39418: cmp    x8, x9
+0x3941c: b.ne   #0x39bd4
+0x39420: mov    w0, w19
+0x39424: add    sp, sp, #0x310
+0x39428: ldp    x29, x30, [sp, #0x50]
+0x3942c: ldp    x20, x19, [sp, #0x40]
+0x39430: ldp    x22, x21, [sp, #0x30]
+0x39434: ldp    x24, x23, [sp, #0x20]
+0x39438: ldp    x26, x25, [sp, #0x10]
+0x3943c: ldp    x28, x27, [sp], #0x60
+0x39440: ret    
+0x39444: add    x20, x19, #0x138
+0x39448: adrp   x0, #0x4c000
+0x3944c: add    x0, x0, #0xd35 ; "/dev/ion_codec:ms_enc"
+0x39450: mov    x1, xzr
+0x39454: mov    x2, x20
+0x39458: bl     #0xa268 ; <duss_hal_device_open>
+0x3945c: mov    w22, w0
+0x39460: cbz    w22, #0x39544
+0x39464: adrp   x4, #0x4c000
+0x39468: adrp   x5, #0x4c000
+0x3946c: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x39470: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x39474: mov    w0, #0x32
+0x39478: mov    w6, #0x1f3
+0x3947c: mov    w1, #1
+0x39480: add    x2, sp, #0xb0
+0x39484: mov    w3, #0x80
+0x39488: bl     #0x95a8 ; <duss_log_gen_head>
+0x3948c: cbz    w0, #0x394b4
+0x39490: adrp   x3, #0x49000
+0x39494: adrp   x4, #0x4c000
+0x39498: add    x3, x3, #0x7ca ; "%s: duss_hal_mem_open(ion vmem) err: %d"
+0x3949c: add    x4, x4, #0xce7 ; "moonshadow_enc_open"
+0x394a0: mov    w0, #0x32
+0x394a4: mov    w1, #1
+0x394a8: add    x2, sp, #0xb0
+0x394ac: mov    w5, w22
+0x394b0: bl     #0x95b8 ; <duss_log_print>
+0x394b4: adrp   x4, #0x4c000
+0x394b8: adrp   x5, #0x4c000
+0x394bc: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x394c0: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x394c4: mov    w0, #0x32
+0x394c8: mov    w6, #0x1f4
+0x394cc: mov    w1, #1
+0x394d0: add    x2, sp, #0xb0
+0x394d4: mov    w3, #0x80
+0x394d8: bl     #0x95a8 ; <duss_log_gen_head>
+0x394dc: cbz    w0, #0x394f8
+0x394e0: adrp   x3, #0x4c000
+0x394e4: add    x3, x3, #0xd4b ; "Moonshadow encoder require "/dev/ion_codec:ms_enc" for internal usage."
+0x394e8: mov    w0, #0x32
+0x394ec: mov    w1, #1
+0x394f0: add    x2, sp, #0xb0
+0x394f4: bl     #0x95b8 ; <duss_log_print>
+0x394f8: adrp   x4, #0x4c000
+0x394fc: adrp   x5, #0x4c000
+0x39500: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x39504: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x39508: mov    w0, #0x32
+0x3950c: mov    w6, #0x1f5
+0x39510: mov    w1, #1
+0x39514: add    x2, sp, #0xb0
+0x39518: mov    w3, #0x80
+0x3951c: bl     #0x95a8 ; <duss_log_gen_head>
+0x39520: cbz    w0, #0x3953c
+0x39524: adrp   x3, #0x49000
+0x39528: add    x3, x3, #0x833 ; "Please check the device list if it contain the device!"
+0x3952c: mov    w0, #0x32
+0x39530: mov    w1, #1
+0x39534: add    x2, sp, #0xb0
+0x39538: bl     #0x95b8 ; <duss_log_print>
+0x3953c: mov    w19, #-0x3ef
+0x39540: b      #0x39410
+0x39544: adrp   x0, #0x4e000
+0x39548: add    x0, x0, #0x650 ; "duss_hal_device_open(ion) success!"
+0x3954c: bl     #0x9988 ; <puts>
+0x39550: ldr    x0, [x20]
+0x39554: mov    x1, xzr
+0x39558: bl     #0xa298 ; <duss_hal_device_start>
+0x3955c: mov    w22, w0
+0x39560: cbz    w22, #0x395b0
+0x39564: adrp   x4, #0x4c000
+0x39568: adrp   x5, #0x4c000
+0x3956c: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x39570: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x39574: mov    w0, #0x32
+0x39578: mov    w1, #1
+0x3957c: add    x2, sp, #0xb0
+0x39580: mov    w3, #0x80
+0x39584: mov    w6, #0x1fe
+0x39588: bl     #0x95a8 ; <duss_log_gen_head>
+0x3958c: cbz    w0, #0x3940c
+0x39590: adrp   x3, #0x49000
+0x39594: add    x3, x3, #0x88e ; "duss_hal_device_start(mem) error: %d
+"
+0x39598: mov    w0, #0x32
+0x3959c: mov    w1, #1
+0x395a0: add    x2, sp, #0xb0
+0x395a4: mov    w4, w22
+0x395a8: bl     #0x95b8 ; <duss_log_print>
+0x395ac: b      #0x3940c
+0x395b0: ldr    x0, [x19, #0x138]
+0x395b4: add    x1, x19, #0x238
+0x395b8: mov    w2, #0x20000
+0x395bc: mov    w3, #0x100
+0x395c0: mov    w4, wzr
+0x395c4: mov    w5, wzr
+0x395c8: bl     #0xa3f8 ; <duss_hal_mem_alloc>
+0x395cc: mov    w22, w0
+0x395d0: cbz    w22, #0x3961c
+0x395d4: adrp   x4, #0x4c000
+0x395d8: adrp   x5, #0x4c000
+0x395dc: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x395e0: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x395e4: mov    w0, #0x32
+0x395e8: mov    w6, #0x212
+0x395ec: mov    w1, #1
+0x395f0: add    x2, sp, #0xb0
+0x395f4: mov    w3, #0x80
+0x395f8: bl     #0x95a8 ; <duss_log_gen_head>
+0x395fc: cbz    w0, #0x39670
+0x39600: adrp   x3, #0x49000
+0x39604: add    x3, x3, #0xf3a ; "Failed to allocate quota_buffer, err: %d
+"
+0x39608: mov    w0, #0x32
+0x3960c: mov    w1, #1
+0x39610: add    x2, sp, #0xb0
+0x39614: mov    w4, w22
+0x39618: b      #0x3966c
+0x3961c: add    x0, x19, #0x228
+0x39620: bl     #0xa968 ; <msenc_rc_param_init>
+0x39624: cbz    w0, #0x39720
+0x39628: adrp   x4, #0x4c000
+0x3962c: adrp   x5, #0x4c000
+0x39630: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x39634: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x39638: mov    w0, #0x32
+0x3963c: mov    w6, #0x218
+0x39640: mov    w1, #1
+0x39644: add    x2, sp, #0xb0
+0x39648: mov    w3, #0x80
+0x3964c: bl     #0x95a8 ; <duss_log_gen_head>
+0x39650: cbz    w0, #0x39670
+0x39654: adrp   x3, #0x4c000
+0x39658: add    x3, x3, #0xd92 ; "Failed to allocate msenc_rc_param, err: %d
+"
+0x3965c: mov    w0, #0x32
+0x39660: mov    w1, #1
+0x39664: add    x2, sp, #0xb0
+0x39668: mov    w4, wzr
+0x3966c: bl     #0x95b8 ; <duss_log_print>
+0x39670: mov    x21, xzr
+0x39674: add    x22, x19, x21
+0x39678: ldr    x0, [x22, #0x238]
+0x3967c: cbz    x0, #0x39688
+0x39680: bl     #0xa3e8 ; <duss_hal_mem_free>
+0x39684: str    xzr, [x22, #0x238]
+0x39688: ldr    x0, [x22, #0x228]
+0x3968c: cbz    x0, #0x39698
+0x39690: bl     #0xa978 ; <msenc_rc_param_release>
+0x39694: str    xzr, [x22, #0x228]
+0x39698: ldr    x0, [x22, #0x220]
+0x3969c: cbz    x0, #0x396a8
+0x396a0: bl     #0x95f8 ; <free>
+0x396a4: str    xzr, [x22, #0x220]
+0x396a8: add    x21, x21, #0x30
+0x396ac: cmp    x21, #0x120
+0x396b0: b.ne   #0x39674
+0x396b4: ldr    x0, [x20]
+0x396b8: mov    x1, xzr
+0x396bc: bl     #0xa288 ; <duss_hal_device_stop>
+0x396c0: mov    w19, w0
+0x396c4: cbz    w19, #0x39714
+0x396c8: adrp   x4, #0x4c000
+0x396cc: adrp   x5, #0x4c000
+0x396d0: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x396d4: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x396d8: mov    w0, #0x32
+0x396dc: mov    w6, #0x2be
+0x396e0: mov    w1, #1
+0x396e4: add    x2, sp, #0xb0
+0x396e8: mov    w3, #0x80
+0x396ec: bl     #0x95a8 ; <duss_log_gen_head>
+0x396f0: cbz    w0, #0x39410
+0x396f4: adrp   x3, #0x49000
+0x396f8: add    x3, x3, #0x61f ; "duss_hal_device_stop(mem) error: %d
+"
+0x396fc: mov    w0, #0x32
+0x39700: mov    w1, #1
+0x39704: add    x2, sp, #0xb0
+0x39708: mov    w4, w19
+0x3970c: bl     #0x95b8 ; <duss_log_print>
+0x39710: b      #0x39410
+0x39714: ldr    x0, [x20]
+0x39718: bl     #0xa278 ; <duss_hal_device_close>
+0x3971c: b      #0x39410
+0x39720: mov    w0, #0xf8
+0x39724: bl     #0x9558 ; <malloc>
+0x39728: str    x0, [x19, #0x220]
+0x3972c: cbz    x0, #0x399d8
+0x39730: mov    w2, #0xf8
+0x39734: mov    w1, wzr
+0x39738: bl     #0x9798 ; <memset>
+0x3973c: ldr    x0, [x19, #0x138]
+0x39740: add    x1, x19, #0x268
+0x39744: mov    w2, #0x20000
+0x39748: mov    w3, #0x100
+0x3974c: mov    w4, wzr
+0x39750: mov    w5, wzr
+0x39754: bl     #0xa3f8 ; <duss_hal_mem_alloc>
+0x39758: mov    w22, w0
+0x3975c: cbnz   w22, #0x395d4
+0x39760: add    x0, x19, #0x258
+0x39764: bl     #0xa968 ; <msenc_rc_param_init>
+0x39768: cbnz   w0, #0x39628
+0x3976c: mov    w0, #0xf8
+0x39770: bl     #0x9558 ; <malloc>
+0x39774: str    x0, [x19, #0x250]
+0x39778: cbz    x0, #0x399d8
+0x3977c: mov    w2, #0xf8
+0x39780: mov    w1, wzr
+0x39784: bl     #0x9798 ; <memset>
+0x39788: ldr    x0, [x19, #0x138]
+0x3978c: add    x1, x19, #0x298
+0x39790: mov    w2, #0x20000
+0x39794: mov    w3, #0x100
+0x39798: mov    w4, wzr
+0x3979c: mov    w5, wzr
+0x397a0: bl     #0xa3f8 ; <duss_hal_mem_alloc>
+0x397a4: mov    w22, w0
+0x397a8: cbnz   w22, #0x395d4
+0x397ac: add    x0, x19, #0x288
+0x397b0: bl     #0xa968 ; <msenc_rc_param_init>
+0x397b4: cbnz   w0, #0x39628
+0x397b8: mov    w0, #0xf8
+0x397bc: bl     #0x9558 ; <malloc>
+0x397c0: str    x0, [x19, #0x280]
+0x397c4: cbz    x0, #0x399d8
+0x397c8: mov    w2, #0xf8
+0x397cc: mov    w1, wzr
+0x397d0: bl     #0x9798 ; <memset>
+0x397d4: ldr    x0, [x19, #0x138]
+0x397d8: add    x1, x19, #0x2c8
+0x397dc: mov    w2, #0x20000
+0x397e0: mov    w3, #0x100
+0x397e4: mov    w4, wzr
+0x397e8: mov    w5, wzr
+0x397ec: bl     #0xa3f8 ; <duss_hal_mem_alloc>
+0x397f0: mov    w22, w0
+0x397f4: cbnz   w22, #0x395d4
+0x397f8: add    x0, x19, #0x2b8
+0x397fc: bl     #0xa968 ; <msenc_rc_param_init>
+0x39800: cbnz   w0, #0x39628
+0x39804: mov    w0, #0xf8
+0x39808: bl     #0x9558 ; <malloc>
+0x3980c: str    x0, [x19, #0x2b0]
+0x39810: cbz    x0, #0x399d8
+0x39814: mov    w2, #0xf8
+0x39818: mov    w1, wzr
+0x3981c: bl     #0x9798 ; <memset>
+0x39820: ldr    x0, [x19, #0x138]
+0x39824: add    x1, x19, #0x2f8
+0x39828: mov    w2, #0x20000
+0x3982c: mov    w3, #0x100
+0x39830: mov    w4, wzr
+0x39834: mov    w5, wzr
+0x39838: bl     #0xa3f8 ; <duss_hal_mem_alloc>
+0x3983c: mov    w22, w0
+0x39840: cbnz   w22, #0x395d4
+0x39844: add    x0, x19, #0x2e8
+0x39848: bl     #0xa968 ; <msenc_rc_param_init>
+0x3984c: cbnz   w0, #0x39628
+0x39850: mov    w0, #0xf8
+0x39854: bl     #0x9558 ; <malloc>
+0x39858: str    x0, [x19, #0x2e0]
+0x3985c: cbz    x0, #0x399d8
+0x39860: mov    w2, #0xf8
+0x39864: mov    w1, wzr
+0x39868: bl     #0x9798 ; <memset>
+0x3986c: ldr    x0, [x19, #0x138]
+0x39870: add    x1, x19, #0x328
+0x39874: mov    w2, #0x20000
+0x39878: mov    w3, #0x100
+0x3987c: mov    w4, wzr
+0x39880: mov    w5, wzr
+0x39884: bl     #0xa3f8 ; <duss_hal_mem_alloc>
+0x39888: mov    w22, w0
+0x3988c: cbnz   w22, #0x395d4
+0x39890: add    x0, x19, #0x318
+0x39894: bl     #0xa968 ; <msenc_rc_param_init>
+0x39898: cbnz   w0, #0x39628
+0x3989c: mov    w0, #0xf8
+0x398a0: bl     #0x9558 ; <malloc>
+0x398a4: str    x0, [x19, #0x310]
+0x398a8: cbz    x0, #0x399d8
+0x398ac: mov    w2, #0xf8
+0x398b0: mov    w1, wzr
+0x398b4: bl     #0x9798 ; <memset>
+0x398b8: ldr    x8, [x21, #0x20]
+0x398bc: adrp   x0, #0x4c000
+0x398c0: adrp   x2, #0x3b000
+0x398c4: add    x0, x0, #0xde8 ; "msenc_hal"
+0x398c8: add    x2, x2, #0x30 ; =0x3b030
+0x398cc: str    x8, [x19, #0x338]
+0x398d0: mov    w3, wzr
+0x398d4: ldr    x8, [x21, #0x28]
+0x398d8: mov    x4, x19
+0x398dc: str    x8, [x19, #0x340]
+0x398e0: ldr    x8, [x21, #0x10]
+0x398e4: str    x8, [x19, #0x350]
+0x398e8: ldr    x8, [x21, #0x18]
+0x398ec: str    x8, [x19, #0x348]
+0x398f0: ldrh   w8, [x21, #0x30]
+0x398f4: strh   w8, [x19, #0x11a]
+0x398f8: ldrh   w8, [x21, #0x32]
+0x398fc: strh   w8, [x19, #0x11c]
+0x39900: ldrb   w8, [x21, #0x34]
+0x39904: strb   w8, [x19, #0x11e]
+0x39908: ldrb   w8, [x21, #0x35]
+0x3990c: strb   w8, [x19, #0x11f]
+0x39910: ldrb   w8, [x21, #0x37]
+0x39914: strb   w8, [x19, #0x121]
+0x39918: ldrb   w8, [x21, #0x36]
+0x3991c: strb   w8, [x19, #0x120]
+0x39920: ldrh   w8, [x21, #0x3a]
+0x39924: strh   w8, [x19, #0x124]
+0x39928: ldr    w8, [x21, #0x3c]
+0x3992c: str    w8, [x19, #0x128]
+0x39930: ldrb   w8, [x21, #0x39]
+0x39934: strb   w8, [x19, #0x12c]
+0x39938: ldrb   w8, [x21, #8]
+0x3993c: add    x21, x19, #0x158
+0x39940: mov    x1, x21
+0x39944: strb   w8, [x19, #0x12d]
+0x39948: bl     #0x9b98 ; <codec_looper_thread_create>
+0x3994c: str    x0, [x19, #0x160]
+0x39950: cbz    x0, #0x39a10
+0x39954: add    x22, x19, #0x168
+0x39958: adrp   x0, #0x4c000
+0x3995c: add    x0, x0, #0xe25 ; "input_packs_buf_q"
+0x39960: mov    w1, #8
+0x39964: mov    w2, #6
+0x39968: mov    w3, wzr
+0x3996c: mov    x4, x22
+0x39970: bl     #0x9748 ; <codec_buffer_queue_create>
+0x39974: mov    w23, w0
+0x39978: cbz    w23, #0x39a60
+0x3997c: adrp   x4, #0x4c000
+0x39980: adrp   x5, #0x4c000
+0x39984: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x39988: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x3998c: mov    w0, #0x32
+0x39990: mov    w6, #0x245
+0x39994: mov    w1, #1
+0x39998: add    x2, sp, #0xb0
+0x3999c: mov    w3, #0x80
+0x399a0: bl     #0x95a8 ; <duss_log_gen_head>
+0x399a4: cbz    w0, #0x39e34
+0x399a8: adrp   x3, #0x4c000
+0x399ac: adrp   x4, #0x4c000
+0x399b0: add    x3, x3, #0xe37 ; "____MSENC:%s():codec_buffer_queue_create(input_packs_q) failed, ret:%d 
+"
+0x399b4: add    x4, x4, #0xce7 ; "moonshadow_enc_open"
+0x399b8: mov    w0, #0x32
+0x399bc: mov    w1, #1
+0x399c0: add    x2, sp, #0xb0
+0x399c4: mov    w5, w23
+0x399c8: bl     #0x95b8 ; <duss_log_print>
+0x399cc: ldr    x0, [x21]
+0x399d0: cbnz   x0, #0x39e3c
+0x399d4: b      #0x39e44
+0x399d8: adrp   x4, #0x4c000
+0x399dc: adrp   x5, #0x4c000
+0x399e0: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x399e4: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x399e8: mov    w0, #0x32
+0x399ec: mov    w6, #0x21f
+0x399f0: mov    w1, #1
+0x399f4: add    x2, sp, #0xb0
+0x399f8: mov    w3, #0x80
+0x399fc: bl     #0x95a8 ; <duss_log_gen_head>
+0x39a00: cbz    w0, #0x39670
+0x39a04: adrp   x3, #0x4c000
+0x39a08: add    x3, x3, #0xdbe ; "Failed to allocate msenc_config, err: %d
+"
+0x39a0c: b      #0x3965c
+0x39a10: adrp   x4, #0x4c000
+0x39a14: adrp   x5, #0x4c000
+0x39a18: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x39a1c: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x39a20: mov    w0, #0x32
+0x39a24: mov    w6, #0x23c
+0x39a28: mov    w1, #1
+0x39a2c: add    x2, sp, #0xb0
+0x39a30: mov    w3, #0x80
+0x39a34: bl     #0x95a8 ; <duss_log_gen_head>
+0x39a38: cbz    w0, #0x39670
+0x39a3c: adrp   x3, #0x4c000
+0x39a40: adrp   x4, #0x4c000
+0x39a44: add    x3, x3, #0xdf2 ; "____MSENC:%s():codec_looper_thread_create failed 
+"
+0x39a48: add    x4, x4, #0xce7 ; "moonshadow_enc_open"
+0x39a4c: mov    w0, #0x32
+0x39a50: mov    w1, #1
+0x39a54: add    x2, sp, #0xb0
+0x39a58: bl     #0x95b8 ; <duss_log_print>
+0x39a5c: b      #0x39670
+0x39a60: add    x23, x19, #0x170
+0x39a64: adrp   x0, #0x4c000
+0x39a68: add    x0, x0, #0xe80 ; "output_packs_buf_q"
+0x39a6c: mov    w1, #8
+0x39a70: mov    w2, #6
+0x39a74: mov    w3, wzr
+0x39a78: mov    x4, x23
+0x39a7c: bl     #0x9748 ; <codec_buffer_queue_create>
+0x39a80: adrp   x4, #0x4c000
+0x39a84: adrp   x5, #0x4c000
+0x39a88: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x39a8c: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x39a90: mov    w24, w0
+0x39a94: cbz    w24, #0x39ae4
+0x39a98: mov    w0, #0x32
+0x39a9c: mov    w6, #0x24e
+0x39aa0: mov    w1, #1
+0x39aa4: add    x2, sp, #0xb0
+0x39aa8: mov    w3, #0x80
+0x39aac: bl     #0x95a8 ; <duss_log_gen_head>
+0x39ab0: cbz    w0, #0x39e24
+0x39ab4: adrp   x3, #0x4c000
+0x39ab8: adrp   x4, #0x4c000
+0x39abc: add    x3, x3, #0xe93 ; "____MSENC:%s():codec_buffer_queue_create(output_packs_q) failed, ret:%d 
+"
+0x39ac0: add    x4, x4, #0xce7 ; "moonshadow_enc_open"
+0x39ac4: mov    w0, #0x32
+0x39ac8: mov    w1, #1
+0x39acc: add    x2, sp, #0xb0
+0x39ad0: mov    w5, w24
+0x39ad4: bl     #0x95b8 ; <duss_log_print>
+0x39ad8: ldr    x0, [x22]
+0x39adc: cbnz   x0, #0x39e2c
+0x39ae0: b      #0x39e34
+0x39ae4: mov    w0, #0x32
+0x39ae8: mov    w6, #0x255
+0x39aec: mov    w1, #3
+0x39af0: add    x2, sp, #0xb0
+0x39af4: mov    w3, #0x80
+0x39af8: bl     #0x95a8 ; <duss_log_gen_head>
+0x39afc: cbz    w0, #0x39b44
+0x39b00: ldr    x0, [x22]
+0x39b04: bl     #0x9788 ; <codec_buffer_queue_get_enqueued_count>
+0x39b08: ldr    x8, [x23]
+0x39b0c: mov    w24, w0
+0x39b10: mov    x0, x8
+0x39b14: bl     #0x9788 ; <codec_buffer_queue_get_enqueued_count>
+0x39b18: adrp   x3, #0x4c000
+0x39b1c: adrp   x4, #0x4c000
+0x39b20: mov    w7, w0
+0x39b24: add    x3, x3, #0xedd ; "____MSENC:%s():%d, input_packs_q count:%d,         output_packs_q:%d
+"
+0x39b28: add    x4, x4, #0xce7 ; "moonshadow_enc_open"
+0x39b2c: mov    w0, #0x32
+0x39b30: mov    w5, #0x253
+0x39b34: mov    w1, #3
+0x39b38: add    x2, sp, #0xb0
+0x39b3c: mov    w6, w24
+0x39b40: bl     #0x95b8 ; <duss_log_print>
+0x39b44: adrp   x8, #0x4c000
+0x39b48: add    x8, x8, #0xf23 ; "stream buffer in use mutex"
+0x39b4c: add    x24, x19, #0x358
+0x39b50: add    x0, sp, #0x20
+0x39b54: str    x8, [sp, #0x18]
+0x39b58: adrp   x8, #0x4c000
+0x39b5c: add    x8, x8, #0xf3e ; "frmae buffer in use mutex"
+0x39b60: mov    x1, x24
+0x39b64: str    x8, [sp, #0x10]
+0x39b68: adrp   x8, #0x4c000
+0x39b6c: add    x8, x8, #0xf58 ; "msenc_sync"
+0x39b70: str    x8, [sp, #0x20]
+0x39b74: bl     #0x9858 ; <duss_osal_event_create>
+0x39b78: cbz    w0, #0x39bd8
+0x39b7c: adrp   x4, #0x4c000
+0x39b80: adrp   x5, #0x4c000
+0x39b84: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x39b88: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x39b8c: mov    w0, #0x32
+0x39b90: mov    w6, #0x25f
+0x39b94: mov    w1, #1
+0x39b98: add    x2, sp, #0xb0
+0x39b9c: mov    w3, #0x80
+0x39ba0: bl     #0x95a8 ; <duss_log_gen_head>
+0x39ba4: cbz    w0, #0x39e14
+0x39ba8: adrp   x3, #0x4c000
+0x39bac: adrp   x4, #0x4c000
+0x39bb0: add    x3, x3, #0xf63 ; "____MSENC:%s():msenc create sync event failed
+"
+0x39bb4: add    x4, x4, #0xce7 ; "moonshadow_enc_open"
+0x39bb8: mov    w0, #0x32
+0x39bbc: mov    w1, #1
+0x39bc0: add    x2, sp, #0xb0
+0x39bc4: bl     #0x95b8 ; <duss_log_print>
+0x39bc8: ldr    x0, [x23]
+0x39bcc: cbnz   x0, #0x39e1c
+0x39bd0: b      #0x39e24
+0x39bd4: bl     #0x95e8 ; <__stack_chk_fail>
+0x39bd8: add    x25, x19, #0x368
+0x39bdc: adrp   x8, #0x4c000
+0x39be0: add    x8, x8, #0xf92 ; "msenc_abort"
+0x39be4: add    x0, sp, #0x20
+0x39be8: mov    x1, x25
+0x39bec: str    x8, [sp, #0x20]
+0x39bf0: bl     #0x9858 ; <duss_osal_event_create>
+0x39bf4: cbz    w0, #0x39c48
+0x39bf8: adrp   x4, #0x4c000
+0x39bfc: adrp   x5, #0x4c000
+0x39c00: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x39c04: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x39c08: mov    w0, #0x32
+0x39c0c: mov    w6, #0x266
+0x39c10: mov    w1, #1
+0x39c14: add    x2, sp, #0xb0
+0x39c18: mov    w3, #0x80
+0x39c1c: bl     #0x95a8 ; <duss_log_gen_head>
+0x39c20: cbz    w0, #0x39e0c
+0x39c24: adrp   x3, #0x4c000
+0x39c28: adrp   x4, #0x4c000
+0x39c2c: add    x3, x3, #0xf9e ; "____MSENC:%s():msenc create abort event failed
+"
+0x39c30: add    x4, x4, #0xce7 ; "moonshadow_enc_open"
+0x39c34: mov    w0, #0x32
+0x39c38: mov    w1, #1
+0x39c3c: add    x2, sp, #0xb0
+0x39c40: bl     #0x95b8 ; <duss_log_print>
+0x39c44: b      #0x39e0c
+0x39c48: add    x26, x19, #0x360
+0x39c4c: adrp   x8, #0x4c000
+0x39c50: add    x8, x8, #0xfce ; "msenc_stop"
+0x39c54: add    x0, sp, #0x20
+0x39c58: mov    x1, x26
+0x39c5c: str    x8, [sp, #0x20]
+0x39c60: bl     #0x9858 ; <duss_osal_event_create>
+0x39c64: cbz    w0, #0x39cb8
+0x39c68: adrp   x4, #0x4c000
+0x39c6c: adrp   x5, #0x4c000
+0x39c70: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x39c74: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x39c78: mov    w0, #0x32
+0x39c7c: mov    w6, #0x26d
+0x39c80: mov    w1, #1
+0x39c84: add    x2, sp, #0xb0
+0x39c88: mov    w3, #0x80
+0x39c8c: bl     #0x95a8 ; <duss_log_gen_head>
+0x39c90: cbz    w0, #0x39e04
+0x39c94: adrp   x3, #0x4c000
+0x39c98: adrp   x4, #0x4c000
+0x39c9c: add    x3, x3, #0xfd9 ; "____MSENC:%s():msenc create stop event failed
+"
+0x39ca0: add    x4, x4, #0xce7 ; "moonshadow_enc_open"
+0x39ca4: mov    w0, #0x32
+0x39ca8: mov    w1, #1
+0x39cac: add    x2, sp, #0xb0
+0x39cb0: bl     #0x95b8 ; <duss_log_print>
+0x39cb4: b      #0x39e04
+0x39cb8: add    x27, x19, #0x370
+0x39cbc: adrp   x8, #0x4d000
+0x39cc0: add    x8, x8, #8 ; "msenc_buffer"
+0x39cc4: add    x0, sp, #0x20
+0x39cc8: mov    x1, x27
+0x39ccc: str    x8, [sp, #0x20]
+0x39cd0: bl     #0x9858 ; <duss_osal_event_create>
+0x39cd4: cbz    w0, #0x39d28
+0x39cd8: adrp   x4, #0x4c000
+0x39cdc: adrp   x5, #0x4c000
+0x39ce0: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x39ce4: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x39ce8: mov    w0, #0x32
+0x39cec: mov    w6, #0x274
+0x39cf0: mov    w1, #1
+0x39cf4: add    x2, sp, #0xb0
+0x39cf8: mov    w3, #0x80
+0x39cfc: bl     #0x95a8 ; <duss_log_gen_head>
+0x39d00: cbz    w0, #0x39dfc
+0x39d04: adrp   x3, #0x4d000
+0x39d08: adrp   x4, #0x4c000
+0x39d0c: add    x3, x3, #0x15 ; "____MSENC:%s():msenc create buffer event failed
+"
+0x39d10: add    x4, x4, #0xce7 ; "moonshadow_enc_open"
+0x39d14: mov    w0, #0x32
+0x39d18: mov    w1, #1
+0x39d1c: add    x2, sp, #0xb0
+0x39d20: bl     #0x95b8 ; <duss_log_print>
+0x39d24: b      #0x39dfc
+0x39d28: add    x1, x19, #0x178
+0x39d2c: add    x0, sp, #0x18
+0x39d30: str    x1, [sp, #8]
+0x39d34: bl     #0x9578 ; <duss_osal_mutex_create>
+0x39d38: cbz    w0, #0x39d8c
+0x39d3c: adrp   x4, #0x4c000
+0x39d40: adrp   x5, #0x4c000
+0x39d44: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x39d48: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x39d4c: mov    w0, #0x32
+0x39d50: mov    w6, #0x27a
+0x39d54: mov    w1, #1
+0x39d58: add    x2, sp, #0xb0
+0x39d5c: mov    w3, #0x80
+0x39d60: bl     #0x95a8 ; <duss_log_gen_head>
+0x39d64: cbz    w0, #0x39df4
+0x39d68: adrp   x3, #0x4d000
+0x39d6c: adrp   x4, #0x4c000
+0x39d70: add    x3, x3, #0x46 ; "____MSENC:%s():msenc create output_packet_mutex_lock failed
+"
+0x39d74: add    x4, x4, #0xce7 ; "moonshadow_enc_open"
+0x39d78: mov    w0, #0x32
+0x39d7c: mov    w1, #1
+0x39d80: add    x2, sp, #0xb0
+0x39d84: bl     #0x95b8 ; <duss_log_print>
+0x39d88: b      #0x39df4
+0x39d8c: add    x1, x19, #0x210
+0x39d90: add    x0, sp, #0x10
+0x39d94: bl     #0x9578 ; <duss_osal_mutex_create>
+0x39d98: adrp   x4, #0x4c000
+0x39d9c: adrp   x5, #0x4c000
+0x39da0: add    x4, x4, #0xc27 ; "hardware/dji/common/codec/hal/msenc/dji_msenc.c"
+0x39da4: add    x5, x5, #0xce7 ; "moonshadow_enc_open"
+0x39da8: cbz    w0, #0x39e58
+0x39dac: mov    w0, #0x32
+0x39db0: mov    w6, #0x280
+0x39db4: mov    w1, #1
+0x39db8: add    x2, sp, #0xb0
+0x39dbc: mov    w3, #0x80
+0x39dc0: bl     #0x95a8 ; <duss_log_gen_head>
+0x39dc4: cbz    w0, #0x39de8
+0x39dc8: adrp   x3, #0x4d000
+0x39dcc: adrp   x4, #0x4c000
+0x39dd0: add    x3, x3, #0x83 ; "____MSENC:%s():msenc create input_packet_mutex_lock failed
+"
+0x39dd4: add    x4, x4, #0xce7 ; "moonshadow_enc_open"
+0x39dd8: mov    w0, #0x32
+0x39ddc: mov    w1, #1
+0x39de0: add    x2, sp, #0xb0
+0x39de4: bl     #0x95b8 ; <duss_log_print>
+0x39de8: ldr    x8, [sp, #8]
+0x39dec: ldr    x0, [x8]
+0x39df0: bl     #0x9608 ; <duss_osal_mutex_destroy>
+0x39df4: ldr    x0, [x27]
+0x39df8: bl     #0x9878 ; <duss_osal_event_destroy>
+0x39dfc: ldr    x0, [x26]
+0x39e00: bl     #0x9878 ; <duss_osal_event_destroy>
+0x39e04: ldr    x0, [x25]
+0x39e08: bl     #0x9878 ; <duss_osal_event_destroy>
+0x39e0c: ldr    x0, [x24]
+0x39e10: bl     #0x9878 ; <duss_osal_event_destroy>
+0x39e14: ldr    x0, [x23]
+0x39e18: cbz    x0, #0x39e24
+0x39e1c: bl     #0x9768 ; <codec_buffer_queue_destroy>
+0x39e20: str    xzr, [x23]
+0x39e24: ldr    x0, [x22]
+0x39e28: cbz    x0, #0x39e34
+0x39e2c: bl     #0x9768 ; <codec_buffer_queue_destroy>
+0x39e30: str    xzr, [x22]
+0x39e34: ldr    x0, [x21]
+0x39e38: cbz    x0, #0x39e44
+0x39e3c: bl     #0x9ba8 ; <codec_looper_handler_destroy>
+0x39e40: str    xzr, [x21]
+0x39e44: ldr    x0, [x19, #0x160]
+0x39e48: cbz    x0, #0x39670
+0x39e4c: bl     #0x9bb8 ; <codec_looper_thread_quit_and_destroy>
+0x39e50: str    xzr, [x19, #0x160]
+0x39e54: b      #0x39670
+0x39e58: mov    w0, #0x32
+0x39e5c: mov    w6, #0x284
+0x39e60: mov    w1, #3
+0x39e64: add    x2, sp, #0xb0
+0x39e68: mov    w3, #0x80
+0x39e6c: bl     #0x95a8 ; <duss_log_gen_head>
+0x39e70: cbz    w0, #0x39e98
+0x39e74: adrp   x3, #0x4d000
+0x39e78: adrp   x4, #0x4c000
+0x39e7c: add    x3, x3, #0xbf ; "[%s] Open successfully (Instance: %p)
+"
+0x39e80: add    x4, x4, #0xce7 ; "moonshadow_enc_open"
+0x39e84: mov    w0, #0x32
+0x39e88: mov    w1, #3
+0x39e8c: add    x2, sp, #0xb0
+0x39e90: mov    x5, x19
+0x39e94: bl     #0x95b8 ; <duss_log_print>
+0x39e98: mov    w19, wzr
+0x39e9c: b      #0x39410

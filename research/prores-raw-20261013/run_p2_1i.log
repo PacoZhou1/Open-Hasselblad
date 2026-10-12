@@ -1,0 +1,405 @@
+open input file /data/local/tmp/x2v-claude-prr/msenc_in_16bit_6f.raw success
+open output file /dev/null success
+2026-10-13 02:57:47.936 29951 29951 DUSS32 :Name: 0x0x76d5447080, /dev/msenc0
+2026-10-13 02:57:47.936 29951 29951 DUSS32 :	state: 0, class: 50, index: 0
+2026-10-13 02:57:47.936 29951 29951 DUSS32 :	open: 0x0x76d5bc50d8, close: 0x0x76d5bc5ea0, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x76d5bc6298, stop: 0x0x76d5bc6500
+2026-10-13 02:57:47.937 29951 29951 DUSS32 :Name: 0x0x76d5512c00, /dev/msenc1
+2026-10-13 02:57:47.937 29951 29951 DUSS32 :	state: 0, class: 50, index: 1
+2026-10-13 02:57:47.937 29951 29951 DUSS32 :	open: 0x0x76d5bc50d8, close: 0x0x76d5bc5ea0, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x76d5bc6298, stop: 0x0x76d5bc6500
+2026-10-13 02:57:47.937 29951 29951 DUSS1C :Name: 0x0x76d54f0000, /dev/ion
+2026-10-13 02:57:47.937 29951 29951 DUSS1C :	state: 0, class: 28, index: 0
+2026-10-13 02:57:47.937 29951 29951 DUSS1C :	open: 0x0x76d67707a8, close: 0x0x76d6770908, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x76d6770a30, stop: 0x0x76d6770a38
+2026-10-13 02:57:47.937 29951 29951 DUSS1C :Name: 0x0x76d54f0200, /dev/ion_codec:ms_enc
+2026-10-13 02:57:47.937 29951 29951 DUSS1C :	state: 0, class: 28, index: 1
+2026-10-13 02:57:47.937 29951 29951 DUSS1C :	open: 0x0x76d67707a8, close: 0x0x76d6770908, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x76d6770a30, stop: 0x0x76d6770a38
+2026-10-13 02:57:47.937 29951 29951 DUSS32 :duss_hal_device_open(ion) success!
+2026-10-13 02:57:47.937 29951 29951 DUSS32 :[moonshadow_enc_open] Opening... (Instance: 0x76d5447100)
+2026-10-13 02:57:47.938 29951 29951 DUSS58 :[_debug_hub_create_directory, 77] [DEBUG HUG] Created directory (/data/codec_debug_hub/) successfully
+2026-10-13 02:57:47.938 29951 29951 DUSS58 :[_debug_hub_create_directory, 77] [DEBUG HUG] Created directory (/blackbox/codec_debug_hub/) successfully
+2026-10-13 02:57:47.939 29951 29951 DUSS40 :PID:29951, TID:29951, pPID: 510417614152, Func: 0x0x76d704bf38, Affinity: 0x0
+2026-10-13 02:57:47.939 29951 29953 DUSS40 :debug_hub_inotify: PID:29951, TID:29953, PTHREAD:510383879408, POLICY=0, PRIORITY=0
+2026-10-13 02:57:47.939 29951 29953 DUSS58 :[_inotify_task, 1263] [DEBUG HUG] Stop inotify monitoring task starting...
+2026-10-13 02:57:47.939 29951 29951 DUSS58 :[_init_inotify, 1375] [DEBUG HUG] inotify started...
+2026-10-13 02:57:47.939 29951 29951 DUSS58 :[debug_hub_init, 1494] [DEBUG HUG] Created! Features:
+2026-10-13 02:57:47.939 29951 29951 DUSS58 :[debug_hub_init, 1495] [DEBUG HUG] ------------------
+2026-10-13 02:57:47.939 29951 29951 DUSS58 :[debug_hub_init, 1496] [DEBUG HUG] Dump:             Enable
+2026-10-13 02:57:47.939 29951 29951 DUSS58 :[debug_hub_init, 1497] [DEBUG HUG] Debuggerd:        Enable
+2026-10-13 02:57:47.939 29951 29951 DUSS58 :[debug_hub_init, 1498] [DEBUG HUG] Register Dump:    Enable
+2026-10-13 02:57:47.939 29951 29951 DUSS58 :[debug_hub_init, 1499] [DEBUG HUG] Calculate md5sum: Enable
+2026-10-13 02:57:47.939 29951 29951 DUSS58 :[debug_hub_init, 1500] [DEBUG HUG] ------------------
+.....debug...open /dev/moonshadow-enc, ret fd 7
+.....debug...msenc_get_uio_index_by_name,line=45,find target uio: ms_enc_addr_info index: 4
+.....debug...msenc_uio_dev_index = 4
+.....debug...virt_addr_base_ptr=0x76d727f000, reg_size:4096
+2026-10-13 02:57:47.940 29951 29951 DUSS32 :msenc_init() ret 0, suc!
+duss_hal_device_open(ion) success!
+2026-10-13 02:57:47.944 29951 29951 DUSS40 :PID:29951, TID:29951, pPID: 510417614152, Func: 0x0x76d5b9ada8, Affinity: 0x0
+2026-10-13 02:57:47.944 29951 29954 DUSS40 :msenc_hal: PID:29951, TID:29954, PTHREAD:510382839024, POLICY=1073741826, PRIORITY=19
+2026-10-13 02:57:47.944 29951 29954 DUSS40 :PID:29951, TID:29954, pPID: 510382839024, Func: 0x0x76d5b9b4f8, Affinity: 0x0
+2026-10-13 02:57:47.944 29951 29955 DUSS40 :task_scheduling_statistic_task: PID:29951, TID:29955, PTHREAD:510377587952, POLICY=0, PRIORITY=0
+2026-10-13 02:57:47.944 29951 29955 DUSS58 :[Task schedulor - msenc_hal] Statistic task starting...
+2026-10-13 02:57:47.945 29951 29951 DUSS40 :PID:29951, TID:29951, pPID: 510417614152, Func: 0x0x76d5b9b4f8, Affinity: 0x0
+2026-10-13 02:57:47.945 29951 29956 DUSS40 :task_scheduling_statistic_task: PID:29951, TID:29956, PTHREAD:510376547568, POLICY=0, PRIORITY=0
+2026-10-13 02:57:47.945 29951 29956 DUSS58 :[Task schedulor - input_packs_buf_q] Statistic task starting...
+2026-10-13 02:57:47.946 29951 29951 DUSS40 :PID:29951, TID:29951, pPID: 510417614152, Func: 0x0x76d5b9b4f8, Affinity: 0x0
+2026-10-13 02:57:47.946 29951 29951 DUSS32 :____MSENC:moonshadow_enc_open():595, input_packs_q count:0,         output_packs_q:0
+2026-10-13 02:57:47.946 29951 29951 DUSS32 :[moonshadow_enc_open] Open successfully (Instance: 0x76d5447100)
+2026-10-13 02:57:47.946 29951 29957 DUSS40 :task_scheduling_statistic_task: PID:29951, TID:29957, PTHREAD:510375507184, POLICY=0, PRIORITY=0
+2026-10-13 02:57:47.946 29951 29951 DUSS32 :duss_hal_device_open(msenc) success!
+2026-10-13 02:57:47.946 29951 29957 DUSS58 :[Task schedulor - output_packs_buf_q] Statistic task starting...
+2026-10-13 02:57:47.946 29951 29951 DUSS32 :inst:0, stride:7936, bit_depth:0x10
+2026-10-13 02:57:47.946 29951 29951 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x51fe4000, VirAddr:0x76d34be000 
+2026-10-13 02:57:47.946 29951 29951 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x5362c000, VirAddr:0x76d1e76000 
+2026-10-13 02:57:47.946 29951 29951 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x54c74000, VirAddr:0x76d082e000 
+2026-10-13 02:57:47.946 29951 29951 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x562bc000, VirAddr:0x76cf1e6000 
+2026-10-13 02:57:47.947 29951 29951 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x57904000, VirAddr:0x76cdb9e000 
+2026-10-13 02:57:47.947 29951 29951 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x58f4c000, VirAddr:0x76cc556000 
+2026-10-13 02:57:47.947 29951 29951 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34bdf000, VirAddr:0x76d7208000 
+2026-10-13 02:57:47.951 29951 29951 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34c62000, VirAddr:0x76d71d2000 
+2026-10-13 02:57:47.951 29951 29951 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34c7e000, VirAddr:0x76d7193000 
+2026-10-13 02:57:47.951 29951 29951 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34d1a000, VirAddr:0x76d7183000 
+2026-10-13 02:57:47.952 29951 29951 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x3548d000, VirAddr:0x76d7166000 
+2026-10-13 02:57:47.952 29951 29951 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x35499000, VirAddr:0x76d7145000 
+2026-10-13 02:57:47.952 29951 29951 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5a594000, VirAddr:0x76cb382000 
+2026-10-13 02:57:47.952 29951 29951 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5b768000, VirAddr:0x76ca1ae000 
+2026-10-13 02:57:47.952 29951 29951 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5c93c000, VirAddr:0x76c8fda000 
+2026-10-13 02:57:47.953 29951 29951 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5db10000, VirAddr:0x76c7e06000 
+2026-10-13 02:57:47.953 29951 29951 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5ece4000, VirAddr:0x76c6c32000 
+2026-10-13 02:57:47.953 29951 29951 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5feb8000, VirAddr:0x76c5a5e000 
+2026-10-13 02:57:47.953 29951 29951 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x6108c000, VirAddr:0x76c488a000 
+2026-10-13 02:57:47.953 29951 29951 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x62260000, VirAddr:0x76c36b6000 
+2026-10-13 02:57:47.953 29951 29951 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x63434000, VirAddr:0x76c24e2000 
+2026-10-13 02:57:47.953 29951 29951 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x64608000, VirAddr:0x76c130e000 
+2026-10-13 02:57:47.954 29951 29951 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x657dc000, VirAddr:0x76c013a000 
+2026-10-13 02:57:47.965 29951 29951 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x669b0000, VirAddr:0x76bef66000 
+2026-10-13 02:57:48.011 29951 29951 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:57:48.058 29951 29951 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:57:48.100 29951 29951 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:57:48.140 29951 29951 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:57:48.183 29951 29951 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:57:48.232 29951 29951 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:57:48.232 29951 29951 DUSS32 :[moonshadow_enc_start] Starting... (Instance: 0x76d5447100)
+2026-10-13 02:57:48.232 29951 29951 DUSS32 :moonshadow_enc_start(): profile 2
+2026-10-13 02:57:48.232 29951 29951 DUSS32 :____MSENC:msenc_setup_rate_ctrl():Currently, msenc_setup_ratectrl is not implemented.
+2026-10-13 02:57:48.232 29951 29951 DUSS32 :[moonshadow_enc_start] Start successfully (Instance: 0x76d5447100)
+2026-10-13 02:57:48.232 29951 29951 DUSS32 :duss_hal_device_start(msenc) success!
+2026-10-13 02:57:48.232 29951 29960 DUSS40 :test_msenc_thread0: PID:29951, TID:29960, PTHREAD:510009955568, POLICY=1073741826, PRIORITY=99
+2026-10-13 02:57:48.232 29951 29951 DUSS40 :PID:29951, TID:29951, pPID: 510417614152, Func: 0x0x64a584a4e0, Affinity: 0x0
+2026-10-13 02:57:48.232 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 0
+2026-10-13 02:57:48.233 29951 29961 DUSS40 :test_ctrl_thread0: PID:29951, TID:29961, PTHREAD:510008915184, POLICY=1073741826, PRIORITY=99
+2026-10-13 02:57:48.233 29951 29951 DUSS40 :PID:29951, TID:29951, pPID: 510417614152, Func: 0x0x64a584b128, Affinity: 0x0
+2026-10-13 02:57:48.239 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 1
+2026-10-13 02:57:48.244 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.244 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.244 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.245 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.246 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 2
+2026-10-13 02:57:48.251 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.251 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.251 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.252 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.253 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 3
+2026-10-13 02:57:48.258 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.258 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.258 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.258 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.259 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 4
+2026-10-13 02:57:48.264 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.264 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.264 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.264 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.265 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 5
+2026-10-13 02:57:48.271 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.271 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.271 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.271 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.272 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 6
+2026-10-13 02:57:48.277 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.277 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.277 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.277 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.278 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 7
+2026-10-13 02:57:48.283 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.283 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.283 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.284 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.285 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 8
+2026-10-13 02:57:48.290 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.290 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.290 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.291 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.292 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 9
+2026-10-13 02:57:48.297 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.297 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.297 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.297 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.298 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 10
+2026-10-13 02:57:48.303 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.303 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.303 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.303 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.305 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 11
+2026-10-13 02:57:48.311 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.311 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.311 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.311 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 12
+2026-10-13 02:57:48.311 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.316 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.316 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.316 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.317 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.317 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 13
+2026-10-13 02:57:48.323 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.323 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.323 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.323 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.324 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 14
+2026-10-13 02:57:48.330 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.330 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.330 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.330 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.331 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 15
+2026-10-13 02:57:48.336 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.336 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.336 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.336 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.337 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 16
+2026-10-13 02:57:48.342 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.342 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.342 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.343 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.344 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 17
+2026-10-13 02:57:48.351 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.351 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.351 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.351 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 18
+2026-10-13 02:57:48.351 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.356 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.356 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.356 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.357 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.357 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 19
+2026-10-13 02:57:48.362 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.362 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.362 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.362 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 5
+2026-10-13 02:57:48.364 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 20
+2026-10-13 02:57:48.369 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.369 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.369 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.370 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.370 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 21
+2026-10-13 02:57:48.375 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.375 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.376 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.376 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.377 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 22
+2026-10-13 02:57:48.382 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.382 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.382 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.382 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.383 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 23
+2026-10-13 02:57:48.389 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.389 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.389 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.389 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.390 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 24
+2026-10-13 02:57:48.395 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.395 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.395 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.396 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.396 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 25
+2026-10-13 02:57:48.401 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.401 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.401 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.402 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.403 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 26
+2026-10-13 02:57:48.409 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.409 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.409 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.410 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 27
+2026-10-13 02:57:48.410 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.415 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.415 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.415 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.415 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.416 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 28
+2026-10-13 02:57:48.421 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.421 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.421 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.421 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 5
+2026-10-13 02:57:48.423 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 29
+2026-10-13 02:57:48.428 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.428 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.428 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.429 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.429 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 30
+2026-10-13 02:57:48.435 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 31
+2026-10-13 02:57:48.435 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.436 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.436 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.436 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.441 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.441 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.441 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.441 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.442 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 32
+2026-10-13 02:57:48.447 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.447 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.447 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.449 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 5
+2026-10-13 02:57:48.449 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 33
+2026-10-13 02:57:48.454 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.454 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.454 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.455 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.455 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 34
+2026-10-13 02:57:48.460 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.460 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.460 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.461 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.462 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 35
+2026-10-13 02:57:48.467 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.467 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.467 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.468 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 36
+2026-10-13 02:57:48.468 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.474 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.474 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.474 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.474 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.475 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 37
+2026-10-13 02:57:48.480 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.480 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.480 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.480 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 5
+2026-10-13 02:57:48.481 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 38
+2026-10-13 02:57:48.486 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.486 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.486 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.487 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.488 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 39
+2026-10-13 02:57:48.493 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.493 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.493 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.494 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.494 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 40
+2026-10-13 02:57:48.499 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.499 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.499 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.500 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.501 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 41
+2026-10-13 02:57:48.506 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.506 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.506 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.506 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.507 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 42
+2026-10-13 02:57:48.513 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.514 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.514 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.514 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 43
+2026-10-13 02:57:48.514 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.519 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.519 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.519 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.520 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.520 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 44
+2026-10-13 02:57:48.526 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.526 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.526 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.526 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 5
+2026-10-13 02:57:48.527 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 45
+2026-10-13 02:57:48.534 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 46
+2026-10-13 02:57:48.534 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.534 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.534 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.534 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.539 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.539 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.539 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.540 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.540 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 47
+2026-10-13 02:57:48.545 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.545 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.545 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.546 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 5
+2026-10-13 02:57:48.547 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 48
+2026-10-13 02:57:48.552 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.552 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.552 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.553 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.553 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 49
+2026-10-13 02:57:48.558 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.558 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.558 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.559 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.560 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 50
+2026-10-13 02:57:48.565 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.565 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.565 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.565 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.567 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 51
+2026-10-13 02:57:48.572 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.572 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.572 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.572 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.573 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 52
+2026-10-13 02:57:48.578 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.578 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.578 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.579 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.579 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 53
+2026-10-13 02:57:48.584 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.584 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.584 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.585 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.586 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 54
+2026-10-13 02:57:48.591 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.591 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.591 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.592 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.592 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 55
+2026-10-13 02:57:48.597 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.597 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.597 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.598 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.599 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 56
+2026-10-13 02:57:48.604 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.604 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.604 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.604 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.606 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 57
+2026-10-13 02:57:48.610 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.611 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.611 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.611 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.612 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 58
+2026-10-13 02:57:48.617 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.617 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.617 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.618 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:48.618 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 59
+2026-10-13 02:57:48.623 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.623 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.623 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.624 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:57:48.625 29951 29960 DUSS32 :____TEST:msenc_encode_thread_func():all frame encoded, enc thread exit...
+2026-10-13 02:57:48.626 29951 29961 DUSS32 :____TEST:msenc_ctrl_thread_func():target_duration:0, total:60, enc thread exited, so ctrl thread exit...
+2026-10-13 02:57:48.627 29951 29951 DUSS32 :____TEST:main(),1446:wait enc thread ending success
+2026-10-13 02:57:48.630 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:57:48.630 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:57:48.630 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:57:48.631 29951 29954 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:57:51.632 29951 29951 DUSS32 :[moonshadow_enc_stop] Stop successfully (Instance: 0x76d5447100)
+2026-10-13 02:57:51.632 29951 29951 DUSS32 :[moonshadow_enc_close] Closing... (Instance: 0x76d5447100)
+2026-10-13 02:57:51.634 29951 29957 DUSS58 :[Task schedulor - output_packs_buf_q] statistic (Overall): Percentage in cache = 60/1024, Throughput = 155.39(task per second), Waiting Cycle = [0.00/0.00/0.00], Response Time(ms) = [0.03/0.18/1.93] (Guide: [min/avg/max])
+2026-10-13 02:57:51.634 29951 29957 DUSS58 :[Task schedulor - output_packs_buf_q] Statistic task stopped
+2026-10-13 02:57:51.634 29951 29956 DUSS58 :[Task schedulor - input_packs_buf_q] statistic (Overall): Percentage in cache = 60/1024, Throughput = 155.39(task per second), Waiting Cycle = [0.00/0.00/0.00], Response Time(ms) = [0.03/0.18/1.92] (Guide: [min/avg/max])
+2026-10-13 02:57:51.634 29951 29956 DUSS58 :[Task schedulor - input_packs_buf_q] Statistic task stopped
+2026-10-13 02:57:51.634 29951 29951 DUSS32 :____MSENC:moonshadow_enc_close(),802:destroy buffer queue.
+2026-10-13 02:57:51.634 29951 29951 DUSS58 :_looper_handler_destroy, Looper(msenc_hal):_looper_handler_destroy(0x76d4e4f000) succeed... 
+2026-10-13 02:57:51.634 29951 29954 DUSS58 :codec_looper_run, Looper(msenc_hal): received NULL msg and exit now...
+2026-10-13 02:57:51.634 29951 29954 DUSS58 :Looper(msenc_hal): flushing the message queue...
+2026-10-13 02:57:51.634 29951 29954 DUSS58 :Looper(msenc_hal): destroying the loop ...
+2026-10-13 02:57:51.634 29951 29955 DUSS58 :[Task schedulor - msenc_hal] statistic (Overall): Percentage in cache = 61/1024, Throughput = 17.97(task per second), Waiting Cycle = [0.00/0.00/0.00], Response Time(ms) = [0.01/0.17/1.90] (Guide: [min/avg/max])
+20

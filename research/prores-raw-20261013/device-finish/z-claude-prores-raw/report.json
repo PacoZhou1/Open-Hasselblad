@@ -1,0 +1,26 @@
+{
+ "operator": "z-claude-prores-raw",
+ "finished": "2026-10-13T04:32:44.225958+08:00",
+ "claimed_at": "2026-10-13T04:27:12.168987+08:00",
+ "recovery_rc": "0",
+ "locks_absent": true,
+ "state": "cs=14484 gui=15272 usb=rndis,mass_storage,bulk,acm,adb\n28307.48 65372.80",
+ "service_started_at": {
+  "camera-service": {
+   "pid": 14484,
+   "started": "2026-10-13T02:12:32+08:00"
+  },
+  "camera-gui": {
+   "pid": 15272,
+   "started": "2026-10-13T02:12:42+08:00"
+  }
+ },
+ "leftover_processes": "NONE",
+ "created_paths_absent": {
+  "/data/local/tmp/x2v-claude-prr": true,
+  "/data/local/tmp": true,
+  "/data/local": true,
+  "/data/codec_debug_hub": true
+ },
+ "services_running_since_before_claim": true
+}

@@ -1,0 +1,13 @@
+{
+ "msdec": {
+  "instance_active_num": 1,
+  "instances": [
+   {
+    "input_file": "/data/local/tmp/x2v-claude-prr/out_p1.bin",
+    "output_file": "/data/local/tmp/x2v-claude-prr/msdec_p1.raw",
+    "output_bit_depth": 16,
+    "num_of_decode_frame": 1
+   }
+  ]
+ }
+}

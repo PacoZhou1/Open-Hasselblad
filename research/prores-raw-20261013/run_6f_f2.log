@@ -1,0 +1,142 @@
+open input file /data/local/tmp/x2v-claude-prr/msenc_in_16bit_6f.raw success
+open output file /data/local/tmp/x2v-claude-prr/out_6f_16bit.bin success
+2026-10-13 02:32:05.474 21507 21507 DUSS32 :Name: 0x0x72aac3e500, /dev/msenc0
+2026-10-13 02:32:05.474 21507 21507 DUSS32 :	state: 0, class: 50, index: 0
+2026-10-13 02:32:05.474 21507 21507 DUSS32 :	open: 0x0x72ac4c70d8, close: 0x0x72ac4c7ea0, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x72ac4c8298, stop: 0x0x72ac4c8500
+2026-10-13 02:32:05.474 21507 21507 DUSS32 :Name: 0x0x72aad09400, /dev/msenc1
+2026-10-13 02:32:05.474 21507 21507 DUSS32 :	state: 0, class: 50, index: 1
+2026-10-13 02:32:05.474 21507 21507 DUSS32 :	open: 0x0x72ac4c70d8, close: 0x0x72ac4c7ea0, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x72ac4c8298, stop: 0x0x72ac4c8500
+2026-10-13 02:32:05.474 21507 21507 DUSS1C :Name: 0x0x72aace7000, /dev/ion
+2026-10-13 02:32:05.474 21507 21507 DUSS1C :	state: 0, class: 28, index: 0
+2026-10-13 02:32:05.474 21507 21507 DUSS1C :	open: 0x0x72abb387a8, close: 0x0x72abb38908, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x72abb38a30, stop: 0x0x72abb38a38
+2026-10-13 02:32:05.474 21507 21507 DUSS1C :Name: 0x0x72aace7200, /dev/ion_codec:ms_enc
+2026-10-13 02:32:05.474 21507 21507 DUSS1C :	state: 0, class: 28, index: 1
+2026-10-13 02:32:05.474 21507 21507 DUSS1C :	open: 0x0x72abb387a8, close: 0x0x72abb38908, set_cfg: 0x0x0, get_cfg: 0x0x0, start: 0x0x72abb38a30, stop: 0x0x72abb38a38
+2026-10-13 02:32:05.475 21507 21507 DUSS32 :duss_hal_device_open(ion) success!
+2026-10-13 02:32:05.475 21507 21507 DUSS32 :[moonshadow_enc_open] Opening... (Instance: 0x72aac3e580)
+2026-10-13 02:32:05.475 21507 21507 DUSS58 :[_debug_hub_create_directory, 77] [DEBUG HUG] Created directory (/data/codec_debug_hub/) successfully
+2026-10-13 02:32:05.475 21507 21507 DUSS58 :[_debug_hub_create_directory, 77] [DEBUG HUG] Created directory (/blackbox/codec_debug_hub/) successfully
+2026-10-13 02:32:05.475 21507 21507 DUSS40 :PID:21507, TID:21507, pPID: 492525471048, Func: 0x0x72ac20df38, Affinity: 0x0
+2026-10-13 02:32:05.475 21507 21507 DUSS58 :[_init_inotify, 1375] [DEBUG HUG] inotify started...
+2026-10-13 02:32:05.475 21507 21507 DUSS58 :[debug_hub_init, 1494] [DEBUG HUG] Created! Features:
+2026-10-13 02:32:05.475 21507 21507 DUSS58 :[debug_hub_init, 1495] [DEBUG HUG] ------------------
+2026-10-13 02:32:05.475 21507 21507 DUSS58 :[debug_hub_init, 1496] [DEBUG HUG] Dump:             Enable
+2026-10-13 02:32:05.475 21507 21507 DUSS58 :[debug_hub_init, 1497] [DEBUG HUG] Debuggerd:        Enable
+2026-10-13 02:32:05.475 21507 21507 DUSS58 :[debug_hub_init, 1498] [DEBUG HUG] Register Dump:    Enable
+2026-10-13 02:32:05.475 21507 21507 DUSS58 :[debug_hub_init, 1499] [DEBUG HUG] Calculate md5sum: Enable
+2026-10-13 02:32:05.475 21507 21507 DUSS58 :[debug_hub_init, 1500] [DEBUG HUG] ------------------
+2026-10-13 02:32:05.476 21507 21508 DUSS40 :debug_hub_inotify: PID:21507, TID:21508, PTHREAD:492496942320, POLICY=0, PRIORITY=0
+2026-10-13 02:32:05.476 21507 21508 DUSS58 :[_inotify_task, 1263] [DEBUG HUG] Stop inotify monitoring task starting...
+.....debug...open /dev/moonshadow-enc, ret fd 10
+.....debug...msenc_get_uio_index_by_name,line=45,find target uio: ms_enc_addr_info index: 4
+.....debug...msenc_uio_dev_index = 4
+.....debug...virt_addr_base_ptr=0x72accb2000, reg_size:4096
+2026-10-13 02:32:05.477 21507 21507 DUSS32 :msenc_init() ret 0, suc!
+duss_hal_device_open(ion) success!
+2026-10-13 02:32:05.486 21507 21507 DUSS40 :PID:21507, TID:21507, pPID: 492525471048, Func: 0x0x72ac49cda8, Affinity: 0x0
+2026-10-13 02:32:05.486 21507 21509 DUSS40 :msenc_hal: PID:21507, TID:21509, PTHREAD:492488881392, POLICY=1073741826, PRIORITY=19
+2026-10-13 02:32:05.487 21507 21509 DUSS40 :PID:21507, TID:21509, pPID: 492488881392, Func: 0x0x72ac49d4f8, Affinity: 0x0
+2026-10-13 02:32:05.487 21507 21510 DUSS40 :task_scheduling_statistic_task: PID:21507, TID:21510, PTHREAD:492487841008, POLICY=0, PRIORITY=0
+2026-10-13 02:32:05.487 21507 21510 DUSS58 :[Task schedulor - msenc_hal] Statistic task starting...
+2026-10-13 02:32:05.487 21507 21507 DUSS40 :PID:21507, TID:21507, pPID: 492525471048, Func: 0x0x72ac49d4f8, Affinity: 0x0
+2026-10-13 02:32:05.488 21507 21511 DUSS40 :task_scheduling_statistic_task: PID:21507, TID:21511, PTHREAD:492484687088, POLICY=0, PRIORITY=0
+2026-10-13 02:32:05.488 21507 21511 DUSS58 :[Task schedulor - input_packs_buf_q] Statistic task starting...
+2026-10-13 02:32:05.488 21507 21507 DUSS40 :PID:21507, TID:21507, pPID: 492525471048, Func: 0x0x72ac49d4f8, Affinity: 0x0
+2026-10-13 02:32:05.488 21507 21507 DUSS32 :____MSENC:moonshadow_enc_open():595, input_packs_q count:0,         output_packs_q:0
+2026-10-13 02:32:05.488 21507 21507 DUSS32 :[moonshadow_enc_open] Open successfully (Instance: 0x72aac3e580)
+2026-10-13 02:32:05.488 21507 21512 DUSS40 :task_scheduling_statistic_task: PID:21507, TID:21512, PTHREAD:492483646704, POLICY=0, PRIORITY=0
+2026-10-13 02:32:05.488 21507 21507 DUSS32 :duss_hal_device_open(msenc) success!
+2026-10-13 02:32:05.488 21507 21512 DUSS58 :[Task schedulor - output_packs_buf_q] Statistic task starting...
+2026-10-13 02:32:05.488 21507 21507 DUSS32 :inst:0, stride:7936, bit_depth:0x10
+2026-10-13 02:32:05.488 21507 21507 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x51fe4000, VirAddr:0x72a8dbc000 
+2026-10-13 02:32:05.488 21507 21507 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x5362c000, VirAddr:0x72a7774000 
+2026-10-13 02:32:05.489 21507 21507 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x54c74000, VirAddr:0x72a612c000 
+2026-10-13 02:32:05.489 21507 21507 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x562bc000, VirAddr:0x72a4ae4000 
+2026-10-13 02:32:05.489 21507 21507 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x57904000, VirAddr:0x72a349c000 
+2026-10-13 02:32:05.489 21507 21507 DUSS32 :inst:0, allocated frame_raw buffer size:23363584: PhyAddr:0x58f4c000, VirAddr:0x72a1e54000 
+2026-10-13 02:32:05.489 21507 21507 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34bdf000, VirAddr:0x72acac6000 
+2026-10-13 02:32:05.489 21507 21507 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34c62000, VirAddr:0x72acaba000 
+2026-10-13 02:32:05.489 21507 21507 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34c7e000, VirAddr:0x72aca89000 
+2026-10-13 02:32:05.489 21507 21507 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x34d1a000, VirAddr:0x72aca54000 
+2026-10-13 02:32:05.489 21507 21507 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x3548d000, VirAddr:0x72aca3f000 
+2026-10-13 02:32:05.489 21507 21507 DUSS32 :inst:0, allocated ics buffer size:47104: PhyAddr:0x35499000, VirAddr:0x72aca33000 
+2026-10-13 02:32:05.490 21507 21507 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5a594000, VirAddr:0x72a0c80000 
+2026-10-13 02:32:05.490 21507 21507 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5b768000, VirAddr:0x729faac000 
+2026-10-13 02:32:05.490 21507 21507 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5c93c000, VirAddr:0x729e8d8000 
+2026-10-13 02:32:05.490 21507 21507 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5db10000, VirAddr:0x729d704000 
+2026-10-13 02:32:05.490 21507 21507 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5ece4000, VirAddr:0x729c530000 
+2026-10-13 02:32:05.490 21507 21507 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x5feb8000, VirAddr:0x729b35c000 
+2026-10-13 02:32:05.491 21507 21507 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x6108c000, VirAddr:0x729a188000 
+2026-10-13 02:32:05.491 21507 21507 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x62260000, VirAddr:0x7298fb4000 
+2026-10-13 02:32:05.491 21507 21507 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x63434000, VirAddr:0x7297de0000 
+2026-10-13 02:32:05.491 21507 21507 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x64608000, VirAddr:0x7296c0c000 
+2026-10-13 02:32:05.497 21507 21507 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x657dc000, VirAddr:0x7295a38000 
+2026-10-13 02:32:05.498 21507 21507 DUSS32 :inst:0, allocated stream buffer size:18690867: PhyAddr:0x669b0000, VirAddr:0x7294864000 
+2026-10-13 02:32:05.556 21507 21507 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:32:05.595 21507 21507 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:32:05.640 21507 21507 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:32:05.689 21507 21507 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:32:05.737 21507 21507 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:32:05.779 21507 21507 DUSS32 :inst:0, read  input file, stride 7936, frame_size:23363584, ics_size:47104!!!
+2026-10-13 02:32:05.780 21507 21507 DUSS32 :[moonshadow_enc_start] Starting... (Instance: 0x72aac3e580)
+2026-10-13 02:32:05.780 21507 21507 DUSS32 :moonshadow_enc_start(): profile 2
+2026-10-13 02:32:05.780 21507 21507 DUSS32 :____MSENC:msenc_setup_rate_ctrl():Currently, msenc_setup_ratectrl is not implemented.
+2026-10-13 02:32:05.780 21507 21507 DUSS32 :[moonshadow_enc_start] Start successfully (Instance: 0x72aac3e580)
+2026-10-13 02:32:05.780 21507 21507 DUSS32 :duss_hal_device_start(msenc) success!
+2026-10-13 02:32:05.781 21507 21507 DUSS40 :PID:21507, TID:21507, pPID: 492525471048, Func: 0x0x592ce3f4e0, Affinity: 0x0
+2026-10-13 02:32:05.781 21507 21516 DUSS40 :test_msenc_thread0: PID:21507, TID:21516, PTHREAD:492118095088, POLICY=1073741826, PRIORITY=99
+2026-10-13 02:32:05.781 21507 21516 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 0
+2026-10-13 02:32:05.781 21507 21507 DUSS40 :PID:21507, TID:21507, pPID: 492525471048, Func: 0x0x592ce40128, Affinity: 0x0
+2026-10-13 02:32:05.781 21507 21517 DUSS40 :test_ctrl_thread0: PID:21507, TID:21517, PTHREAD:492117054704, POLICY=1073741826, PRIORITY=99
+2026-10-13 02:32:05.787 21507 21516 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 1
+2026-10-13 02:32:05.793 21507 21516 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 2
+2026-10-13 02:32:05.799 21507 21516 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 3
+2026-10-13 02:32:05.805 21507 21516 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 4
+2026-10-13 02:32:05.811 21507 21516 DUSS32 :____TEST:msenc_encode_thread_func():Start submit frame num: 5
+2026-10-13 02:32:05.817 21507 21516 DUSS32 :____TEST:msenc_encode_thread_func():all frame encoded, enc thread exit...
+2026-10-13 02:32:05.818 21507 21517 DUSS32 :____TEST:msenc_ctrl_thread_func():target_duration:0, total:6, enc thread exited, so ctrl thread exit...
+2026-10-13 02:32:05.821 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:32:05.821 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:32:05.821 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:32:05.829 21507 21507 DUSS32 :____TEST:main(),1446:wait enc thread ending success
+2026-10-13 02:32:05.858 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 1
+2026-10-13 02:32:05.863 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:32:05.863 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:32:05.863 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:32:05.897 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 3
+2026-10-13 02:32:05.902 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:32:05.903 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:32:05.903 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:32:05.937 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 5
+2026-10-13 02:32:05.942 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:32:05.943 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:32:05.943 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:32:05.978 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 7
+2026-10-13 02:32:05.983 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:32:05.983 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:32:05.983 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:32:06.017 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 9
+2026-10-13 02:32:06.023 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer1 data_size: 879484
+2026-10-13 02:32:06.023 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():strm buffer2 data_size: 0
+2026-10-13 02:32:06.023 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():encoding result (0)
+2026-10-13 02:32:06.058 21507 21509 DUSS32 :____TEST:stream_buffer_full_callback():release stream buffer2. idx:: 11
+2026-10-13 02:32:08.834 21507 21507 DUSS32 :[moonshadow_enc_stop] Stop successfully (Instance: 0x72aac3e580)
+2026-10-13 02:32:08.834 21507 21507 DUSS32 :[moonshadow_enc_close] Closing... (Instance: 0x72aac3e580)
+2026-10-13 02:32:08.836 21507 21512 DUSS58 :[Task schedulor - output_packs_buf_q] statistic (Overall): Percentage in cache = 6/1024, Throughput = 26.07(task per second), Waiting Cycle = [0.00/1.67/4.00], Response Time(ms) = [0.05/110.33/200.06] (Guide: [min/avg/max])
+2026-10-13 02:32:08.837 21507 21512 DUSS58 :[Task schedulor - output_packs_buf_q] Statistic task stopped
+2026-10-13 02:32:08.837 21507 21511 DUSS58 :[Task schedulor - input_packs_buf_q] statistic (Overall): Percentage in cache = 6/1024, Throughput = 26.07(task per second), Waiting Cycle = [0.00/1.67/4.00], Response Time(ms) = [0.06/110.32/200.06] (Guide: [min/avg/max])
+2026-10-13 02:32:08.837 21507 21511 DUSS58 :[Task schedulor - input_packs_buf_q] Statistic task stopped
+2026-10-13 02:32:08.837 21507 21507 DUSS32 :____MSENC:moonshadow_enc_close(),802:destroy buffer queue.
+2026-10-13 02:32:08.838 21507 21507 DUSS58 :_looper_handler_destroy, Looper(msenc_hal):_looper_handler_destroy(0x72aa64f000) succeed... 
+2026-10-13 02:32:08.838 21507 21509 DUSS58 :codec_looper_run, Looper(msenc_hal): received NULL msg and exit now...
+2026-10-13 02:32:08.838 21507 21509 DUSS58 :Looper(msenc_hal): flushing the message queue...
+2026-10-13 02:32:08.838 21507 21509 DUSS58 :Looper(msenc_hal): destroying the loop ...
+2026-10-13 02:32:08.838 21507 21510 DUSS58 :[Task schedulor - msenc_hal] statistic (Overall): Percentage in cache = 7/1024, Throughput = 2.29(task per second), Waiting Cycle = [0.00/1.43/4.00], Response Time(ms) = [0.03/94.55/200.04] (Guide: [min/avg/max])
+2026-10-13 02:32:08.838 21507 21510 DUSS58 :[Task schedulor - msenc_hal] Statistic task stopped
+2026-10-13 02:32:08.839 21507 21507 DUSS32 :____MSENC:moonshadow_enc_close():destroy handle and thread
+2026-10-13 02:32:08.839 21507 21507 DUSS58 :[_deinit_inotify, 1388] [DEBUG HUG] inotify stopping...
+2026-10-13 02:32:08.840 21507 21508 DUSS58 :[_inotify_task, 1276] [DEBUG HUG] inotify: inotify_stop
+2026-10-13 02:32:08.844 21507 21507 DUSS58 :[_deinit_inotify, 1417] [DEBUG HUG] inotify stopped...
+2026-10-13 02:32:08.844 21507 21507 DUSS58 :[debug_hub_deinit, 1519] [DEBUG HUG] Released
+2026-10-13 02:32:08.844 21507 21507 DUSS32 :[moonshadow_enc_close] Close successfully (Instance: 0x72aac3e580)
+2026-10-13 02:32:08.846 21507 21507 DUSS32 :duss_hal_device_close(msenc) success!

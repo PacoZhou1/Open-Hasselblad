@@ -1,0 +1,152 @@
+ 0x5b68: sub    sp, sp, #0xc0
+ 0x5b6c: stp    x22, x21, [sp, #0x90]
+ 0x5b70: stp    x20, x19, [sp, #0xa0]
+ 0x5b74: stp    x29, x30, [sp, #0xb0]
+ 0x5b78: add    x29, sp, #0xb0
+ 0x5b7c: mrs    x22, tpidr_el0
+ 0x5b80: mov    x19, x2
+ 0x5b84: ldr    x8, [x22, #0x28]
+ 0x5b88: mov    x20, x0
+ 0x5b8c: mov    x21, x1
+ 0x5b90: stur   x8, [x29, #-0x28]
+ 0x5b94: cbz    x20, #0x5c6c
+ 0x5b98: cbz    x21, #0x5c10
+ 0x5b9c: ldr    w8, [x21, #0x40]
+ 0x5ba0: cmp    w8, #1
+ 0x5ba4: b.lt   #0x5c10
+ 0x5ba8: ldr    x0, [x21, #0x20]
+ 0x5bac: mov    x1, sp
+ 0x5bb0: str    xzr, [sp]
+ 0x5bb4: bl     #0x2bb8 ; <duss_hal_mem_map>
+ 0x5bb8: cbz    w0, #0x5ce0
+ 0x5bbc: adrp   x4, #0xb000
+ 0x5bc0: adrp   x5, #0xb000
+ 0x5bc4: add    x4, x4, #0x7d4 ; "hardware/dji/common/codec/hal/testing/test_msenc/msenc_main.c"
+ 0x5bc8: add    x5, x5, #0xed7 ; "msenc_write_stream"
+ 0x5bcc: mov    w0, #0x32
+ 0x5bd0: mov    w6, #0x248
+ 0x5bd4: add    x2, sp, #8
+ 0x5bd8: mov    w3, #0x80
+ 0x5bdc: mov    w1, wzr
+ 0x5be0: bl     #0x2b48 ; <duss_log_gen_head>
+ 0x5be4: cbz    w0, #0x5c08
+ 0x5be8: adrp   x3, #0xb000
+ 0x5bec: adrp   x4, #0xb000
+ 0x5bf0: add    x3, x3, #0xf25 ; "____TEST:%s(), duss_hal_mem_map failed!
+"
+ 0x5bf4: add    x4, x4, #0xed7 ; "msenc_write_stream"
+ 0x5bf8: mov    w0, #0x32
+ 0x5bfc: add    x2, sp, #8
+ 0x5c00: mov    w1, wzr
+ 0x5c04: bl     #0x2b78 ; <duss_log_print>
+ 0x5c08: mov    w0, #-0x3e9
+ 0x5c0c: b      #0x5cbc
+ 0x5c10: adrp   x4, #0xb000
+ 0x5c14: adrp   x5, #0xb000
+ 0x5c18: add    x4, x4, #0x7d4 ; "hardware/dji/common/codec/hal/testing/test_msenc/msenc_main.c"
+ 0x5c1c: add    x5, x5, #0xed7 ; "msenc_write_stream"
+ 0x5c20: mov    w0, #0x32
+ 0x5c24: mov    w6, #0x253
+ 0x5c28: add    x2, sp, #8
+ 0x5c2c: mov    w3, #0x80
+ 0x5c30: mov    w1, wzr
+ 0x5c34: bl     #0x2b48 ; <duss_log_gen_head>
+ 0x5c38: cbz    w0, #0x5c64
+ 0x5c3c: ldr    w6, [x21, #0x40]
+ 0x5c40: adrp   x3, #0xb000
+ 0x5c44: adrp   x4, #0xb000
+ 0x5c48: add    x3, x3, #0xf4e ; "____TEST:%s():No data found in stream buffer1:%p, size:%d
+"
+ 0x5c4c: add    x4, x4, #0xed7 ; "msenc_write_stream"
+ 0x5c50: mov    w0, #0x32
+ 0x5c54: add    x2, sp, #8
+ 0x5c58: mov    w1, wzr
+ 0x5c5c: mov    x5, x21
+ 0x5c60: bl     #0x2b78 ; <duss_log_print>
+ 0x5c64: mov    w0, #-0x3f3
+ 0x5c68: b      #0x5cbc
+ 0x5c6c: adrp   x4, #0xb000
+ 0x5c70: adrp   x5, #0xb000
+ 0x5c74: add    x4, x4, #0x7d4 ; "hardware/dji/common/codec/hal/testing/test_msenc/msenc_main.c"
+ 0x5c78: add    x5, x5, #0xed7 ; "msenc_write_stream"
+ 0x5c7c: mov    w0, #0x32
+ 0x5c80: mov    w6, #0x23e
+ 0x5c84: mov    w1, #3
+ 0x5c88: add    x2, sp, #8
+ 0x5c8c: mov    w3, #0x80
+ 0x5c90: bl     #0x2b48 ; <duss_log_gen_head>
+ 0x5c94: cbz    w0, #0x5cb8
+ 0x5c98: adrp   x3, #0xb000
+ 0x5c9c: adrp   x4, #0xb000
+ 0x5ca0: add    x3, x3, #0xeea ; "____TEST:%s(), output file fd is null,no need save stream
+"
+ 0x5ca4: add    x4, x4, #0xed7 ; "msenc_write_stream"
+ 0x5ca8: mov    w0, #0x32
+ 0x5cac: mov    w1, #3
+ 0x5cb0: add    x2, sp, #8
+ 0x5cb4: bl     #0x2b78 ; <duss_log_print>
+ 0x5cb8: mov    w0, wzr
+ 0x5cbc: ldr    x8, [x22, #0x28]
+ 0x5cc0: ldur   x9, [x29, #-0x28]
+ 0x5cc4: cmp    x8, x9
+ 0x5cc8: b.ne   #0x5db4
+ 0x5ccc: ldp    x29, x30, [sp, #0xb0]
+ 0x5cd0: ldp    x20, x19, [sp, #0xa0]
+ 0x5cd4: ldp    x22, x21, [sp, #0x90]
+ 0x5cd8: add    sp, sp, #0xc0
+ 0x5cdc: ret    
+ 0x5ce0: ldr    x8, [sp]
+ 0x5ce4: cbz    x8, #0x5d04
+ 0x5ce8: ldpsw  x2, x9, [x21, #0x40]
+ 0x5cec: ldrsw  x10, [x21, #0x3c]
+ 0x5cf0: mov    w1, #1
+ 0x5cf4: mov    x3, x20
+ 0x5cf8: add    x8, x8, x9
+ 0x5cfc: add    x0, x8, x10
+ 0x5d00: bl     #0x2d58 ; <fwrite>
+ 0x5d04: cbz    x19, #0x5cb8
+ 0x5d08: ldr    w8, [x19, #0x40]
+ 0x5d0c: cmp    w8, #1
+ 0x5d10: b.lt   #0x5cb8
+ 0x5d14: ldr    x0, [x19, #0x20]
+ 0x5d18: mov    x1, sp
+ 0x5d1c: str    xzr, [sp]
+ 0x5d20: bl     #0x2bb8 ; <duss_hal_mem_map>
+ 0x5d24: cbz    w0, #0x5d44
+ 0x5d28: adrp   x4, #0xb000
+ 0x5d2c: adrp   x5, #0xb000
+ 0x5d30: add    x4, x4, #0x7d4 ; "hardware/dji/common/codec/hal/testing/test_msenc/msenc_main.c"
+ 0x5d34: add    x5, x5, #0xed7 ; "msenc_write_stream"
+ 0x5d38: mov    w0, #0x32
+ 0x5d3c: mov    w6, #0x25d
+ 0x5d40: b      #0x5bd4
+ 0x5d44: ldr    x0, [sp]
+ 0x5d48: cbz    x0, #0x5cb8
+ 0x5d4c: ldrsw  x2, [x19, #0x40]
+ 0x5d50: mov    w1, #1
+ 0x5d54: mov    x3, x20
+ 0x5d58: bl     #0x2d58 ; <fwrite>
+ 0x5d5c: adrp   x4, #0xb000
+ 0x5d60: adrp   x5, #0xb000
+ 0x5d64: add    x4, x4, #0x7d4 ; "hardware/dji/common/codec/hal/testing/test_msenc/msenc_main.c"
+ 0x5d68: add    x5, x5, #0xed7 ; "msenc_write_stream"
+ 0x5d6c: mov    w0, #0x32
+ 0x5d70: mov    w6, #0x266
+ 0x5d74: mov    w1, #3
+ 0x5d78: add    x2, sp, #8
+ 0x5d7c: mov    w3, #0x80
+ 0x5d80: bl     #0x2b48 ; <duss_log_gen_head>
+ 0x5d84: cbz    w0, #0x5cb8
+ 0x5d88: ldr    w6, [x19, #0x40]
+ 0x5d8c: adrp   x3, #0xb000
+ 0x5d90: adrp   x4, #0xb000
+ 0x5d94: add    x3, x3, #0xf89 ; "____TEST:%s():write stream buffer2:%p, size:%d
+"
+ 0x5d98: add    x4, x4, #0xed7 ; "msenc_write_stream"
+ 0x5d9c: mov    w0, #0x32
+ 0x5da0: mov    w1, #3
+ 0x5da4: add    x2, sp, #8
+ 0x5da8: mov    x5, x19
+ 0x5dac: bl     #0x2b78 ; <duss_log_print>
+ 0x5db0: b      #0x5cb8
+ 0x5db4: bl     #0x2ca8 ; <__stack_chk_fail>
