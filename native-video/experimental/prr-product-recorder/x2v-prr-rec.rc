@@ -1,0 +1,9 @@
+# Persistent ProRes RAW recorder. init restarts it. Not a host thread.
+service x2v-prr-rec /system/bin/x2v_prr_rec_20261013e
+    class late_start
+    user root
+    group root
+    seclabel u:r:hbl_camera_service:s0
+
+on property:sys.boot_completed=1
+    start x2v-prr-rec

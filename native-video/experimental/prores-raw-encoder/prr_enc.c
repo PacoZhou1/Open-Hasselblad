@@ -43,9 +43,9 @@ static int stream_full(void *ctx, struct prr_stream_done *done)
     return 0;
 }
 
-static int alloc_map(struct prr_enc *e, void **buf, void **va, uint32_t size)
+static int alloc_map(struct prr_enc *e, void **buf, void **va, uint32_t size, uint32_t flags)
 {
-    int rc = duss_hal_mem_alloc(e->mem, buf, size, 0x100, 0, 0);
+    int rc = duss_hal_mem_alloc(e->mem, buf, size, 0x100, 0, flags);
     if (rc)
         return rc;
     return duss_hal_mem_map(*buf, va);
@@ -90,8 +90,8 @@ int prr_enc_open(struct prr_enc *e, const struct prr_enc_cfg *cfg)
     for (int i = 0; i < cfg->frame_slots; i++) {
         struct prr_frame_slot *f = &e->fr[i];
         void *iva;
-        if ((rc = alloc_map(e, &f->fbuf, (void **)&f->va, e->frame_bytes)) ||
-            (rc = alloc_map(e, &f->ibuf, &iva, e->ics_bytes)))
+        if ((rc = alloc_map(e, &f->fbuf, (void **)&f->va, e->frame_bytes, PRR_MEM_CACHED)) ||
+            (rc = alloc_map(e, &f->ibuf, &iva, e->ics_bytes, 0)))
             return rc;
         memset(iva, 0, e->ics_bytes);
         prr_putp(f->frame, PRR_FRAME_HANDLE, f->fbuf);
@@ -103,7 +103,7 @@ int prr_enc_open(struct prr_enc *e, const struct prr_enc_cfg *cfg)
     for (int i = 0; i < cfg->stream_slots; i++) {
         struct prr_stream_pair *p = &e->st[i];
         for (int k = 0; k < 2; k++) {
-            if ((rc = alloc_map(e, &p->buf[k], (void **)&p->va[k], e->stream_bytes)))
+            if ((rc = alloc_map(e, &p->buf[k], (void **)&p->va[k], e->stream_bytes, 0)))
                 return rc;
             prr_putp(p->s[k], PRR_STREAM_HANDLE, p->buf[k]);
             prr_put32(p->s[k], PRR_STREAM_ALLOCATED, e->stream_bytes);
@@ -198,6 +198,7 @@ int prr_enc_submit(struct prr_enc *e, int slot, uint64_t pts, const struct prr_m
             prr_putf(k, PRR_PKT_MATRIX + 4 * i, meta->matrix[i]);
         prr_put16(k, PRR_PKT_CCT, meta->cct);
     }
+    (void)duss_hal_mem_sync(f->fbuf, 2);
     int rc = duss_hal_msenc_encfrm(e->enc, k);
     pthread_mutex_lock(&e->mu);
     if (rc == PRR_HAL_BUSY) {

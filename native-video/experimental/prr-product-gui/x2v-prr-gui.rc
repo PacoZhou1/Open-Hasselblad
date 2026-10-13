@@ -1,0 +1,13 @@
+# Own service only. Original camera-gui/camera-service RC remain untouched.
+# Not oneshot: init restarts the supervisor if it exits. It waits for
+# blackbox overlay files, then keeps stock camera-gui replaced.
+service x2v-prr-gui /system/bin/x2v_prr_gui_boot_20261013d
+    class late_start
+    user root
+    group root
+    seclabel u:r:hbl_camera_service:s0
+
+# Do not start on every camera-gui=running. A recording needs stock
+# camera-gui to stay up until the recorder puts the overlay back.
+on property:sys.boot_completed=1
+    start x2v-prr-gui

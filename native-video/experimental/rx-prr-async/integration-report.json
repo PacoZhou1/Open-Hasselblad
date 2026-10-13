@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "scope": "3 delta actual-C ASAN/UBSAN; Grok existing9+TSAN and metadata E lifecycle reused, not rerun",
+  "test_command": "clang -std=c11 -O1 -g -Wall -Wextra -Werror -fsanitize=address,undefined -pthread -DX2V_HOST_TEST -DX2V_SHAPE=2 -DO_DIRECT=0x10000 -I candidate host-test/check_integration.c candidate/dng_prepacked.c candidate/frame_writer.c candidate/metadata_record.c -o host-test/check_integration; cd host-test; ./check_integration",
+  "cases": [
+    "async XMD1 immutable copy + final publish + pixels",
+    "retained backend/join failure prevents CPU free",
+    "240 extreme capacity and short-buffer rejection"
+  ],
+  "sequence_actual_bytes": 315394,
+  "sequence_buffer": 393216,
+  "out_buffer": 409600,
+  "full_ack_component_bound_bytes": 398848,
+  "manifest_max_line_buffer_bytes": 2048,
+  "manifest_limit_bytes": 1048576,
+  "source_pins": {
+    "receiver.c": "747952480b4d0335218957e3d9935382adb5a6d9bad5a35f05b75418f6a6c2d9",
+    "dng_prepacked.c": "5415c83004b8da51276100e6d3684ff849217996a5871cfa89348f8752efcdad",
+    "dng_prepacked.h": "c7b2db8276a2b0e5abe67e6ebbaff7f9eb28ecfcfe7e36a96abc45c0e73e1919",
+    "metadata_record.c": "f61aa529572df507da876371f687f13f78a6e8b483c8f14f7fd360653f617950",
+    "control.c": "699ccad5e50435647702d0cc81e79868044d97d6bcef771994beb4afa7d5e473",
+    "shape.h": "37d475cecd74395fddd56dbb7862f50a95a7b77b267731f52d566ee16672eed8"
+  },
+  "fixture_pins": {
+    "check_integration.c": "320ccaa9e43754d574b19a84a0da154a2189419bdb4155e0a47de17bc2e75360",
+    "prior_check_pipeline.c": "db1cd3f39c4f07f4285166668f2971daa1226585c9ce2a86febec2ba2884ce56",
+    "sequence-extreme.json-fragment": "7b1e007c22371f4be9c9707c3bff305377dbafe832417aa8164f8ca025d3126e"
+  },
+  "inherited_grok_report_sha256": "7fc6f49e763658c2f7c83592abc347757f23aafb3636d226c4d6186e5f7bc38c",
+  "baseline_E_host_report_sha256": "43ea167bdaa1763a39d2695908c7ca2551cfe23c0c1c4c796072ba5def959bc1"
+}

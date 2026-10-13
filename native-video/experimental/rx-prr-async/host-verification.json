@@ -1,0 +1,71 @@
+{
+  "passed": true,
+  "scope": "Actual E metadata_sample.c and metadata_record.c focused host test; fake accessor, no vendor/device execution.",
+  "ASAN_UBSAN": true,
+  "command": [
+    "clang",
+    "-std=c11",
+    "-O1",
+    "-g",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fsanitize=address,undefined",
+    "-I",
+    "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/research/full-fov-pipeline/raw-banding-calibration-investigation/native-frame-metadata-audit/rx18-callback-candidate-e/candidate",
+    "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/research/full-fov-pipeline/raw-banding-calibration-investigation/native-frame-metadata-audit/rx18-callback-candidate-e/focused_sample_test.c",
+    "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/research/full-fov-pipeline/raw-banding-calibration-investigation/native-frame-metadata-audit/rx18-callback-candidate-e/candidate/metadata_sample.c",
+    "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/research/full-fov-pipeline/raw-banding-calibration-investigation/native-frame-metadata-audit/rx18-callback-candidate-e/candidate/metadata_record.c",
+    "-o",
+    "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/research/full-fov-pipeline/raw-banding-calibration-investigation/native-frame-metadata-audit/rx18-callback-candidate-e/host-test/focused_sample_test"
+  ],
+  "stdout": "PASS E: permission1/3 typed copies;0/2 noREAD;writer skip;unknown enum skip;NULL missing;shape/count/null;CPU-owned;XMD1 binding;exact stays0.\n",
+  "stderr": "",
+  "accepted_permissions": [
+    1,
+    3
+  ],
+  "writer_count_required": 0,
+  "checks": [
+    "13 typed owned fields for1/3",
+    "missing tag NULL",
+    "permission0/2 skipped with0queries",
+    "active writer skipped with0queries",
+    "unknown enum skipped",
+    "type/count/null/prefix bounds",
+    "source poison leaves CPU snapshot intact",
+    "same frame/ticket XMD1 binding",
+    "false exact assertion rejected"
+  ],
+  "parent_D_sources_unchanged": true,
+  "only_changed_candidate_source": [
+    "metadata_sample.c"
+  ],
+  "candidate_hashes": {
+    "receiver.c": "157128911dd0896642efd1b16fadb899027ae0c2768ef302fd276a7d68bffeb7",
+    "metadata_binding.h": "c67accd297ea61ea2360441624c8cd6811ce5c87f4a9026f753e2b5553396c5c",
+    "frame_writer.c": "bc3d165755059d2655ca1ec54c7ad9e72cebb5f5f47ca9b8755ff945d9999041",
+    "vendor_hook.c": "e0534654489bb4860c8ed3094b4bdcd77f9d14248b993b9cd2c6105b28c97276",
+    "hook.h": "1d6eb10663219f28dda2250e640b737959ccc232a3496ff7c185bc2713172fcf",
+    "metadata_record.h": "e9be23ac7c10f2e8ccaa7365cdda0fec638eb1e52ec7f643866d063f0f5c07de",
+    "dng_prepacked.h": "743e059740c17eb75e656714a1d838c6f9d2ccfe704d0ecc927699373ba292b4",
+    "copy_provider.h": "66c5336c7b1b5f2390839e9efbae7b1a90d9d30a5888d4e8a8da157e3e57e71e",
+    "shape.h": "3432ff0687c71ebf89cef6324dc8f63e63871049d8596be4720daa555319d92b",
+    "metadata_sample.c": "2f3394ade24671c28b395cc02b9b37331bcb9b35b324ce80464ada372d5b4774",
+    "control.c": "7157b89f809bc1192ca85d4a60a2a183d8b65ae91674deaba7ab1c487230889c",
+    "metadata_entry_pin.h": "10f389d3864f4ddc80097ce59967f9314ddb21072f03db9954129b8683fd4ffa",
+    "metadata_binding.c": "4f92f9261fa86d505026227791c0bc8ea42bb73a7ec004c14ecab621eee7ab3e",
+    "copy_provider_pin.h": "9e60307353b276069945e9dde4398733fdeae0e7917c829fb022a229efbd17ab",
+    "receiver.h": "cb1abd077f1943451d9af262a98b34328436e52e2eb97d0ef883ad6d83c914b8",
+    "metadata_record.c": "f61aa529572df507da876371f687f13f78a6e8b483c8f14f7fd360653f617950",
+    "frame_writer.h": "f42cc96169b4674272008506516860b51bbd1106f2c31ed2dfc374143c3b39a8",
+    "metadata_sample.h": "a1e1d150f584d40e5d6d131bfce3364a7d2b004f4dda283b36b3242d3d238ac8",
+    "profile_provisional.h": "34167f267867c1799f94657d3789d42e05db9421b294318d8794594ef109a23c",
+    "io_provider.h": "37889b77757583b0c8bf8706fdcfbb97ac32a79bfb711e1a228d258afaedea7d",
+    "android_abi_check.c": "4f3514aabec160549cc0f6316a56dcbc3be5f3226c294942cc701ff727c22c4d",
+    "dng_prepacked.c": "176b86f3dfb8523522a957d42c4a6d1035df5dd09810cdc6c4bae5d3d7201cfb"
+  },
+  "full_E_receiver_lifecycle_rerun": false,
+  "inherited_A_lifecycle_evidence": "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/research/full-fov-pipeline/raw-banding-calibration-investigation/native-frame-metadata-audit/rx18-callback-candidate/host-verification.json",
+  "exact_exposure_frame_match_proven": 0
+}

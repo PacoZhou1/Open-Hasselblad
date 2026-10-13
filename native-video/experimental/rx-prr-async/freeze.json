@@ -1,0 +1,102 @@
+{
+  "status": "OFFLINE_FROZEN_ROOT_REVIEW_REQUIRED",
+  "artifact": "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/rx25_async_writer/build/target-token/libx2v_rx25_async_writer_metadata_e_arm.TOKEN_REQUIRED.so",
+  "artifact_sha256": "fe3f59496989a36dcf95444413617d49c62ec0852fc8bce0652da29a942811e2",
+  "bytes": 358376,
+  "token": "GROUP13_MODE21C24_DNG_ASYNC_WRITER_V25",
+  "device_path": "/system/lib64/libx2v_rx25_async_writer_20261013a.so",
+  "compiled_receipt_sha256": "9c46ef5a2b1d2e49fa4ae3292e9e8e51d645204ebb8da0d3a33b889a02f4af90",
+  "candidate_manifest_sha256": "b2930c310c2dd05a5155fae269f724938567e1172424d23c2852583218ae1888",
+  "source_pins": {
+    "native-video/experimental/rx25_async_writer/candidate/receiver.c": "747952480b4d0335218957e3d9935382adb5a6d9bad5a35f05b75418f6a6c2d9",
+    "native-video/experimental/rx25_async_writer/candidate/vendor_hook.c": "e0534654489bb4860c8ed3094b4bdcd77f9d14248b993b9cd2c6105b28c97276",
+    "native-video/experimental/rx25_async_writer/candidate/control.c": "699ccad5e50435647702d0cc81e79868044d97d6bcef771994beb4afa7d5e473",
+    "native-video/experimental/source-receiver-adapter/receiver_v18_dng_isp_proxy/copy_provider.c": "2cbc1d70d585cfa3b223e0fa7fd59966351054b4061817e1028bb8249fedc2ca",
+    "native-video/experimental/source-receiver-adapter/receiver_v18_dng_isp_proxy/io_provider.c": "d9e4391ee44dc0d10186aadda8dd85e6fbee3067c79faef800244cb618e3cbca",
+    "native-video/experimental/rx25_async_writer/candidate/dng_prepacked.c": "5415c83004b8da51276100e6d3684ff849217996a5871cfa89348f8752efcdad",
+    "native-video/experimental/rx25_async_writer/candidate/frame_writer.c": "bc3d165755059d2655ca1ec54c7ad9e72cebb5f5f47ca9b8755ff945d9999041",
+    "native-video/experimental/rx25_async_writer/candidate/android_abi_check.c": "4f3514aabec160549cc0f6316a56dcbc3be5f3226c294942cc701ff727c22c4d",
+    "native-video/experimental/source-receiver-adapter/receiver_v18_dng_isp_proxy/geometry.c": "3933b0bceba1cc664b43ae38e764da0a0721229d2082b81382c63bb6acd8e9f0",
+    "native-video/experimental/source-receiver-adapter/receiver_v18_dng_isp_proxy/color_observer.c": "7a143acc5dff8b1f8fba59aa2192e170e8a5cb8885edc86e8e905554e75565c0",
+    "native-video/experimental/rx25_async_writer/candidate/metadata_sample.c": "2f3394ade24671c28b395cc02b9b37331bcb9b35b324ce80464ada372d5b4774",
+    "native-video/experimental/rx25_async_writer/candidate/metadata_binding.c": "4f92f9261fa86d505026227791c0bc8ea42bb73a7ec004c14ecab621eee7ab3e",
+    "native-video/experimental/rx25_async_writer/candidate/metadata_record.c": "f61aa529572df507da876371f687f13f78a6e8b483c8f14f7fd360653f617950",
+    "native-video/experimental/source-receiver-adapter/android_stat_check.c": "f53b5a1085a478b5a39464c396aa07173cf54b22d941247c63cd98aa8c0f8d39",
+    "native-video/experimental/resident-raw-clip-state/clip_gate.c": "38baa576a9e96c88fbe6edab950c5e667b2185ca51d350b3513c9269b53acccc",
+    "native-video/experimental/source-receiver-adapter/receiver_v18_dng_isp_proxy/target_start_gate.c": "0a634000a794a1af8d51fad15c2e387d11870a5c72898a032bb74a3adaf5c650",
+    "native-video/experimental/source-receiver-adapter/receiver_v18_dng_isp_proxy/target_parser_gate.c": "ad09944cc7da317593dfc72764e968dbacae0f548c88383f9141d5a9c43fcf99",
+    "native-video/experimental/source-receiver-adapter/receiver_v18_dng_isp_proxy/target_topology.c": "13e555ca595ffbcb2c40930ba5bc7817e99bf2223739bf613dac5b9dae81b7ed",
+    "native-video/experimental/source-receiver-adapter/receiver_v18_dng_isp_proxy/graph_binding.c": "dcadbdfe6f07ebbc22e153f0703a76d3d82478b4a47c510e2528daf28841b800",
+    "native-video/experimental/source-receiver-adapter/receiver_v18_dng_isp_proxy/hal_topology_glue.c": "d1dc024e4e9b52f49030bdd5f4553e0977e1124b10b1bd0f60ed43d9865549eb",
+    "native-video/experimental/source-receiver-adapter/receiver_v18_dng_isp_proxy/fps_guard_session.c": "7f7c1f75f84179e2171a89dbe5881d6e573a9975f5a81c3bb78ea7c2ba65e4a8",
+    "native-video/experimental/source-receiver-adapter/receiver_v18_dng_isp_proxy/source_mode21_guard_preload.c": "6368fac2cb94f57f3ad205b868546ac088bfff91f3d3f091e99ad69fea24d00e",
+    "research/full-fov-pipeline/source-adapter/owned_descriptor.c": "60e9cceb6c7b1e8bc7818385dbe7063da736dcf084ad7ef5c93ae911324e9683",
+    "research/full-fov-pipeline/source-adapter/hal_profile_adapter.c": "a2abef48d65c2442cce2feaa33d4588aa4fd4d83861a9278a96bb956e7defc80",
+    "native-video/experimental/source-receiver-adapter/receiver_v18_dng_isp_proxy/target_descriptor.c": "65d703105bf235ae94041d9de269d58f30c8b5051cca0353c6c8639d334752b9"
+  },
+  "own_header_pins": {
+    "native-video/experimental/rx25_async_writer/candidate/metadata_binding.h": "c67accd297ea61ea2360441624c8cd6811ce5c87f4a9026f753e2b5553396c5c",
+    "native-video/experimental/rx25_async_writer/candidate/hook.h": "1d6eb10663219f28dda2250e640b737959ccc232a3496ff7c185bc2713172fcf",
+    "native-video/experimental/rx25_async_writer/candidate/metadata_record.h": "e9be23ac7c10f2e8ccaa7365cdda0fec638eb1e52ec7f643866d063f0f5c07de",
+    "native-video/experimental/rx25_async_writer/candidate/dng_prepacked.h": "c7b2db8276a2b0e5abe67e6ebbaff7f9eb28ecfcfe7e36a96abc45c0e73e1919",
+    "native-video/experimental/rx25_async_writer/candidate/copy_provider.h": "66c5336c7b1b5f2390839e9efbae7b1a90d9d30a5888d4e8a8da157e3e57e71e",
+    "native-video/experimental/rx25_async_writer/candidate/shape.h": "37d475cecd74395fddd56dbb7862f50a95a7b77b267731f52d566ee16672eed8",
+    "native-video/experimental/rx25_async_writer/candidate/metadata_entry_pin.h": "10f389d3864f4ddc80097ce59967f9314ddb21072f03db9954129b8683fd4ffa",
+    "native-video/experimental/rx25_async_writer/candidate/copy_provider_pin.h": "9e60307353b276069945e9dde4398733fdeae0e7917c829fb022a229efbd17ab",
+    "native-video/experimental/rx25_async_writer/candidate/receiver.h": "cb1abd077f1943451d9af262a98b34328436e52e2eb97d0ef883ad6d83c914b8",
+    "native-video/experimental/rx25_async_writer/candidate/frame_writer.h": "f42cc96169b4674272008506516860b51bbd1106f2c31ed2dfc374143c3b39a8",
+    "native-video/experimental/rx25_async_writer/candidate/metadata_sample.h": "a1e1d150f584d40e5d6d131bfce3364a7d2b004f4dda283b36b3242d3d238ac8",
+    "native-video/experimental/rx25_async_writer/candidate/profile_provisional.h": "34167f267867c1799f94657d3789d42e05db9421b294318d8794594ef109a23c",
+    "native-video/experimental/rx25_async_writer/candidate/io_provider.h": "37889b77757583b0c8bf8706fdcfbb97ac32a79bfb711e1a228d258afaedea7d"
+  },
+  "shared_header_pins": {
+    "native-video/experimental/source-receiver-adapter/android_errno.h": "4a1f63dc8cce045b3f78f26ee10ea721d94e6845dae0bacb7631e8814794ff69",
+    "native-video/experimental/source-receiver-adapter/normal_diagnostic/diag_pins.h": "664f568f76ba11dde2b4a8d62287e119e741fe9d28cd719afec517781394adff"
+  },
+  "changed_from_metadata_E": [
+    "control.c",
+    "dng_prepacked.c",
+    "dng_prepacked.h",
+    "receiver.c",
+    "shape.h"
+  ],
+  "byteidentical_E_files": [
+    "android_abi_check.c",
+    "copy_provider.h",
+    "copy_provider_pin.h",
+    "frame_writer.c",
+    "frame_writer.h",
+    "hook.h",
+    "io_provider.h",
+    "metadata_binding.c",
+    "metadata_binding.h",
+    "metadata_entry_pin.h",
+    "metadata_record.c",
+    "metadata_record.h",
+    "metadata_sample.c",
+    "metadata_sample.h",
+    "profile_provisional.h",
+    "receiver.h",
+    "vendor_hook.c"
+  ],
+  "new_scalar_fields": [
+    "frames_submitted",
+    "dng_join_failed"
+  ],
+  "new_record_fields": [
+    "submitted",
+    "pwrite_begin_ns",
+    "pwrite_end_ns",
+    "complete_begin_ns",
+    "complete_end_ns"
+  ],
+  "receipt_version": 16,
+  "metadata_schema": "XMD1 528B/1056hex unchanged",
+  "files": {
+    "build.py": "e676e45f16935e8bfbb8a94650a066def16bc724d863abd2de059d126e210259",
+    "candidate-manifest.json": "b2930c310c2dd05a5155fae269f724938567e1172424d23c2852583218ae1888",
+    "integration-report.json": "aa8733e9ccd1d7794e076b9aef823737d02a92ffb019e6dd454b480f97bb5e9c",
+    "minimal.diff": "83b0bac915daedb3908ea57f6fb042787e313afb9a90d8dca42277e44978a852",
+    "ROOT_HANDOFF.md": "4d390f2e61e2620dbe62424b6a34079799526e14d2a8dc9afd596f36602c4821"
+  }
+}

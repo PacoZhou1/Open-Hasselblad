@@ -19,7 +19,10 @@ struct prr_mov {
 
 int prr_mov_open(struct prr_mov *m, const char *path, int width, int height, const char *fourcc,
                  uint32_t timescale, uint32_t sample_duration);
+int prr_mov_openat(struct prr_mov *m, int dirfd, const char *name, int width, int height,
+                   const char *fourcc, uint32_t timescale, uint32_t sample_duration);
 int prr_mov_write(struct prr_mov *m, const void *a, uint32_t alen, const void *b, uint32_t blen);
+int prr_mov_fsync(struct prr_mov *m);
 int prr_mov_close(struct prr_mov *m);
 
 #endif

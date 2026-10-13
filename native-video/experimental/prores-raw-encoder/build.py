@@ -14,6 +14,8 @@ B = P / 'build'
 TARGETS = {
     'x2v_prr_enc': ['prr_hal.c', 'prr_pre.c', 'prr_mov.c', 'prr_enc.c', 'prr_tool.c', 'start.c'],
     'x2v_prr_dec': ['prr_hal.c', 'prr_dec.c', 'prr_movr.c', 'prr_view.c', 'prr_dec_tool.c', 'start.c'],
+    'x2v_prr_proxy': ['prr_hal.c', 'prr_dec.c', 'prr_movr.c', 'prr_view.c', 'prr_proxy.c', 'start.c'],
+    'x2v_prr_play': ['prr_hal.c', 'prr_dec.c', 'prr_movr.c', 'prr_view.c', 'prr_play.c', 'start.c'],
 }
 HEADERS = ['prr_pre.h', 'prr_mov.h', 'prr_movr.h', 'prr_enc.h', 'prr_dec.h', 'prr_view.h', 'prr_hal.h', 'prr_banding.h']
 LIBS = ['libc.so', 'libm.so', 'libduml_util.so', 'libduml_hal.so', 'libduml_vcodec.so']
@@ -89,6 +91,15 @@ def main():
         receipt['targets'][name] = build(name, sources, log)
         t = receipt['targets'][name]
         print(name, t['sha256'], t['bytes'], t['needed'])
+    shim = B / 'libx2v_inotify_guard.so'
+    obj = B / 'inotify_guard.c.o'
+    run([sys.executable, '-m', 'ziglang', 'cc', '-target', 'aarch64-linux-gnu', '-std=c11', '-O1', '-Wall',
+         '-Wextra', '-Werror', '-fPIC', '-DX2V_ANDROID', '-D_GNU_SOURCE', '-c', P / 'inotify_guard.c', '-o', obj], log)
+    run([sys.executable, '-m', 'ziglang', 'cc', '-target', 'aarch64-linux-gnu', '-shared', '-fPIC',
+         obj, S / 'lib64' / 'libc.so', '-o', shim], log)
+    receipt['targets']['libx2v_inotify_guard.so'] = {'artifact': str(shim.relative_to(R)), 'sha256': sha(shim),
+                                                     'bytes': shim.stat().st_size}
+    print('libx2v_inotify_guard.so', receipt['targets']['libx2v_inotify_guard.so']['sha256'])
     (B / 'receipt.json').write_text(json.dumps(receipt, indent=1) + '\n')
 
 

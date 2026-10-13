@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "checks": [
+    "RAW selected and backend match enables record",
+    "Idle liveview hides status badge",
+    "Catalog accepts PRR mov",
+    "Settings open without idle 视频 badge",
+    "Resolution chooser still works",
+    "Video-mode body keys do not steal focus or override stock keys",
+    "Half press is not consumed",
+    "Shutter full press starts one recording",
+    "Second full press stops",
+    "Recorder returns to idle after stop",
+    "Still mode shutter is not consumed",
+    "Body Playback opens gallery",
+    "Playback is msdec RGB phase, not a VideoItem error",
+    "Play during playback stops the surface",
+    "Drive still has video tile",
+    "Product overlay main.qml compiles as assembled"
+  ],
+  "count": 16,
+  "warnings": [],
+  "camera_access": false,
+  "player": "http://127.0.0.1:50277",
+  "scope": "Desktop product chrome/keys/msdec-RGB surface; no HEVC and no camera",
+  "device_ready": false,
+  "sources": {
+    "main.qml": "bdb39f329946b2b94170bf3cd9738a9e1f0b84d74defea53ce5a7097cae24abe",
+    "DriveAttach.qml": "c4bd62b47749b8f4951e4040ed8fb4f6426a291aeb8b8702ab5822f36f0fcfd1",
+    "PrrFrameSurface.qml": "7940db74e19cb1a001a6f92d6cde884bccc4190c65acb9710e31f0df83502ea6",
+    "ExposureTouchTabs.qml": "fb24421a344301c6f3cd546461d6c4b27227e16cef80d873584e513c14b4d4e9",
+    "BodyKeys.qml": "8474204fc87be7ef0811f4df12cbfa3d49e4f3cb5260ab5b8e429b109ac8f0a4"
+  }
+}

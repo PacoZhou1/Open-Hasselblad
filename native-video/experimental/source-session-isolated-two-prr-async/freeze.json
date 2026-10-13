@@ -1,0 +1,76 @@
+{
+  "mode": "isolated-two-prr-async",
+  "execution_approved": true,
+  "hard_hold": false,
+  "parent_controller_sha256": "fcd6af96bbd21e8916549ede93dc1315d82e7e80c9260418b5126f5b144e0894",
+  "receiver_path": "/system/lib64/libx2v_mode21c24_prr_async_20261013a.so",
+  "receiver_sha256": "8d77747222d106999b15def2edc608bfcaf33431c4a71e7c69effb928b31ae59",
+  "validator_path": "/system/bin/x2v_prr_async_receipt_validate_20261013a",
+  "validator_sha256": "d4ba780241e546bd00fc39127d8d818cebb98d34ea33c041eecce81ec6c3550f",
+  "bound_group": "/uid_0/pid_3102",
+  "token": "GROUP13_MODE21C24_PRR_ASYNC_V1",
+  "fd_contract": {
+    "3": "readonlyBULK/dng directory",
+    "4": "readonlyBULK/dng2 directory",
+    "5": "readonlySP",
+    "6": "readonlyconf",
+    "7": "readonlycommand",
+    "8": "ACK1",
+    "9": "ACK2(parentflock9closed before child reopen)"
+  },
+  "source_budget_ms": 47000,
+  "first_arm_age_s": 24,
+  "second_arm_age_s": 34,
+  "native_watchdog_s": 150,
+  "perclip_trial_s": 2,
+  "perclip_max_frames": 240,
+  "max_DNG_bytes_per_clip": 4026531840,
+  "SSD_before_first_kib": 12582912,
+  "SSD_before_second_kib": 7340032,
+  "frames_directory": [
+    "dng",
+    "dng2"
+  ],
+  "confirmed_files": [
+    "receiver.confirmed",
+    "receiver2.confirmed"
+  ],
+  "runtime_files": {
+    "controller.sh": "aebecedb8cd989ff96c76c718ea5d5c9bc1866e6ffd8e9b5fc083fe92394277b",
+    "bootstrap.sh": "f90d6882da24f1b33fac515e64de17eeb13a3521b41a683d7d4b854d62c8b2d8",
+    "guard.sh": "b98df2501ddc28474aed640e8db7eac05d04a2ac5eb154b7af6a9feea9df5ff5",
+    "imx861bqr_hb722.sp": "594f651e83a6d916e9af64ac96c718038c511c3a419028690982b079a6e729e4",
+    "imx861bqr_hb722.conf": "5558a0fc6a5864c4711a3f0d0fba5b66d775822d6522b599724a9921d0fca3aa"
+  },
+  "integrations_pending": [
+    "in-camera H.264 playback proxy after first live MOV"
+  ],
+  "host_runner_sha256": "521b1dcbf29c3e4a6e85f19396d251adccc0c42c3a6f5e4d9d0e44046d5b9e1c",
+  "oracle_sha256": "e4f1356632c21c931907f47517861d2f5e74e60aa864c84bc3282b79e70439ef",
+  "root_receiver_review_sha256": "4d1e6f91bd68155ecd895ee79bacfdcca2ab5c6cde4b1a86551c6894dbc5eda8",
+  "scope": "Two actual 24fps ProRes RAW HQ short recordings; in-process msenc; stock restore required",
+  "parent_freeze_sha256": "c41273045dbb4e9e09bc847ef318f5d47709a106df464f512a6031cfb817e7d6",
+  "boot_id": "41867eda-01a6-4809-b1d0-ebedba61dce4",
+  "metadata_provider_sha256": "8486fa7ce0b400992358ad92c445ad026a3784703accf2bae8a490ed10b2ff52",
+  "metadata_allowed_permissions": [
+    1,
+    3
+  ],
+  "metadata_writer_count_required": 0,
+  "exact_exposure_frame_match_proven": 0,
+  "prepared_condition": {
+    "lens_cap": "removed_user_confirmed",
+    "scene": "user_confirmed_uniform_wall",
+    "exposure_controlled": false,
+    "purpose": "E native metadata presence and wall baseline"
+  },
+  "root_review": "PRR packet cloned from v25 async; directory/ACK accept clip.mov variable samples; first live may drop if encoder cannot sustain 24fps",
+  "condition": {
+    "lens_cap": "removed_user_confirmed",
+    "scene": "user_confirmed_uniform_wall",
+    "exposure_controlled": false,
+    "purpose": "native metadata presence and flat-wall baseline"
+  },
+  "receiver_artifact": "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/rx-prr-async/build/target-token/libx2v_mode21c24_prr_async_v1.TOKEN_REQUIRED.so",
+  "validator_artifact": "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/native-prr-async-receipt-validator/build/x2v_prr_async_receipt_validate_20261013a"
+}

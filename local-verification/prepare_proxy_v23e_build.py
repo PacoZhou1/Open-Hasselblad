@@ -1,0 +1,14 @@
+from pathlib import Path
+import json,hashlib
+R=Path(__file__).resolve().parents[1];P=R/'native-video/experimental/source-receiver-adapter/receiver_v23e_native_rtp';BASE=P.with_name('receiver_v23b_named_hw_proxy');sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+t=(BASE/'build.py').read_text()
+t=t.replace("C=P.parent.parent/'rx23-bind-fix-candidate';V=P.parent.parent/'raw-hardware-avc-output-candidate';F=P.parent.parent/'raw-proxy-probe-sink'", "C=P;V=P;F=P")
+t=t.replace("sources += [C/n for n in ['named_session.c','recording_reply.c','integration_binding.c']] + [P/'avc_capture.c',F/'probe_sink.c']", "sources += [P/n for n in ['named_session.c','recording_reply.c','integration_binding.c','rtp_route.c']]")
+t=t.replace("src in [C/n for n in ['named_session.c','recording_reply.c','integration_binding.c']]+[F/'probe_sink.c']", "False")
+t=t.replace("'-DX2V_NAMED_EXECUTE=1'", "'-DX2V_NAMED_EXECUTE=1','-DX2V_RTP_ROUTE_EXECUTE=1'")
+t=t.replace("'_ZN15RtpStreamFilter8onBufferEP35cam_cap_encoded_video_result_buffer':'lib64/camera/plugins/libdcam_plugins_AIO.so'", "'dcam_container_set_as_uint64_inner':'lib64/libdcam_base.so'")
+t=t.replace('libx2v_mode21c24_named_hw_proxy_v23b_arm.TOKEN_REQUIRED.so','libx2v_mode21c24_native_rtp_v23e_arm.TOKEN_REQUIRED.so')
+t=t.replace("'token':'GROUP13_MODE21C24_DNG_ISP_PROXY_V18'", "'token':'GROUP13_MODE21C24_DNG_NATIVE_RTP_V23E'")
+t=t.replace("receipt['proxy_callback_probe_limit']=5;", "receipt['proxy_callback_probe_limit']=0;receipt['native_rtp_route']=True;")
+review=json.loads((BASE/'source-review.json').read_text());review.update(production_sources={p.name:sha(p)for p in P.glob('*.c')if not p.name.startswith('check_')},headers={p.name:sha(p)for p in P.glob('*.h')},external_sources={},status='OFFLINE_V23E_NATIVE_RTP_INTEGRATION_SNAPSHOT',baseline_review_sha256=sha(BASE/'source-review.json'))
+(P/'source-review.json').write_text(json.dumps(review,indent=2)+'\n');(P/'build.py').write_text(t);compile(t,str(P/'build.py'),'exec');print(P/'build.py')

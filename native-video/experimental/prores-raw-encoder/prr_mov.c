@@ -94,8 +94,8 @@ static int pwrite_all(int fd, const void *d, size_t n, uint64_t at)
     return 0;
 }
 
-int prr_mov_open(struct prr_mov *m, const char *path, int width, int height, const char *fourcc,
-                 uint32_t timescale, uint32_t sample_duration)
+static int mov_begin(struct prr_mov *m, int fd, int width, int height, const char *fourcc,
+                     uint32_t timescale, uint32_t sample_duration)
 {
     memset(m, 0, sizeof *m);
     m->width = (uint16_t)width;
@@ -103,7 +103,7 @@ int prr_mov_open(struct prr_mov *m, const char *path, int width, int height, con
     memcpy(m->fourcc, fourcc, 4);
     m->timescale = timescale;
     m->sample_duration = sample_duration;
-    m->fd = open(path, O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0644);
+    m->fd = fd;
     if (m->fd < 0)
         return -1;
     struct buf b = { 0 };
@@ -125,6 +125,29 @@ int prr_mov_open(struct prr_mov *m, const char *path, int width, int height, con
         m->fd = -1;
     }
     return rc;
+}
+
+int prr_mov_open(struct prr_mov *m, const char *path, int width, int height, const char *fourcc,
+                 uint32_t timescale, uint32_t sample_duration)
+{
+    int fd = open(path, O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0644);
+    if (fd < 0)
+        return -1;
+    return mov_begin(m, fd, width, height, fourcc, timescale, sample_duration);
+}
+
+int prr_mov_openat(struct prr_mov *m, int dirfd, const char *name, int width, int height,
+                   const char *fourcc, uint32_t timescale, uint32_t sample_duration)
+{
+    int fd = openat(dirfd, name, O_WRONLY | O_CREAT | O_EXCL | O_CLOEXEC, 0644);
+    if (fd < 0)
+        return -1;
+    return mov_begin(m, fd, width, height, fourcc, timescale, sample_duration);
+}
+
+int prr_mov_fsync(struct prr_mov *m)
+{
+    return m->fd < 0 ? -1 : fsync(m->fd);
 }
 
 int prr_mov_write(struct prr_mov *m, const void *a, uint32_t alen, const void *b, uint32_t blen)

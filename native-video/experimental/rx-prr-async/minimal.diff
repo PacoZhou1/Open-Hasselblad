@@ -1,0 +1,518 @@
+--- metadata_E/control.c
++++ RX25/control.c
+@@ -44,7 +44,7 @@
+  /* Exactly one control consumer per loaded receiver. Constructor failure
+   * calls finish only when no consumer thread was created. Keep the receipt
+   * workspace out of the thread stack (about 660 KiB at the 240-frame cap). */
+- static char fields[3072],sequence[327680],provider[768],writer_provider[768],out[344064];if(!x2v_hook_json(h,fields,sizeof fields)||!x2v_receiver_sequence_json(ctx,sequence,sizeof sequence)||!x2v_copy_provider_json(provider,sizeof provider)||!x2v_writer_provider_json(writer_provider,sizeof writer_provider))return EOVERFLOW;
++ static char fields[3072],sequence[393216],provider[768],writer_provider[768],out[409600];if(!x2v_hook_json(h,fields,sizeof fields)||!x2v_receiver_sequence_json(ctx,sequence,sizeof sequence)||!x2v_copy_provider_json(provider,sizeof provider)||!x2v_writer_provider_json(writer_provider,sizeof writer_provider))return EOVERFLOW;
+  int n=snprintf(out,sizeof out,"{\"scope\":\"receiver_cpu_drain\",\"version\":16,\"clip_generation\":%u,\"rc\":%d,\"state\":%d,\"error\":%d,\"drain_attempted\":%d,\"drain_rc\":%d,\"cpu_drained\":%d,\"no_arm\":%d,\"trigger_seen\":%d,\"capture_armed\":%d,\"frame_id\":%u,\"timestamp_native\":%llu,\"callback_active\":%d,\"expired\":%d,\"expected_bytes\":%llu,%s,%s,%s,%s}\n",c->generation,rc,s,error,drain_attempted,drain_rc,x2v_receiver_cpu_drained(ctx),!x2v_receiver_capture_armed(ctx),c->trigger_seen,x2v_receiver_capture_armed(ctx),id,(unsigned long long)stamp,x2v_receiver_callback_active(h),expired||x2v_receiver_expired(ctx),(unsigned long long)X2V_MAX_FRAMES*X2V_DNG_FILE_BYTES,sequence,provider,writer_provider,fields);
+  if(n<=0||(size_t)n>=sizeof out)return EOVERFLOW;
+  size_t pos=0;while(pos<(size_t)n){ssize_t w=write(c->ack_fd,out+pos,(size_t)n-pos);if(w<0&&errno==EINTR)continue;if(w<=0)return w<0?errno:EIO;pos+=(size_t)w;}return fsync(c->ack_fd)?errno:0;
+--- metadata_E/dng_prepacked.c
++++ RX25/dng_prepacked.c
+@@ -5,6 +5,7 @@
+ #include "io_provider.h"
+ #include <errno.h>
+ #include <fcntl.h>
++#include <pthread.h>
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <string.h>
+@@ -24,19 +25,46 @@
+ extern int test_openat(int,const char*,int,mode_t);
+ extern int test_getfl(int);
+ extern int test_close(int);
++extern void test_after_pwrite(void);
++extern void test_during_fsync(void);
++extern int x2v_test_fail_fsync;
++extern int x2v_test_fail_rename;
++extern int x2v_test_fail_append;
++extern int x2v_test_fail_pthread_create;
++extern int x2v_test_fail_pthread_join;
+ #define OPENAT test_openat
+ #define GETFL test_getfl
+ #define CLOSE test_close
++static int take_fail(int *slot){int e=*slot;*slot=0;return e;}
+ #else
+ #define OPENAT openat
+ #define GETFL(fd) fcntl(fd,F_GETFL)
+ #define CLOSE close
++static void test_after_pwrite(void){}
++static void test_during_fsync(void){}
++static int take_fail(int *slot){(void)slot;return 0;}
++static int x2v_test_fail_fsync,x2v_test_fail_rename,x2v_test_fail_append,x2v_test_fail_pthread_create,x2v_test_fail_pthread_join;
+ #endif
+ int x2v_dng_header(const struct dng_bayer_frame*,const struct dng_frame_profile*,unsigned char[4096],uint64_t*);
++/* Ownership: writer fills live/th/fd/dir/identity/names/index/times before
++ * pthread_create. Worker writes only the fields marked worker, and never
++ * mutates c->error/count/close_error/manifest_offset. Writer harvests those
++ * after a successful join (or inline complete on the writer thread). */
++struct pending_io {
++ int fd,live,dir;pthread_t th;
++ int result,close_error,published,file_synced; /* worker */
++ char partial[32],final[32];struct stat identity;
++ uint32_t index,source_id;
++ uint64_t native_ts,admission,write_begin,pwrite_end,file_bytes;
++ uint64_t fsync_begin_ns,fsync_end_ns,complete_begin_ns,complete_end_ns; /* worker */
++ char metadata_hex[XMD_HEX_BYTES+1];unsigned metadata_present;
++ char line[2048];int line_len; /* worker: manifest text, appended after join */
++};
+ struct x2v_dng_sequence {
+- int dir,manifest,direct,error,close_error;uint32_t count;uint64_t manifest_offset,last_stamp;uint32_t last_id;
++ int dir,manifest,direct,error,close_error;uint32_t count,next;uint64_t manifest_offset,last_stamp;uint32_t last_id;
+  _Atomic int stop;uint64_t session_key;_Alignas(4096) unsigned char header[4096];
+  struct stat manifest_identity;
++ struct pending_io pend;
+ };
+ static int bad(int e){return e?e:EIO;}
+ static uint64_t tick(void){struct timespec t;if(clock_gettime(CLOCK_MONOTONIC,&t)||t.tv_sec<0||t.tv_nsec<0||t.tv_nsec>=1000000000)return 0;return (uint64_t)t.tv_sec*1000000000u+t.tv_nsec;}
+@@ -50,8 +78,6 @@
+ #endif
+  return 0;
+ }
+-/* Bounded attempts per <=64KiB write. DIRECT continuation requires every
+- * returned short byte count to preserve 512-byte ptr/offset/rem alignment. */
+ static int put(int fd,const unsigned char*p,size_t n,off_t off,int direct){
+  unsigned calls=0;while(n){if(++calls>32)return ELOOP;
+   if(direct&&(((uintptr_t)p|n|(uint64_t)off)&511u))return EINVAL;
+@@ -95,7 +121,6 @@
+  uintptr_t a=(uintptr_t)source,b=(uintptr_t)s->data;if(a>UINTPTR_MAX-span||b>UINTPTR_MAX-s->span||(a<b+s->span&&b<a+span))return EINVAL;
+  int expected=X2V_DNG_SLOT_FREE;if(!atomic_compare_exchange_strong_explicit(&s->state,&expected,X2V_DNG_SLOT_PREPARING,memory_order_acq_rel,memory_order_acquire))return EBUSY;
+  int e=0;
+- /* ONLY immutable layout and exclusively claimed slot, NEVER writer context. */
+  if(!s->layout||s->layout->validated!=LAYOUT_VALIDATED||memcmp(s->data,s->layout->header,4096))e=EINVAL;
+  if(!e&&(t->session<s->ticket.session||(t->session==s->ticket.session&&t->generation<=s->ticket.generation)))e=ESTALE;
+  for(unsigned y=0;!e&&y<X2V_DNG_HEIGHT;y++)e=x2v_copy_bytes(s->data+4096+(size_t)y*7840u,(const unsigned char*)source+(size_t)y*X2V_DNG_STRIDE,7840);
+@@ -106,7 +131,7 @@
+  if(!out||*out||!session||layout_check(l))return EINVAL;
+  struct stat st;if(fstat(dir,&st))return bad(errno);if(!S_ISDIR(st.st_mode))return EINVAL;
+  int e=x2v_writer_provider_bind();if(e)return e;
+- struct x2v_dng_sequence*c=NULL;if(posix_memalign((void**)&c,4096,sizeof *c))return ENOMEM;memset(c,0,sizeof *c);c->dir=c->manifest=-1;c->direct=1;c->session_key=session;
++ struct x2v_dng_sequence*c=NULL;if(posix_memalign((void**)&c,4096,sizeof *c))return ENOMEM;memset(c,0,sizeof *c);c->dir=c->manifest=-1;c->direct=1;c->session_key=session;c->pend.fd=-1;
+  memcpy(c->header,l->header,4096);
+  c->dir=fcntl(dir,F_DUPFD_CLOEXEC,10);if(c->dir<0){e=bad(errno);goto fail;}
+  c->manifest=OPENAT(c->dir,"segment.partial.jsonl",O_CREAT|O_EXCL|O_RDWR|O_CLOEXEC|O_NOFOLLOW,0600);if(c->manifest<0){e=bad(errno);goto fail;}
+@@ -117,19 +142,98 @@
+ fail:
+  if(c->manifest>=0&&CLOSE(c->manifest))e=bad(errno);if(c->dir>=0&&CLOSE(c->dir))e=bad(errno);free(c);return e;
+ }
++static int complete_one(struct x2v_dng_sequence*c,struct pending_io*p){
++ /* Writer or worker. Writes ONLY pending worker fields. c is unused on purpose. */
++ (void)c;
++ int e=0;if(!p)return EINVAL;
++ p->result=0;p->close_error=0;p->published=0;p->file_synced=0;p->line_len=0;
++ p->complete_begin_ns=tick();p->fsync_begin_ns=0;p->fsync_end_ns=0;
++ if(p->fd<0){p->result=EINVAL;p->complete_end_ns=tick();return EINVAL;}
++ test_during_fsync();
++ p->fsync_begin_ns=tick();
++ int inj=take_fail(&x2v_test_fail_fsync);
++ if(inj)e=inj;else if(x2v_writer_fsync(p->fd))e=bad(errno);
++ p->fsync_end_ns=tick();
++ if(!e)p->file_synced=1;
++ struct stat identity;
++ if(!e&&fstat(p->fd,&identity))e=bad(errno);
++ if(!e&&((uint64_t)identity.st_size!=p->file_bytes||identity.st_nlink!=1||!same(&p->identity,&identity)))e=EIO;
++ if(CLOSE(p->fd)){p->close_error=bad(errno);if(!e)e=p->close_error;}
++ p->fd=-1;
++ inj=take_fail(&x2v_test_fail_rename);
++ if(!e&&inj)e=inj;
++ if(!e)e=publish(p->dir,p->partial,p->final,&identity);
++ if(!e)p->published=1;
++ if(!e){
++  /* write_end_ns keeps the baseline meaning: after fsync, before close/rename. */
++  int k=snprintf(p->line,sizeof p->line,"{\"index\":%u,\"file\":\"%s\",\"source_id\":%u,\"native_timestamp_raw\":%llu,\"cpu_admission_ns\":%llu,\"write_begin_ns\":%llu,\"pwrite_end_ns\":%llu,\"write_end_ns\":%llu,\"fsync_begin_ns\":%llu,\"fsync_end_ns\":%llu,\"file_bytes\":%llu,\"pixel_bytes\":23096640,\"file_fsync\":%s,\"file_published\":true,\"namespace_durable\":false}\n",p->index,p->final,p->source_id,(unsigned long long)p->native_ts,(unsigned long long)p->admission,(unsigned long long)p->write_begin,(unsigned long long)p->pwrite_end,(unsigned long long)p->fsync_end_ns,(unsigned long long)p->fsync_begin_ns,(unsigned long long)p->fsync_end_ns,(unsigned long long)p->file_bytes,p->file_synced?"true":"false");
++  if(k<=0||(size_t)k>=sizeof p->line)e=EOVERFLOW;
++  else{if(p->metadata_present){
++   if(k<2||p->line[k-2]!='}')e=EPROTO;
++   else{int tail=snprintf(p->line+k-2,sizeof p->line-(size_t)(k-2),",\"native_metadata_hex_v1\":\"%s\"}\n",p->metadata_hex);
++    if(tail<=0||(size_t)tail>=sizeof p->line-(size_t)(k-2))e=EOVERFLOW;else k=k-2+tail;}
++  }if(!e)p->line_len=k;}
+ 
++ }
++ p->complete_end_ns=tick();p->result=e;return e;
++}
++static void *complete_thread(void *arg){
++ struct x2v_dng_sequence*c=arg;complete_one(c,&c->pend);return NULL;
++}
++static int harvest(struct x2v_dng_sequence*c,struct x2v_dng_result*r,int as_previous){
++ struct pending_io*p=&c->pend;
++ if(p->close_error&&!c->close_error)c->close_error=p->close_error;
++ int e=p->result;
++ if(!e&&p->line_len>0){
++  int inj=take_fail(&x2v_test_fail_append);
++  if(inj)e=inj;else e=append(c,p->line,(size_t)p->line_len);
++  p->line_len=0;
++ }
++ if(e&&!c->error)c->error=e;
++ if(!e)c->count++;
++ p->result=e;
++ if(r){
++  if(as_previous){
++   r->previous_joined=1;r->previous_published=p->published;r->previous_file_synced=p->file_synced;
++   r->previous_index=p->index;r->previous_fsync_begin_ns=p->fsync_begin_ns;r->previous_fsync_end_ns=p->fsync_end_ns;
++   r->previous_complete_begin_ns=p->complete_begin_ns;r->previous_complete_end_ns=p->complete_end_ns;
++  }else{
++   r->published=p->published;r->file_synced=p->file_synced;
++   r->fsync_begin_ns=p->fsync_begin_ns;r->fsync_end_ns=p->fsync_end_ns;
++   r->complete_begin_ns=p->complete_begin_ns;r->complete_end_ns=p->complete_end_ns;
++  }
++ }
++ return e;
++}
++static int join_pending(struct x2v_dng_sequence*c,struct x2v_dng_result*r){
++ if(c->pend.live){
++  int inj=take_fail(&x2v_test_fail_pthread_join);
++  if(inj)return inj;
++  int j=pthread_join(c->pend.th,NULL);
++  if(j)return bad(j); /* live stays 1; worker may still be in complete_one */
++  c->pend.live=0;return harvest(c,r,1);
++ }
++ if(c->pend.fd>=0){complete_one(c,&c->pend);return harvest(c,r,1);}
++ return 0;
++}
++static int queue_complete(struct x2v_dng_sequence*c,struct x2v_dng_result*r){
++ /* pthread_create inject is sticky while non-zero so a clip can fall back
++  * entirely to inline complete. Join inject stays one-shot (take_fail). */
++ int inj=x2v_test_fail_pthread_create;int e=inj?inj:pthread_create(&c->pend.th,NULL,complete_thread,c);
++ if(e){
++  complete_one(c,&c->pend);r->complete_inline=1;r->publish_queued=1;return harvest(c,r,0);
++ }
++ c->pend.live=1;r->publish_queued=1;r->published=0;r->file_synced=0;r->complete_inline=0;return 0;
++}
+ static int put_prepacked_inner(struct x2v_dng_sequence*c,struct x2v_dng_prepacked_slot*slot,const struct x2v_dng_ticket*ticket,const struct x2v_dng_frame_time*t,struct x2v_dng_result*r,const struct xmd_record*metadata){
+  if(!c||!r)return EINVAL;memset(r,0,sizeof *r);
+  if(!slot_shape(slot)||!ticket||!ticket->session||!ticket->generation||!t)return c->error=EINVAL;
+  if(c->error)return c->error;if(atomic_load_explicit(&c->stop,memory_order_acquire))return ECANCELED;
+- if(c->count>=X2V_DNG_MAX_FRAMES)return EFBIG;
+- if(!t->source_id||!t->native_timestamp_raw||!t->cpu_admission_ns||(c->count&&(t->source_id<=c->last_id||t->native_timestamp_raw<=c->last_stamp)))return c->error=EINVAL;
++ if(c->next>=X2V_DNG_MAX_FRAMES)return EFBIG;
++ if(!t->source_id||!t->native_timestamp_raw||!t->cpu_admission_ns||(c->next&&(t->source_id<=c->last_id||t->native_timestamp_raw<=c->last_stamp)))return c->error=EINVAL;
+  char metadata_hex[XMD_HEX_BYTES+1]={0};
+- if(metadata){
+-  int me=xmd_record_matches(metadata,ticket->session,ticket->generation,c->count,t->source_id,t->native_timestamp_raw);
+-  if(!me)me=xmd_record_hex(metadata,metadata_hex,sizeof metadata_hex);
+-  if(me)return c->error=me;
+- }
++ if(metadata){int me=xmd_record_matches(metadata,ticket->session,ticket->generation,c->next,t->source_id,t->native_timestamp_raw);
++  if(!me)me=xmd_record_hex(metadata,metadata_hex,sizeof metadata_hex);if(me)return c->error=me;}
+  int ready=X2V_DNG_SLOT_READY;
+  if(!atomic_compare_exchange_strong_explicit(&slot->state,&ready,X2V_DNG_SLOT_WRITING,memory_order_acq_rel,memory_order_acquire))return c->error=EBUSY;
+  int slot_error=0;
+@@ -138,49 +242,64 @@
+  for(unsigned i=0;!slot_error&&i<192;i++)if(slot->data[4096+X2V_DNG_PIXEL_BYTES+i])slot_error=EINVAL;
+  if(slot_error){atomic_store_explicit(&slot->state,X2V_DNG_SLOT_FAILED,memory_order_release);return c->error=slot_error;}
+  uint64_t start=tick();if(!start){atomic_store(&slot->state,X2V_DNG_SLOT_FAILED);return c->error=EIO;}
+- char partial[32],final[32];int n=snprintf(partial,sizeof partial,"frame-%06u.partial",c->count),m=snprintf(final,sizeof final,"frame-%06u.dng",c->count);
++ uint32_t index=c->next;
++ char partial[32],final[32];int n=snprintf(partial,sizeof partial,"frame-%06u.partial",index),m=snprintf(final,sizeof final,"frame-%06u.dng",index);
+  if(n<0||m<0||(size_t)n>=sizeof partial||(size_t)m>=sizeof final){atomic_store(&slot->state,X2V_DNG_SLOT_FAILED);return c->error=EOVERFLOW;}
++ r->pwrite_begin_ns=tick();
+  int fd=OPENAT(c->dir,partial,O_CREAT|O_EXCL|O_RDWR|O_CLOEXEC|O_NOFOLLOW|(c->direct?O_DIRECT:0),0600);
+- if(fd<0){atomic_store(&slot->state,X2V_DNG_SLOT_FAILED);return c->error=bad(errno);}int e=check_fd(fd,c->direct);struct stat identity;
+- if(!e&&fstat(fd,&identity))e=bad(errno);
+- if(!e)e=put(fd,slot->data,X2V_DNG_FILE_BYTES,0,1);
+- if(!e&&x2v_writer_fsync(fd))e=bad(errno);if(!e)r->file_synced=1;
+- if(!e&&fstat(fd,&identity))e=bad(errno);
++ int e=0;struct stat identity;
++ if(fd<0)e=bad(errno);else{
++  e=check_fd(fd,c->direct);
++  if(!e&&fstat(fd,&identity))e=bad(errno);
++  if(!e)e=put(fd,slot->data,X2V_DNG_FILE_BYTES,0,1);
++  test_after_pwrite();
++  if(!e&&fstat(fd,&identity))e=bad(errno);
++ }
++ r->pwrite_end_ns=tick();
+  uint64_t expected=c->direct?X2V_DNG_FILE_BYTES:4096u+23096640u;
+- if(!e&&((uint64_t)identity.st_size!=expected||identity.st_nlink!=1))e=EIO;
+- r->index=c->count;r->source_id=t->source_id;r->wall_begin_ns=start;r->wall_end_ns=tick();r->pixel_bytes=23096640u;r->file_bytes=expected;
+- if(!r->wall_end_ns||r->wall_end_ns<start){if(!e)e=EIO;}
+- if(CLOSE(fd)){c->close_error=bad(errno);if(!e)e=c->close_error;}
+- if(!e)e=publish(c->dir,partial,final,&identity);
+- if(!e){r->published=1;c->count++;c->last_id=t->source_id;c->last_stamp=t->native_timestamp_raw;
+-  char line[2048];int k=snprintf(line,sizeof line,"{\"index\":%u,\"file\":\"%s\",\"source_id\":%u,\"native_timestamp_raw\":%llu,\"cpu_admission_ns\":%llu,\"write_begin_ns\":%llu,\"write_end_ns\":%llu,\"file_bytes\":%llu,\"pixel_bytes\":23096640,\"file_fsync\":true,\"namespace_durable\":false}\n",r->index,final,t->source_id,(unsigned long long)t->native_timestamp_raw,(unsigned long long)t->cpu_admission_ns,(unsigned long long)start,(unsigned long long)r->wall_end_ns,(unsigned long long)expected);
+-  if(k<=0||(size_t)k>=sizeof line)e=EOVERFLOW;
+-  else{
+-   if(metadata){
+-    /* Writer-only extension. Header, RAW/DNG bytes, legacy ACK16 and FD contract unchanged. */
+-    if(k<2||line[k-2]!='}')e=EPROTO;
+-    else{
+-     int tail=snprintf(line+k-2,sizeof line-(size_t)(k-2),",\"native_metadata_hex_v1\":\"%s\"}\n",metadata_hex);
+-     if(tail<=0||(size_t)tail>=sizeof line-(size_t)(k-2))e=EOVERFLOW;else k=k-2+tail;
+-    }
+-   }
+-   if(!e)e=append(c,line,(size_t)k);
+-  }
+- }
+- if(!r->wall_end_ns||r->wall_end_ns<start){if(!e)e=EIO;}
+- if(e)c->error=e;atomic_store_explicit(&slot->state,e?X2V_DNG_SLOT_FAILED:X2V_DNG_SLOT_FREE,memory_order_release);return e;
+-}
+-int x2v_dng_sequence_put_prepacked(struct x2v_dng_sequence*c,struct x2v_dng_prepacked_slot*s,const struct x2v_dng_ticket*k,const struct x2v_dng_frame_time*t,struct x2v_dng_result*r){
+- return put_prepacked_inner(c,s,k,t,r,NULL);
+-}
+-int x2v_dng_sequence_put_prepacked_metadata(struct x2v_dng_sequence*c,struct x2v_dng_prepacked_slot*s,const struct x2v_dng_ticket*k,const struct x2v_dng_frame_time*t,struct x2v_dng_result*r,const struct xmd_record*m){
+- if(!m)return EINVAL;return put_prepacked_inner(c,s,k,t,r,m);
+-}
++ if(!e&&fd>=0&&((uint64_t)identity.st_size!=expected||identity.st_nlink!=1))e=EIO;
++ r->index=index;r->source_id=t->source_id;r->wall_begin_ns=start;r->pixel_bytes=23096640u;r->file_bytes=expected;
++ if(!e)r->pwrite_complete=1;
++ if(e){
++  if(fd>=0){int ce=CLOSE(fd)?bad(errno):0;if(ce&&!c->pend.live){c->close_error=ce;if(!e)e=ce;}}
++  r->wall_end_ns=tick();c->error=e;atomic_store_explicit(&slot->state,X2V_DNG_SLOT_FAILED,memory_order_release);return e;
++ }
++ r->join_begin_ns=tick();
++ int je=join_pending(c,r);
++ r->join_end_ns=tick();
++ if(je){
++  if(CLOSE(fd)){int ce=bad(errno);if(!c->pend.live){c->close_error=ce;if(!c->error)c->error=ce;}}
++  r->wall_end_ns=tick();if(!c->error)c->error=je;atomic_store_explicit(&slot->state,X2V_DNG_SLOT_FAILED,memory_order_release);return c->error;
++ }
++ memset(&c->pend,0,sizeof c->pend);c->pend.fd=fd;c->pend.dir=c->dir;c->pend.identity=identity;c->pend.index=index;c->pend.source_id=t->source_id;
++ c->pend.native_ts=t->native_timestamp_raw;c->pend.admission=t->cpu_admission_ns;c->pend.write_begin=start;c->pend.pwrite_end=r->pwrite_end_ns;c->pend.file_bytes=expected;
++ if(metadata){memcpy(c->pend.metadata_hex,metadata_hex,sizeof metadata_hex);c->pend.metadata_present=1;}
++ memcpy(c->pend.partial,partial,sizeof partial);memcpy(c->pend.final,final,sizeof final);
++ int qe=queue_complete(c,r);
++ if(qe){
++  r->wall_end_ns=tick();if(!c->error)c->error=qe;atomic_store_explicit(&slot->state,X2V_DNG_SLOT_FAILED,memory_order_release);return qe;
++ }
++ c->next=index+1;c->last_id=t->source_id;c->last_stamp=t->native_timestamp_raw;
++ r->wall_end_ns=tick();
++ if(!r->wall_end_ns||r->wall_end_ns<start){c->error=EIO;atomic_store_explicit(&slot->state,X2V_DNG_SLOT_FAILED,memory_order_release);return EIO;}
++ atomic_store_explicit(&slot->state,X2V_DNG_SLOT_FREE,memory_order_release);return 0;
++}
++int x2v_dng_sequence_put_prepacked(struct x2v_dng_sequence*c,struct x2v_dng_prepacked_slot*s,const struct x2v_dng_ticket*k,const struct x2v_dng_frame_time*t,struct x2v_dng_result*r){return put_prepacked_inner(c,s,k,t,r,NULL);}
++int x2v_dng_sequence_put_prepacked_metadata(struct x2v_dng_sequence*c,struct x2v_dng_prepacked_slot*s,const struct x2v_dng_ticket*k,const struct x2v_dng_frame_time*t,struct x2v_dng_result*r,const struct xmd_record*m){if(!m)return EINVAL;return put_prepacked_inner(c,s,k,t,r,m);}
+ void x2v_dng_sequence_request_stop(struct x2v_dng_sequence*c){if(c)atomic_store_explicit(&c->stop,1,memory_order_release);}
+ int x2v_dng_sequence_finish(struct x2v_dng_sequence **owner,struct x2v_dng_finish*r){
+  if(!owner||!*owner||!r)return EINVAL;struct x2v_dng_sequence*c=*owner;memset(r,0,sizeof *r);atomic_store(&c->stop,1);
+- int e=c->error;
+- char summary[160];int n=snprintf(summary,sizeof summary,"{\"end\":true,\"published_frames\":%u,\"error\":%d}\n",c->count,e);
++ r->submitted_frames=c->next;
++ struct x2v_dng_result prev={0};
++ int e=join_pending(c,&prev);
++ if(c->pend.live){
++  r->join_failed=1;r->error=e?e:EAGAIN;r->cpu_released=0;r->published_frames=c->count;r->close_error=c->close_error;return r->error;
++ }
++ if(!e)e=c->error;
++ r->last_index=prev.previous_index;r->last_published=prev.previous_published;r->last_file_synced=prev.previous_file_synced;
++ r->last_fsync_begin_ns=prev.previous_fsync_begin_ns;r->last_fsync_end_ns=prev.previous_fsync_end_ns;
++ r->last_complete_begin_ns=prev.previous_complete_begin_ns;r->last_complete_end_ns=prev.previous_complete_end_ns;
++ char summary[192];int n=snprintf(summary,sizeof summary,"{\"end\":true,\"published_frames\":%u,\"submitted_frames\":%u,\"error\":%d}\n",c->count,c->next,e);
+  if(n<=0||(size_t)n>=sizeof summary){if(!e)e=EOVERFLOW;}else{int z=append(c,summary,(size_t)n);if(!e)e=z;}
+  if(x2v_writer_fsync(c->manifest)&&!e)e=bad(errno);
+  struct stat ms;if(fstat(c->manifest,&ms)){if(!e)e=bad(errno);}else if(!same(&c->manifest_identity,&ms)){if(!e)e=ESTALE;}
+--- metadata_E/dng_prepacked.h
++++ RX25/dng_prepacked.h
+@@ -1,6 +1,7 @@
+ #ifndef X2V_DNG_PREPACKED_H
+ #define X2V_DNG_PREPACKED_H
+ #include "frame_writer.h"
++struct xmd_record;
+ #include <stdatomic.h>
+ #include <stddef.h>
+ #include <stdint.h>
+@@ -28,48 +29,42 @@
+  _Atomic int state;struct x2v_dng_ticket ticket;uint32_t initialized;
+ };
+ struct x2v_dng_frame_time {uint32_t source_id;uint64_t native_timestamp_raw,cpu_admission_ns;};
+-struct x2v_dng_result {uint32_t index,source_id;uint64_t file_bytes,pixel_bytes,wall_begin_ns,wall_end_ns;int published,file_synced;};
+-struct x2v_dng_finish {uint32_t published_frames;int error,manifest_published,directory_synced,cpu_released,close_error;};
++struct x2v_dng_result {
++ uint32_t index,source_id;uint64_t file_bytes,pixel_bytes,wall_begin_ns,wall_end_ns;
++ int published,file_synced,pwrite_complete,publish_queued,complete_inline;
++ uint64_t pwrite_begin_ns,pwrite_end_ns,join_begin_ns,join_end_ns;
++ uint64_t fsync_begin_ns,fsync_end_ns,complete_begin_ns,complete_end_ns;
++ int previous_joined,previous_published,previous_file_synced;
++ uint32_t previous_index;
++ uint64_t previous_fsync_begin_ns,previous_fsync_end_ns,previous_complete_begin_ns,previous_complete_end_ns;
++};
++struct x2v_dng_finish {
++ uint32_t published_frames,submitted_frames,last_index;
++ int error,manifest_published,directory_synced,cpu_released,close_error,join_failed,last_published,last_file_synced;
++ uint64_t last_fsync_begin_ns,last_fsync_end_ns,last_complete_begin_ns,last_complete_end_ns;
++};
+ struct x2v_dng_sequence;
+-struct xmd_record;
+-/* Explicit profile only; acknowledgement_provisional must1 and model contains
+- * UNCALIBRATED. Builds exact baseline header and binds pinned libc memcpy,
+- * never runs in borrowed callback. No vendor API. */
+ int x2v_dng_layout_init(struct x2v_dng_layout *,const struct dng_frame_profile *,
+                         int acknowledge_provisional);
+-/* CPU base4096 aligned, span FILE_BYTES..SLOT_STRIDE. Header/tail preset.
+- * Extra512 pool bytes beyond FILE_BYTES are NEVER sent to output. */
+ int x2v_dng_prepacked_slot_init(struct x2v_dng_prepacked_slot *,
+  const struct x2v_dng_layout *,void *data,size_t span);
+-/* Callback-safe CPU path: no writer context, syscall, loader, stdio or native
+- * object. Only immutable layout, owned slot atomic state, source span and
+- * cached Bionic memcpy. External RX reservation/lifetime gates remain required.
+- * ticket session/generation are immutable values from RX reservation.
+- * READY is internal CPU completion; RX must finish HAL unmap before its own outer SLOT_READY/publication.
+- * Writer may run while original callback remains active; outer control must
+- * retain hook lease until original returns and wait lease0 before pool/ctx free. */
+ int x2v_dng_prepare_prepacked(struct x2v_dng_prepacked_slot *,
+  const void *source,size_t source_span,const struct x2v_dng_ticket *);
+-/* One CPU writer only. begin dup retains caller's unique directory FD.
+- * session_key nonzero distinguishes each resident clip. Only immutable header
+- * copied from layout; prepare never reads this mutable context. */
+ int x2v_dng_sequence_begin_prepacked(struct x2v_dng_sequence **,int directory_fd,
+  const struct x2v_dng_layout *,uint64_t session_key);
+-/* Matches exact ticket/session, READY + immutable header, requires DIRECT512,
+- * one normal large pwrite(FILE_BYTES), no image copy. Bounded32 short attempts.
+- * Slot stays read-only WRITING until IO/close/publish/manifest completed. */
++/* Writer thread only. 1-deep completion: pwrite this frame, join previous
++ * fsync/close/rename/manifest, spawn this frame's completion.
++ * published=1 only after THIS frame was renamed. publish_queued=1 means
++ * pwrite succeeded and completion is running or finished inline.
++ * file_synced=1 only after THIS frame fsync. Previous durability is in
++ * previous_published after a successful join. Finish must join the last
++ * frame; join failure keeps the context (cpu_released=0, owner not NULLed). */
+ int x2v_dng_sequence_put_prepacked(struct x2v_dng_sequence *,
+  struct x2v_dng_prepacked_slot *,const struct x2v_dng_ticket *,
+  const struct x2v_dng_frame_time *,struct x2v_dng_result *);
+-/* Same writer path with a validated CPU-owned metadata record; old API unchanged. */
+ int x2v_dng_sequence_put_prepacked_metadata(struct x2v_dng_sequence *,
+  struct x2v_dng_prepacked_slot *,const struct x2v_dng_ticket *,
+  const struct x2v_dng_frame_time *,struct x2v_dng_result *,const struct xmd_record *);
+-/* Do NOT call request_stop before draining already-admitted RX slots.
+- * Caller ensures context remains alive while this function runs. */
+ void x2v_dng_sequence_request_stop(struct x2v_dng_sequence *);
+-/* One writer/retired owner only; no concurrent prepare/put/stop using this
+- * context/layout. Frees backend context, NOT caller slot or native buffers.
+- * cpu_released means context free; close_error/error independently matter. */
+ int x2v_dng_sequence_finish(struct x2v_dng_sequence **,struct x2v_dng_finish *);
+ #endif
+--- metadata_E/receiver.c
++++ RX25/receiver.c
+@@ -30,8 +30,8 @@
+ struct record {
+  struct xmd_record native_metadata; /* immutable after outer copied release */
+  _Atomic uint32_t id; _Atomic uint64_t stamp,generation,admission,copy_begin,copy_end,write_begin,write_end;
+- _Atomic unsigned slot,bytes,written,cpu_valid,cpu_wall_consistent,src_mod64,dst_mod64,mem_flags;
+- _Atomic uint64_t cpu_begin,cpu_end,write_cpu_begin,write_cpu_end,write_offset;
++ _Atomic unsigned slot,bytes,written,submitted,cpu_valid,cpu_wall_consistent,src_mod64,dst_mod64,mem_flags;
++ _Atomic uint64_t cpu_begin,cpu_end,write_cpu_begin,write_cpu_end,write_offset,pwrite_begin,pwrite_end,complete_begin,complete_end;
+  _Atomic unsigned write_cpu_valid,write_cpu_consistent,write_src512,write_src4096,write_calls;
+  _Atomic int mem_flags_rc,mem_fd_rc,mem_fd;
+ };
+@@ -49,7 +49,7 @@
+ _Atomic uint64_t generations[X2V_RING_SLOTS];
+ _Atomic int state,failure,sequence_error,cpu_drained,lifecycle_failure,stop_reason;
+ _Atomic unsigned admission_gate;
+-_Atomic unsigned copy_active,cancel_requested,abort_requested,capture_armed,reserved,copied,written,writer_exited,expired,admission_closed,drop_full,drop_busy,fsync_ok;
++_Atomic unsigned copy_active,cancel_requested,abort_requested,capture_armed,reserved,copied,written,submitted,writer_exited,expired,admission_closed,drop_full,drop_busy,fsync_ok;
+ _Atomic uint64_t bytes_written,arm_ns,admission_deadline_ns,closed_ns,writer_done_ns;
+ uint64_t deadline_ns,constructor_start_ns,prefault_bytes;
+ uint8_t *cpu_copy;int out_fd,thread_exists;pthread_t io_thread;
+@@ -80,6 +80,11 @@
+ }
+ void x2v_receiver_poll(struct x2v_receiver *ctx){(void)check_time(ctx);}
+ static void capture_error(struct x2v_receiver *ctx,int e){if(e){atomic_store(&ctx->failure,e);atomic_store(&ctx->state,X2V_RX_ERROR);close_admission(ctx,X2V_STOP_ERROR);}}
++static void mark_durable(struct x2v_receiver *ctx,uint32_t index,uint64_t c0,uint64_t c1){
++ if(index>=X2V_MAX_FRAMES)return;struct record *pr=&ctx->records[index];unsigned expect=0;
++ if(atomic_compare_exchange_strong(&pr->written,&expect,1)){atomic_fetch_add(&ctx->written,1);atomic_fetch_add(&ctx->bytes_written,FRAME_BYTES);}
++ atomic_store(&pr->complete_begin,c0);atomic_store(&pr->complete_end,c1);
++}
+ #ifndef X2V_WRITER_EMPTY_WINDOW
+ #define X2V_WRITER_EMPTY_WINDOW() ((void)0)
+ #endif
+@@ -109,13 +114,15 @@
+   const struct x2v_dng_frame_time frame_time={atomic_load(&r->id),atomic_load(&r->stamp),atomic_load(&r->admission)};
+   struct x2v_dng_result result={0};
+   int de=x2v_dng_sequence_put_prepacked_metadata(ctx->dng,&ctx->dng_slots[k],&ticket,&frame_time,&result,&r->native_metadata);
+-  if(de||!result.published||!result.file_synced||result.file_bytes!=FRAME_BYTES||result.pixel_bytes!=X2V_DNG_PIXEL_BYTES){capture_error(ctx,de?de:EIO);break;}
+-  atomic_fetch_add(&ctx->bytes_written,result.file_bytes);
++  if(de||!result.pwrite_complete||!result.publish_queued||result.file_bytes!=FRAME_BYTES||result.pixel_bytes!=X2V_DNG_PIXEL_BYTES){capture_error(ctx,de?de:EIO);break;}
++  if(result.previous_published)mark_durable(ctx,result.previous_index,result.previous_complete_begin_ns,result.previous_complete_end_ns);
++  if(result.published)mark_durable(ctx,result.index,result.complete_begin_ns,result.complete_end_ns);
++  atomic_store(&r->pwrite_begin,result.pwrite_begin_ns);atomic_store(&r->pwrite_end,result.pwrite_end_ns);
+   if(thread_clock(&ce)){capture_error(ctx,EIO);break;}atomic_store(&r->write_cpu_end,ce);
+   now=monotonic_ns();if(!now){capture_error(ctx,EIO);break;}atomic_store(&r->write_end,now);
+   if(ce<cb||now<atomic_load(&r->write_begin)){capture_error(ctx,EILSEQ);break;}
+   atomic_store(&r->write_cpu_valid,1);atomic_store(&r->write_cpu_consistent,ce-cb<=now-atomic_load(&r->write_begin));
+-  atomic_store_explicit(&r->written,1,memory_order_release);atomic_fetch_add(&ctx->written,1);
++  atomic_store_explicit(&r->submitted,1,memory_order_release);atomic_fetch_add(&ctx->submitted,1);
+   /* All immutable ledger fields persist beyond this release; next callback
+    * cannot overwrite them when reusing the payload slot. */
+   atomic_store_explicit(&ctx->slot_state[k],SLOT_FREE,memory_order_release);next++;
+@@ -124,7 +131,7 @@
+ }
+ int x2v_receiver_capture_success(struct x2v_receiver *ctx){
+  unsigned n=atomic_load(&ctx->copied);int reason=atomic_load(&ctx->stop_reason);
+- return n>=2&&n<=X2V_MAX_FRAMES&&atomic_load(&ctx->reserved)==n&&atomic_load(&ctx->written)==n&&
++ return n>=2&&n<=X2V_MAX_FRAMES&&atomic_load(&ctx->reserved)==n&&atomic_load(&ctx->submitted)==n&&atomic_load(&ctx->written)==n&&
+   atomic_load(&ctx->bytes_written)==(uint64_t)n*FRAME_BYTES&&atomic_load(&ctx->fsync_ok)&&atomic_load(&ctx->fsync_clock_valid)&&
+   x2v_writer_provider_pinned()&&atomic_load(&ctx->dng_published)==n&&
+   atomic_load(&ctx->dng_manifest)&&atomic_load(&ctx->dng_directory)&&atomic_load(&ctx->dng_released)&&
+@@ -149,8 +156,15 @@
+   atomic_store(&ctx->fsync_wall_end,we);atomic_store(&ctx->fsync_cpu_end,ce);
+   if(e||clock_error||!wb||!we||we<wb||ce<cb)capture_error(ctx,EIO);
+   else{atomic_store(&ctx->fsync_clock_valid,1);atomic_store(&ctx->fsync_cpu_consistent,ce-cb<=we-wb);}
+-  if(de||ctx->dng_finish.error||ctx->dng_finish.close_error)capture_error(ctx,de?de:ctx->dng_finish.error?ctx->dng_finish.error:ctx->dng_finish.close_error);
+-  else if(ctx->dng_finish.manifest_published&&ctx->dng_finish.directory_synced&&ctx->dng_finish.cpu_released)atomic_store(&ctx->fsync_ok,1);
++  if(ctx->dng_finish.join_failed||!ctx->dng_finish.cpu_released)capture_error(ctx,de?de:EAGAIN);
++  else if(de||ctx->dng_finish.error||ctx->dng_finish.close_error)capture_error(ctx,de?de:ctx->dng_finish.error?ctx->dng_finish.error:ctx->dng_finish.close_error);
++  else if(ctx->dng_finish.published_frames!=atomic_load(&ctx->submitted))capture_error(ctx,EIO);
++  else{
++   if(ctx->dng_finish.last_published)mark_durable(ctx,ctx->dng_finish.last_index,ctx->dng_finish.last_complete_begin_ns,ctx->dng_finish.last_complete_end_ns);
++   unsigned i,sub=atomic_load(&ctx->submitted);
++   for(i=0;i<sub;i++)if(!atomic_load(&ctx->records[i].written)){capture_error(ctx,EIO);break;}
++   if(i==sub&&ctx->dng_finish.manifest_published&&ctx->dng_finish.directory_synced&&ctx->dng_finish.cpu_released)atomic_store(&ctx->fsync_ok,1);
++  }
+  }
+  int end=atomic_load(&ctx->failure)||atomic_load(&ctx->sequence_error)?X2V_RX_ERROR:x2v_receiver_capture_success(ctx)?X2V_RX_DONE:X2V_RX_CANCELLED;
+  uint64_t now=monotonic_ns();if(!now){capture_error(ctx,EIO);end=X2V_RX_ERROR;}atomic_store(&ctx->writer_done_ns,now);atomic_store(&ctx->state,end);atomic_store_explicit(&ctx->writer_exited,1,memory_order_release);return p;
+@@ -283,6 +297,8 @@
+  for(;;){int s=atomic_load(&ctx->state);if(!atomic_load(&ctx->copy_active)&&(!ctx->thread_exists||atomic_load(&ctx->writer_exited))&&(s==0||s==5||s==6||s==7))break;
+  uint64_t now=x2v_receiver_millis();if(!now)return EIO;if(now-start>=ms)return ETIMEDOUT;usleep(1000);}
+  if(ctx->thread_exists){int e=pthread_join(ctx->io_thread,NULL);if(e)return e;ctx->thread_exists=0;}
++ /* Completion join failure retains backend and CPU pool; no false CPU closure. */
++ if(ctx->dng||ctx->dng_finish.join_failed)return EBUSY;
+  int e=0;if(ctx->out_fd>=0){if(close(ctx->out_fd))e=errno;ctx->out_fd=-1;}free(ctx->cpu_copy);ctx->cpu_copy=NULL;
+  if(e){atomic_store(&ctx->lifecycle_failure,e);return e;}atomic_store_explicit(&ctx->cpu_drained,1,memory_order_release);return 0;
+ }
+@@ -291,12 +307,12 @@
+ int x2v_receiver_sequence_error(struct x2v_receiver *ctx){return atomic_load(&ctx->sequence_error);}
+ int x2v_receiver_expired(struct x2v_receiver *ctx){return atomic_load(&ctx->expired);}
+ size_t x2v_receiver_sequence_json(struct x2v_receiver *ctx,char*out,size_t cap){
+- int n=snprintf(out,cap,"\"storage_format\":\"DNG_SEQUENCE_PROVISIONAL\",\"source_frame_bytes\":23379456,\"pixel_bytes\":23096640,\"slot_stride\":23101440,\"max_frame_count\":240,\"expected_frame_bytes\":%u,\"slot_count\":3,\"frames_reserved\":%u,\"frames_copied\":%u,\"frames_written\":%u,\"bytes_written\":%llu,\"copy_active\":%u,\"sequence_error\":%d,\"prefault_bytes\":%llu,\"capture_success\":%d,\"stop_reason\":%d,\"drop_full\":%u,\"drop_copy_busy\":%u,\"admission_closed\":%u,\"constructor_start_ns\":%llu,\"constructor_deadline_ns\":%llu,\"arm_ns\":%llu,\"admission_deadline_ns\":%llu,\"admission_closed_ns\":%llu,\"writer_done_ns\":%llu,\"fsync_ok\":%u,\"dng_published_frames\":%u,\"dng_manifest_published\":%u,\"dng_directory_synced\":%u,\"dng_context_released\":%u,\"dng_error\":%d,\"dng_close_error\":%d",X2V_DNG_FILE_BYTES,atomic_load(&ctx->reserved),atomic_load(&ctx->copied),atomic_load(&ctx->written),(unsigned long long)atomic_load(&ctx->bytes_written),atomic_load(&ctx->copy_active),atomic_load(&ctx->sequence_error),(unsigned long long)ctx->prefault_bytes,x2v_receiver_capture_success(ctx),atomic_load(&ctx->stop_reason),atomic_load(&ctx->drop_full),atomic_load(&ctx->drop_busy),atomic_load(&ctx->admission_closed),(unsigned long long)ctx->constructor_start_ns,(unsigned long long)ctx->deadline_ns,(unsigned long long)atomic_load(&ctx->arm_ns),(unsigned long long)atomic_load(&ctx->admission_deadline_ns),(unsigned long long)atomic_load(&ctx->closed_ns),(unsigned long long)atomic_load(&ctx->writer_done_ns),atomic_load(&ctx->fsync_ok),atomic_load(&ctx->dng_published),atomic_load(&ctx->dng_manifest),atomic_load(&ctx->dng_directory),atomic_load(&ctx->dng_released),atomic_load(&ctx->dng_error),atomic_load(&ctx->dng_close_error));
++ int n=snprintf(out,cap,"\"storage_format\":\"DNG_SEQUENCE_PROVISIONAL\",\"source_frame_bytes\":23379456,\"pixel_bytes\":23096640,\"slot_stride\":23101440,\"max_frame_count\":240,\"expected_frame_bytes\":%u,\"slot_count\":3,\"frames_reserved\":%u,\"frames_copied\":%u,\"frames_submitted\":%u,\"frames_written\":%u,\"bytes_written\":%llu,\"copy_active\":%u,\"sequence_error\":%d,\"prefault_bytes\":%llu,\"capture_success\":%d,\"stop_reason\":%d,\"drop_full\":%u,\"drop_copy_busy\":%u,\"admission_closed\":%u,\"constructor_start_ns\":%llu,\"constructor_deadline_ns\":%llu,\"arm_ns\":%llu,\"admission_deadline_ns\":%llu,\"admission_closed_ns\":%llu,\"writer_done_ns\":%llu,\"fsync_ok\":%u,\"dng_published_frames\":%u,\"dng_manifest_published\":%u,\"dng_directory_synced\":%u,\"dng_context_released\":%u,\"dng_join_failed\":%d,\"dng_error\":%d,\"dng_close_error\":%d",X2V_DNG_FILE_BYTES,atomic_load(&ctx->reserved),atomic_load(&ctx->copied),atomic_load(&ctx->submitted),atomic_load(&ctx->written),(unsigned long long)atomic_load(&ctx->bytes_written),atomic_load(&ctx->copy_active),atomic_load(&ctx->sequence_error),(unsigned long long)ctx->prefault_bytes,x2v_receiver_capture_success(ctx),atomic_load(&ctx->stop_reason),atomic_load(&ctx->drop_full),atomic_load(&ctx->drop_busy),atomic_load(&ctx->admission_closed),(unsigned long long)ctx->constructor_start_ns,(unsigned long long)ctx->deadline_ns,(unsigned long long)atomic_load(&ctx->arm_ns),(unsigned long long)atomic_load(&ctx->admission_deadline_ns),(unsigned long long)atomic_load(&ctx->closed_ns),(unsigned long long)atomic_load(&ctx->writer_done_ns),atomic_load(&ctx->fsync_ok),atomic_load(&ctx->dng_published),atomic_load(&ctx->dng_manifest),atomic_load(&ctx->dng_directory),atomic_load(&ctx->dng_released),ctx->dng_finish.join_failed,atomic_load(&ctx->dng_error),atomic_load(&ctx->dng_close_error));
+  if(n<0||(size_t)n>=cap)return 0;size_t pos=n;
+  n=snprintf(out+pos,cap-pos,",\"writer_direct_required\":1,\"directory_flags_before\":%d,\"directory_flags_active\":%d,\"cpu_pool_mod4096\":%llu,\"writer_fsync_clock_valid\":%u,\"writer_fsync_cpu_wall_consistent\":%u,\"writer_fsync_wall_begin_ns\":%llu,\"writer_fsync_wall_end_ns\":%llu,\"writer_fsync_cpu_begin_ns\":%llu,\"writer_fsync_cpu_end_ns\":%llu",ctx->writer_flags_before,ctx->writer_flags_active,(unsigned long long)ctx->cpu_pool_mod4096,atomic_load(&ctx->fsync_clock_valid),atomic_load(&ctx->fsync_cpu_consistent),(unsigned long long)atomic_load(&ctx->fsync_wall_begin),(unsigned long long)atomic_load(&ctx->fsync_wall_end),(unsigned long long)atomic_load(&ctx->fsync_cpu_begin),(unsigned long long)atomic_load(&ctx->fsync_cpu_end));
+  if(n<0||(size_t)n>=cap-pos)return 0;pos+=(size_t)n;
+  for(unsigned i=0;i<X2V_MAX_FRAMES;i++){struct record*r=&ctx->records[i];
+- n=snprintf(out+pos,cap-pos,",\"frame%u_id\":%u,\"frame%u_timestamp_native\":%llu,\"frame%u_bytes\":%u,\"frame%u_written\":%u,\"frame%u_slot\":%u,\"frame%u_generation\":%llu,\"frame%u_admission_ns\":%llu,\"frame%u_copy_begin_ns\":%llu,\"frame%u_copy_end_ns\":%llu,\"frame%u_write_begin_ns\":%llu,\"frame%u_write_end_ns\":%llu",i,atomic_load(&r->id),i,(unsigned long long)atomic_load(&r->stamp),i,atomic_load(&r->bytes),i,atomic_load(&r->written),i,atomic_load(&r->slot),i,(unsigned long long)atomic_load(&r->generation),i,(unsigned long long)atomic_load(&r->admission),i,(unsigned long long)atomic_load(&r->copy_begin),i,(unsigned long long)atomic_load(&r->copy_end),i,(unsigned long long)atomic_load(&r->write_begin),i,(unsigned long long)atomic_load(&r->write_end));
++ n=snprintf(out+pos,cap-pos,",\"frame%u_id\":%u,\"frame%u_timestamp_native\":%llu,\"frame%u_bytes\":%u,\"frame%u_submitted\":%u,\"frame%u_written\":%u,\"frame%u_slot\":%u,\"frame%u_generation\":%llu,\"frame%u_admission_ns\":%llu,\"frame%u_copy_begin_ns\":%llu,\"frame%u_copy_end_ns\":%llu,\"frame%u_write_begin_ns\":%llu,\"frame%u_write_end_ns\":%llu,\"frame%u_pwrite_begin_ns\":%llu,\"frame%u_pwrite_end_ns\":%llu,\"frame%u_complete_begin_ns\":%llu,\"frame%u_complete_end_ns\":%llu",i,atomic_load(&r->id),i,(unsigned long long)atomic_load(&r->stamp),i,atomic_load(&r->bytes),i,atomic_load(&r->submitted),i,atomic_load(&r->written),i,atomic_load(&r->slot),i,(unsigned long long)atomic_load(&r->generation),i,(unsigned long long)atomic_load(&r->admission),i,(unsigned long long)atomic_load(&r->copy_begin),i,(unsigned long long)atomic_load(&r->copy_end),i,(unsigned long long)atomic_load(&r->write_begin),i,(unsigned long long)atomic_load(&r->write_end),i,(unsigned long long)atomic_load(&r->pwrite_begin),i,(unsigned long long)atomic_load(&r->pwrite_end),i,(unsigned long long)atomic_load(&r->complete_begin),i,(unsigned long long)atomic_load(&r->complete_end));
+  if(n<0||(size_t)n>=cap-pos)return 0;pos+=(size_t)n;
+  n=snprintf(out+pos,cap-pos,",\"frame%u_copy_cpu_clock_valid\":%u,\"frame%u_copy_cpu_wall_consistent\":%u,\"frame%u_copy_cpu_begin_ns\":%llu,\"frame%u_copy_cpu_end_ns\":%llu,\"frame%u_src_mod64\":%u,\"frame%u_dst_mod64\":%u,\"frame%u_mem_flags_rc\":%d,\"frame%u_mem_flags\":%u,\"frame%u_mem_fd_rc\":%d,\"frame%u_mem_fd\":%d",i,atomic_load(&r->cpu_valid),i,atomic_load(&r->cpu_wall_consistent),i,(unsigned long long)atomic_load(&r->cpu_begin),i,(unsigned long long)atomic_load(&r->cpu_end),i,atomic_load(&r->src_mod64),i,atomic_load(&r->dst_mod64),i,atomic_load(&r->mem_flags_rc),i,atomic_load(&r->mem_flags),i,atomic_load(&r->mem_fd_rc),i,atomic_load(&r->mem_fd));
+  if(n<0||(size_t)n>=cap-pos)return 0;pos+=(size_t)n;
+@@ -324,6 +340,11 @@
+  atomic_init(&ctx->records[i].slot,0);
+  atomic_init(&ctx->records[i].bytes,0);
+  atomic_init(&ctx->records[i].written,0);
++ atomic_init(&ctx->records[i].submitted,0);
++ atomic_init(&ctx->records[i].pwrite_begin,0);
++ atomic_init(&ctx->records[i].pwrite_end,0);
++ atomic_init(&ctx->records[i].complete_begin,0);
++ atomic_init(&ctx->records[i].complete_end,0);
+  atomic_init(&ctx->records[i].cpu_valid,0);
+  atomic_init(&ctx->records[i].cpu_wall_consistent,0);
+  atomic_init(&ctx->records[i].src_mod64,0);
+@@ -359,6 +380,7 @@
+  atomic_init(&ctx->reserved,0);
+  atomic_init(&ctx->copied,0);
+  atomic_init(&ctx->written,0);
++ atomic_init(&ctx->submitted,0);
+  atomic_init(&ctx->writer_exited,0);
+  atomic_init(&ctx->expired,0);
+  atomic_init(&ctx->admission_closed,0);
+--- metadata_E/shape.h
++++ RX25/shape.h
+@@ -19,7 +19,7 @@
+ #define X2V_HEIGHT 986U
+ #define X2V_STRIDE 7936U
+ #elif X2V_SHAPE == 2
+-#define X2V_TOKEN "GROUP13_MODE21C24_DNG_ISP_PROXY_V18"
++#define X2V_TOKEN "GROUP13_MODE21C24_DNG_ASYNC_WRITER_V25"
+ #define X2V_NAME "disp_null"
+ #define X2V_PIXEL 10001U /* owned direct RAW graph; not shadow carrier2 */
+ #define X2V_WIDTH 3920U
