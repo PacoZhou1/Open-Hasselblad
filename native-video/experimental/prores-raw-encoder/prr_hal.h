@@ -17,6 +17,9 @@ struct prr_hal_device {
 int duss_hal_initialize(struct prr_hal_device *table);
 int duss_hal_device_open(const char *name, void *cfg, void **handle);
 int duss_hal_device_start(void *handle, void *cfg);
+/* Device object state byte; open succeeds only from 0. */
+#define PRR_HAL_STATE_STARTED 2
+int duss_hal_device_get_state(void *handle, uint8_t *state);
 int duss_hal_device_stop(void *handle, void *cfg);
 int duss_hal_device_close(void *handle);
 int duss_hal_mem_alloc(void *mem, void **buf, uint32_t size, uint32_t align, uint32_t flags, uint32_t heap);
@@ -25,6 +28,8 @@ int duss_hal_mem_map(void *buf, void **va);
 int duss_hal_mem_get_phys_addr(void *buf, uint64_t *pa);
 /* dir bits 2|4 and 1|8 select the two ion_custom_sync modes; a no-op on uncached buffers. */
 int duss_hal_mem_sync(void *buf, int dir);
+/* Same modes over [offset, offset + size); camera-service syncs RAW callbacks with dir 1 before CPU reads. */
+int duss_hal_mem_sync_ext(void *buf, unsigned dir, unsigned offset, uint64_t size);
 int duss_hal_msenc_encfrm(void *handle, void *packet);
 int duss_hal_attach_msenc(void);
 int duss_hal_detach_msenc(void);

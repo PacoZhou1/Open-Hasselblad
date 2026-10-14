@@ -53,28 +53,17 @@ int prr_pre_init(struct prr_pre *p, const struct prr_pre_geom *g, float white, f
     p->class_first = ((1 - g->y0) % 6 + 6) % 6;
     p->class_rows = g->height > p->class_first ? (g->height - p->class_first + 5) / 6 : 0;
     p->class_cols = g->width / 2;
-    p->inv_q14 = malloc((size_t)p->class_rows * p->class_cols * sizeof *p->inv_q14);
-    if (!p->inv_q14) {
+    /* The fix reads source rows two above the first class row and two below the last. */
+    if (g->y0 + p->class_first < 2 || g->y0 + p->class_first + 6 * (p->class_rows - 1) + 2 >= g->src_rows) {
         prr_pre_free(p);
         return -1;
-    }
-    int par = (1 - g->x0) & 1;
-    for (int k = 0; k < p->class_rows; k++) {
-        float y = (float)(g->y0 + p->class_first + 6 * k);
-        uint16_t *row = p->inv_q14 + (size_t)k * p->class_cols;
-        for (int j = 0; j < p->class_cols; j++) {
-            float inv = 16384.0f / prr_band_gain((float)(g->x0 + 2 * j + par), y);
-            row[j] = (uint16_t)(inv < 8192.0f ? 8192.0f : inv > 32767.0f ? 32767.0f : inv + 0.5f);
-        }
     }
     return 0;
 }
 
 void prr_pre_free(struct prr_pre *p)
 {
-    free(p->inv_q14);
     free(p->hist);
-    p->inv_q14 = NULL;
     p->hist = NULL;
 }
 
@@ -127,11 +116,9 @@ static struct lin lin_for(const struct prr_pre *p, float black)
     return l;
 }
 
-static const uint16_t *class_row(const struct prr_pre *p, int r)
+static int class_row(const struct prr_pre *p, int r)
 {
-    if (!p->inv_q14 || r < p->class_first || (r - p->class_first) % 6)
-        return NULL;
-    return p->inv_q14 + (size_t)((r - p->class_first) / 6) * p->class_cols;
+    return p->class_first >= 0 && r >= p->class_first && (r - p->class_first) % 6 == 0;
 }
 
 static inline uint16_t lin1(uint32_t v, struct lin l)
@@ -142,26 +129,19 @@ static inline uint16_t lin1(uint32_t v, struct lin l)
     return (uint16_t)(t > 65535 ? 65535 : t);
 }
 
-static inline uint16_t cls1(uint16_t o, uint16_t inv)
-{
-    int32_t s = ((int32_t)o - PRR_PEDESTAL) * (int32_t)inv;
-    int32_t v = ((s + 8192) >> 14) + PRR_PEDESTAL;
-    return (uint16_t)(v < 0 ? 0 : v > 65535 ? 65535 : v);
-}
-
 void prr_pre_rows_scalar(const struct prr_pre *p, const uint16_t *src, uint16_t *dst, float black, int row_begin, int row_end)
 {
     struct lin l = lin_for(p, black);
-    int par = (1 - p->g.x0) & 1;
+    const size_t two = 2 * (size_t)p->g.src_stride_px;
     for (int r = row_begin; r < row_end; r++) {
         const uint16_t *s = src + (size_t)(p->g.y0 + r) * p->g.src_stride_px + p->g.x0;
         uint16_t *d = dst + (size_t)r * p->g.dst_stride_px;
-        for (int x = 0; x < p->g.width; x++)
-            d[x] = lin1(s[x], l);
-        const uint16_t *inv = class_row(p, r);
-        if (inv)
-            for (int j = 0; j < p->class_cols; j++)
-                d[2 * j + par] = cls1(d[2 * j + par], inv[j]);
+        if (class_row(p, r))
+            for (int x = 0; x < p->g.width; x++)
+                d[x] = lin1(((uint32_t)s[x - two] + s[x + two] + 1) >> 1, l);
+        else
+            for (int x = 0; x < p->g.width; x++)
+                d[x] = lin1(s[x], l);
     }
 }
 
@@ -173,19 +153,6 @@ static inline uint16x8_t lin8(uint16x8_t v, uint16x4_t g, uint32x4_t off)
     return vqrshrn_high_n_u32(vqrshrn_n_u32(lo, 15), hi, 15);
 }
 
-static inline int32x4_t cls4(uint16x4_t o, uint16x4_t inv, int32x4_t ped)
-{
-    int32x4_t s = vsubq_s32(vreinterpretq_s32_u32(vmovl_u16(o)), ped);
-    s = vmulq_s32(s, vreinterpretq_s32_u32(vmovl_u16(inv)));
-    return vaddq_s32(vrshrq_n_s32(s, 14), ped);
-}
-
-static inline uint16x8_t cls8(uint16x8_t o, uint16x8_t inv, int32x4_t ped)
-{
-    int32x4_t lo = cls4(vget_low_u16(o), vget_low_u16(inv), ped);
-    int32x4_t hi = cls4(vget_high_u16(o), vget_high_u16(inv), ped);
-    return vcombine_u16(vqmovun_s32(lo), vqmovun_s32(hi));
-}
 #endif
 
 void prr_pre_rows(const struct prr_pre *p, const uint16_t *src, uint16_t *dst, float black, int row_begin, int row_end)
@@ -194,23 +161,22 @@ void prr_pre_rows(const struct prr_pre *p, const uint16_t *src, uint16_t *dst, f
     struct lin l = lin_for(p, black);
     uint16x4_t g = vdup_n_u16((uint16_t)l.gq);
     uint32x4_t off = vdupq_n_u32(l.off);
-    int32x4_t ped = vdupq_n_s32(PRR_PEDESTAL);
-    int par = (1 - p->g.x0) & 1;
+    const size_t two = 2 * (size_t)p->g.src_stride_px;
     for (int r = row_begin; r < row_end; r++) {
         const uint16_t *s = src + (size_t)(p->g.y0 + r) * p->g.src_stride_px + p->g.x0;
         uint16_t *d = dst + (size_t)r * p->g.dst_stride_px;
-        const uint16_t *inv = class_row(p, r);
-        if (!inv) {
+        if (!class_row(p, r)) {
             for (int x = 0; x < p->g.width; x += 8)
                 vst1q_u16(d + x, lin8(vld1q_u16(s + x), g, off));
             continue;
         }
-        for (int x = 0; x < p->g.width; x += 16) {
-            uint16x8x2_t v = vld2q_u16(s + x);
-            v.val[0] = lin8(v.val[0], g, off);
-            v.val[1] = lin8(v.val[1], g, off);
-            v.val[par] = cls8(v.val[par], vld1q_u16(inv + x / 2), ped);
-            vst2q_u16(d + x, v);
+        /* Four streams outrun the camera's hardware prefetcher: without these the class rows cost
+         * ~50% of the frame. */
+        for (int x = 0; x < p->g.width; x += 8) {
+            __builtin_prefetch(s + x - two + 128);
+            __builtin_prefetch(s + x + two + 128);
+            uint16x8_t m = vrhaddq_u16(vld1q_u16(s + x - two), vld1q_u16(s + x + two));
+            vst1q_u16(d + x, lin8(m, g, off));
         }
     }
 #else

@@ -4,8 +4,10 @@
 
 /* Camera MODE21 frame -> ProRes RAW encoder input.
  * out = clamp((in - black) * range / (white - black) + 256), so black lands on the format's fixed
- * pedestal of 256 and white on 256 + range = 65535. Banding-class pixels (source x odd, y % 6 == 1)
- * additionally have their above-black signal divided by the class gain surface. */
+ * pedestal of 256 and white on 256 + range = 65535. Phase-detection rows (y % 6 == 1) take, at
+ * every column, the mean of the same-colour sites two rows above and below. The PD blue sites
+ * move with aperture and focus; the greens on the same row stay a few tenths of a percent high
+ * and still read as a fine line if left alone. */
 
 struct prr_pre_geom {
     int src_stride_px, src_rows;
@@ -18,9 +20,8 @@ struct prr_pre_geom {
 struct prr_pre {
     struct prr_pre_geom g;
     float white, ob_bias;
-    int class_first;         /* first window row that is a class row, or -1 */
+    int class_first;         /* first window row that is a class row, or -1: no class fix */
     int class_rows, class_cols;
-    uint16_t *inv_q14;       /* class_rows x class_cols inverse class gains, Q14 */
     uint32_t *hist;          /* 4096-bin black histogram scratch */
 };
 

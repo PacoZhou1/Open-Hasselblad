@@ -144,7 +144,7 @@ static int ensure_encoder(void){
  if(enc_ready){enc_users++;pthread_mutex_unlock(&enc_mu);return 0;}
  static const struct prr_pre_geom geom=PRR_PRE_GEOM_MODE21;
  if(prr_pre_init(&pre,&geom,64681.0f,0.0f,1)){pthread_mutex_unlock(&enc_mu);return ENOMEM;}
- struct prr_enc_cfg cfg={X2V_PRR_WIDTH,X2V_PRR_HEIGHT,(int)geom.dst_stride_px*2,1,0,3,3,0};
+ struct prr_enc_cfg cfg={X2V_PRR_WIDTH,X2V_PRR_HEIGHT,(int)geom.dst_stride_px*2,1,0,3,3,0,1};
  int rc=prr_enc_open(&enc,&cfg);
  if(rc){prr_pre_free(&pre);pthread_mutex_unlock(&enc_mu);return rc<0?-rc:rc;}
  enc_ready=1;enc_users=1;

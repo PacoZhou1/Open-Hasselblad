@@ -1,0 +1,33 @@
+{
+  "recovery_rc": "0",
+  "locks_absent": true,
+  "firmware": "20261014zd",
+  "checks": {
+    "system_readonly": true,
+    "weston_ini_hooked": true,
+    "processes_running": true,
+    "product_idle": true,
+    "no_test_process": true,
+    "proxy_encoder_owned": true,
+    "work_removed": true,
+    "keepawake_ended": true
+  },
+  "locks": {
+    "/data/x2v-source-20261012/source-session.lock": "CLEAR",
+    "/data/x2v-native-20261012/gui-session.lock": "CLEAR",
+    "/blackbox/x2v-native-20261011/gui-session.lock": "CLEAR"
+  },
+  "pids": {
+    "weston": "410",
+    "camera-service": "4512",
+    "camera-gui": "1702"
+  },
+  "stray_processes": [],
+  "state": {
+    "mode": "video",
+    "session": "up",
+    "phase": "idle",
+    "codec": "dng",
+    "uptime": 141
+  }
+}

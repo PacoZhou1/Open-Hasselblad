@@ -45,7 +45,7 @@ int inotify_add_watch(int fd, const char *path, unsigned int mask)
 
 struct opts {
     const char *in, *out, *bin, *report;
-    int frames, preload, threads, banding, patch, profile, plugin_open, frame_slots, stream_slots;
+    int frames, preload, threads, banding, patch, profile, plugin_open, frame_slots, stream_slots, cached_stream;
     float black, white, ob_bias;
     uint32_t timescale, duration;
     struct prr_meta meta;
@@ -127,7 +127,7 @@ static void usage(void)
     fprintf(stderr,
             "x2v_prr_enc -i frames.raw [-o out.mov] [--bin out.prr] [--report r.json] [-n frames]\n"
             "  [--preload 6] [--threads 2] [--black auto|N] [--white 64681] [--ob-bias -3] [--no-banding]\n"
-            "  [--fps 24|25|30|23.976] [--profile 1] [--plugin-open] [--slots F,S] [--no-patch]\n"
+            "  [--fps 24|25|30|23.976] [--profile 1] [--plugin-open] [--slots F,S] [--no-patch] [--cached-stream]\n"
             "  [--meta wb_red,wb_blue,gain,cct,m0..m8]\n");
 }
 
@@ -153,6 +153,7 @@ static int parse(int argc, char **argv, struct opts *o)
         else if (!strcmp(a, "--no-banding")) o->banding = 0;
         else if (!strcmp(a, "--no-patch")) o->patch = 0;
         else if (!strcmp(a, "--plugin-open")) o->plugin_open = 1;
+        else if (!strcmp(a, "--cached-stream")) o->cached_stream = 1;
         else if (!strcmp(a, "--profile")) o->profile = atoi(TAKE);
         else if (!strcmp(a, "--slots")) {
             char *end;
@@ -221,7 +222,7 @@ int main(int argc, char **argv)
     int frames = o.frames < 0 ? loaded : o.frames;
 
     struct prr_enc_cfg cfg = { geom.width, geom.height, geom.dst_stride_px * 2, o.profile, 0,
-                               o.frame_slots, o.stream_slots, o.plugin_open };
+                               o.frame_slots, o.stream_slots, o.plugin_open, o.cached_stream, 0 };
     static struct prr_enc enc;
     int rc = prr_enc_open(&enc, &cfg);
     if (rc) {
@@ -230,7 +231,7 @@ int main(int argc, char **argv)
         _exit(1);
     }
     struct prr_mov mov;
-    int mov_ok = o.out ? prr_mov_open(&mov, o.out, geom.width, geom.height, "aprh", o.timescale, o.duration) == 0 : 0;
+    int mov_ok = o.out ? prr_mov_open(&mov, o.out, geom.width, geom.height, o.profile ? "aprh" : "aprn", o.timescale, o.duration) == 0 : 0;
     int bin_fd = o.bin ? open(o.bin, O_WRONLY | O_CREAT | O_TRUNC | O_CLOEXEC, 0644) : -1;
     if ((o.out && !mov_ok) || (o.bin && bin_fd < 0)) {
         fprintf(stderr, "cannot open output\n");
@@ -336,7 +337,7 @@ int main(int argc, char **argv)
     fprintf(r, " \"bad_frames\": %u,\n \"write_errors\": %u,\n \"close_rc\": %d,\n \"enc_close_step\": %d,\n", bad_frames, write_errors, close_rc, close_step);
     fprintf(r, " \"hal_busy_returns\": %u,\n \"unknown_callbacks\": %u,\n \"hal_encoded\": %u,\n", enc.busy_returns, enc.unknown_callbacks, enc.encoded);
     fprintf(r, " \"meta_given\": %d,\n \"header_meta_from_hal\": %u,\n \"header_meta_patched\": %u,\n", o.have_meta, hal_meta_match, patched);
-    fprintf(r, " \"profile\": %d,\n \"plugin_open\": %d,\n \"banding\": %d,\n \"threads\": %d,\n", o.profile, o.plugin_open, o.banding, o.threads);
+    fprintf(r, " \"profile\": %d,\n \"plugin_open\": %d,\n \"banding\": %d,\n \"threads\": %d,\n \"cached_stream\": %d,\n", o.profile, o.plugin_open, o.banding, o.threads, o.cached_stream);
     fprintf(r, " \"bytes_total\": %llu,\n \"bytes_min\": %u,\n \"bytes_max\": %u,\n", (unsigned long long)total_bytes, written ? min_bytes : 0, max_bytes);
     fprintf(r, " \"elapsed_ms\": %.1f,\n \"fps\": %.2f,\n", elapsed, elapsed > 0 ? written * 1000.0 / elapsed : 0.0);
     fprintf(r, " \"preprocess_ms_mean\": %.2f,\n \"preprocess_ms_max\": %.2f,\n", submitted ? t_pre / submitted : 0.0, t_pre_max);

@@ -88,16 +88,18 @@ def band_gain(cx, cy, g, x, y):
 
 
 def reference(src, black, banding, grid):
-    win = src[Y0:Y0 + H, X0:X0 + W].astype(np.float64)
-    out = np.clip(np.rint((win - black) * 65279.0 / (WHITE - black) + 256), 0, 65535)
+    """PD rows take the rounded mean of the same-colour sites two rows above and below,
+       every column, before the linear map."""
+    win = src[Y0:Y0 + H, X0:X0 + W].astype(np.int64)
     cls = np.zeros((H, W), bool)
     if banding:
         rows = np.arange(H)[(Y0 + np.arange(H)) % 6 == 1]
-        cols = np.arange(W)[(X0 + np.arange(W)) % 2 == 1]
-        gain = band_gain(*grid, (X0 + cols).astype(np.float64), (Y0 + rows).astype(np.float64))
-        sub = out[np.ix_(rows, cols)]
-        out[np.ix_(rows, cols)] = np.clip(np.rint((sub - 256) / gain + 256), 0, 65535)
+        cols = np.arange(W)
+        up = src[np.ix_(Y0 + rows - 2, X0 + cols)].astype(np.int64)
+        dn = src[np.ix_(Y0 + rows + 2, X0 + cols)].astype(np.int64)
+        win[np.ix_(rows, cols)] = (up + dn + 1) >> 1
         cls[np.ix_(rows, cols)] = True
+    out = np.clip(np.rint((win - black) * 65279.0 / (WHITE - black) + 256), 0, 65535)
     return out, cls
 
 

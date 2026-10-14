@@ -1,0 +1,98 @@
+{
+  "version": "20261014zg",
+  "system_files": {
+    "/system/lib64/libx2v_prr_resident_20261014zg.so": {
+      "sha256": "9864cc186587cd455961bfaf34a62a59e0455db3837a11c6bfee96bb4ebedb11",
+      "bytes": 1378104,
+      "mode": "644",
+      "source": "native-video/experimental/rx-prr-resident/build/libx2v_prr_resident.so"
+    },
+    "/system/lib64/libx2v_gui_bootstrap_20261011.so": {
+      "sha256": "2ec7b4686682ea1c5c9e9de87876135e0085b8563c90d223211150c3572708dd",
+      "bytes": 11840,
+      "mode": "644",
+      "source": "native-video/outputs/runtime/libx2v_gui_bootstrap.so"
+    },
+    "/system/bin/x2v_prr_play_20261014zg": {
+      "sha256": "c3b3a3ea463bcbe8bf51b3b8ba171ff7424c3a6a753701f9f180c1ceeebfca5b",
+      "bytes": 109672,
+      "mode": "755",
+      "source": "native-video/experimental/prores-raw-encoder/build/x2v_prr_play"
+    },
+    "/system/etc/x2v/imx861bqr_hb722.sp": {
+      "sha256": "594f651e83a6d916e9af64ac96c718038c511c3a419028690982b079a6e729e4",
+      "bytes": 101950,
+      "mode": "644",
+      "source": "native-video/experimental/grok-raw30c-session/imx861bqr_hb722.sp"
+    },
+    "/system/etc/x2v/imx861bqr_hb722.conf": {
+      "sha256": "5558a0fc6a5864c4711a3f0d0fba5b66d775822d6522b599724a9921d0fca3aa",
+      "bytes": 137752,
+      "mode": "644",
+      "source": "native-video/experimental/source-session-isolated-two-v22-flat/imx861bqr_hb722.conf"
+    },
+    "/system/etc/x2v/imx861bqr_hb722_view_20261014zg.conf": {
+      "sha256": "31c0c21f207c9ac840edc7834767d8670a22832bf3e64b7fb16518a7374a4363",
+      "bytes": 137828,
+      "mode": "644",
+      "source": "native-video/experimental/rx-prr-resident/imx861bqr_hb722_view.conf"
+    },
+    "/system/lib64/weston/x2v-boot-20261013c.so": {
+      "sha256": "95bb9145280095a1062deb29801227b9ff38e9267521a4aa9e5b0d8f1e9b6d75",
+      "bytes": 14064,
+      "mode": "644",
+      "source": "native-video/experimental/x2v-product-boot/build/x2v-boot.so"
+    },
+    "/system/bin/x2v_weston_boot_test_20261013a": {
+      "sha256": "6312cfc7c84ecd888ccd69f452b2d8940922857a295e11e3f3f1744c4f52014b",
+      "bytes": 9616,
+      "mode": "755",
+      "source": "native-video/experimental/x2v-product-boot/build/x2v_weston_boot_test"
+    },
+    "/system/etc/x2v/x2v_product_boot_20261014zg.sh": {
+      "sha256": "af336c768615b810bfbb9dba944927c49f2bf00d7315662157e5b8621c8bd7c2",
+      "bytes": 24409,
+      "mode": "755",
+      "source": "native-video/experimental/x2v-product-boot/x2v_product_boot.sh"
+    },
+    "/system/etc/x2v/x2v_video_session_20261014zg.sh": {
+      "sha256": "fc144af59c1cf053452d80626bb0fcb732775ac969da9a107e9094e84945810a",
+      "bytes": 17870,
+      "mode": "755",
+      "source": "native-video/experimental/rx-prr-resident/x2v_video_session.sh"
+    },
+    "/system/etc/x2v/x2v_fw_20261013c.sh": {
+      "sha256": "31fde2d9e755cc0e3b8dc57aa9a22dd5abd29e2c6d1f5cde417bce5a6779dae5",
+      "bytes": 3936,
+      "mode": "755",
+      "source": "native-video/experimental/x2v-product-boot/dist/x2v-fw-20261014zg/x2v_fw_20261013c.sh"
+    }
+  },
+  "gui_payload": {
+    "dest": "/blackbox/x2v-native-20261011/gui",
+    "files": {
+      "BodyKeys.qml": "6d8bc28b762a1cb18e566f9219276458c25e2b7504dda3eca35bbe47f41c21e9",
+      "Catalog.js": "8691ffd9ff44dfbc7e288eb79bf3810512e024a1bdef88c739badc6f68606d25",
+      "DriveAttach.qml": "c4bd62b47749b8f4951e4040ed8fb4f6426a291aeb8b8702ab5822f36f0fcfd1",
+      "ExperimentalMenuEntry.qml": "3fe2c6ddf52df8bced6f3a3158e4af88fa99f73e1c3164285ad2fe0cf695a7a3",
+      "ExperimentalVideoSettings.qml": "5dc053053e3ab5540ffb300e43202ab76e8321209bf42abd272243c6fb88a5b4",
+      "ExperimentalVideoUi.qml": "b1810a47fabd6696949da838f791e1812cb63e941d324a36aeade5f24d5b63a7",
+      "ExposureTouchTabs.qml": "fb24421a344301c6f3cd546461d6c4b27227e16cef80d873584e513c14b4d4e9",
+      "PlaybackSession.qml": "435b5f1244f29cc406b7b3e0e0ebe817b0740a9810dd51fc94f3ea18f0541c18",
+      "PrrFrameSurface.qml": "0e20d94cacc8c2450ba14c493f68daba2cc19c439ddabe2b98bd722069378139",
+      "RecordingOverlay.qml": "79adcfa46ca9bd32acd985f11c04ff4b897618d0c5766daceeddb138e1e7c494",
+      "RecordingProfiles.qml": "a4a5edba4f5ff6db2d1e4a299e79d10cefcc6f5b8f21ab29094b9777576d7e7b",
+      "VideoDriveGrid.qml": "8da6e28b61b25975aa8a5f87dc653dc985e7860855f31ce4543e59f1d8e1c2c6",
+      "VideoGallery.qml": "ffaf2d8af93929a8556028fc65cdbae646a0eb4f2082a830780be0efb29af281",
+      "VideoItemSessionAdapter.qml": "f940c0c0e67e79c1b7f642edfba6b544fdea79b6ff7c4ada4308aca0e3212ed2",
+      "VideoPlaybackControls.qml": "97deabf1cb946b3518c1f03c743595273c9f087767aab5a460bbf6a7c85e1702",
+      "main.qml": "d484bdacff68a56b75e24a6e1c72b93c64bec39b1f000e75ab209189707bc844"
+    }
+  },
+  "weston_ini": {
+    "path": "/system/etc/weston.ini",
+    "stock_sha256": "879b0395a612949357aa08a3804e0805123115b895c059e0851099bd341adfcf",
+    "hooked_sha256": "52892ca9c9321c9cdea13ca0b74b42277cb6d88129b24c1ae0638116105d80f1",
+    "added_line": "modules=x2v-boot-20261013c.so"
+  }
+}

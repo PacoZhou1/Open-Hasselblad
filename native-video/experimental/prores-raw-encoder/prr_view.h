@@ -11,6 +11,9 @@ struct prr_view {
     int scale, bayer;
     int out_w, out_h;
     float m[9];
+    /* m, white balance, black and the LUT index scale folded onto the four 2x2 quad position sums:
+     * LUT index of channel c = k0[c] + sum_j k[c][j] * sum_j. */
+    float k[3][4], k0[3];
     uint8_t lut[4096];
 };
 

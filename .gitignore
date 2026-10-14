@@ -6,4 +6,38 @@
 *.bin
 host-test/out/
 resources/
-- 
+
+# Recorded clips and camera dumps
+*.mov
+*.mp4
+*.dng
+*.ppm
+*.nv12
+*.prr
+native-video/outputs/
+
+# Build objects (rebuilt from source)
+**/build/
+**/*.o
+**/*.dSYM/
+
+# Host fixtures and accept screenshots
+**/host-test/
+**/evidence/accept/
+
+# Device lock and local test dumps
+local-verification/camera-testing.lock/
+local-verification/camera-testing-requests/
+local-verification/camera-testing-release-*.json
+local-verification/tests/
+local-verification/*.json
+local-verification/cursor-history-review-*/
+local-verification/usb-preview/
+local-verification/*.asm
+local-verification/*.log
+local-verification/*.txt
+local-verification/*.stop
+
+# Firmware extract dump
+handoff/
+research/h6d100c-raw-video/rootfs/

@@ -18,6 +18,8 @@ struct prr_enc_cfg {
     int bayer;               /* 0 = RGGB */
     int frame_slots, stream_slots;
     int plugin_open;         /* also fill the open_cfg fields the stock plugin sets */
+    int cached_stream;       /* cached bitstream buffers: CPU reads of uncached ION run near 33 MB/s */
+    uint32_t stream_bytes;   /* per buffer; 0 = 0.8 frame. The second buffer of a pair only takes overflow. */
 };
 
 struct prr_out {
@@ -42,6 +44,7 @@ struct prr_stream_pair {
     void *buf[2];
     uint8_t *va[2];
     uint32_t bytes;
+    uint32_t span[2];        /* bytes exposed to the CPU, cleaned before the pair is reused */
     uint64_t pts;
     int32_t result;
     int busy, done;
@@ -61,6 +64,7 @@ struct prr_enc {
     pthread_cond_t cv;
     uint32_t submitted, encoded, unknown_callbacks, busy_returns;
     volatile int close_step;   /* 1 stopping, 2 closing, 3 freeing, 4 done */
+    int open_stage;            /* prr_enc_open step that failed: 1 hal, 2 ion, 3 msenc, 4 frame, 5 stream, 6 start */
 };
 
 int prr_enc_open(struct prr_enc *e, const struct prr_enc_cfg *cfg);

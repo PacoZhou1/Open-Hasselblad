@@ -9,6 +9,7 @@
 #include <netinet/in.h>
 #include <pthread.h>
 #include <signal.h>
+#include <stdatomic.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -38,7 +39,7 @@ int inotify_add_watch(int fd, const char *path, unsigned int mask)
 }
 #endif
 
-#define DEFAULT_DIR "/blackbox/x2v-native-20261011/play"
+#define DEFAULT_DIR "/tmp/x2v-play"
 #define DEFAULT_LISTEN "127.0.0.1:18763"
 #define MAX_SRC 512
 #define HDR 64
@@ -61,6 +62,15 @@ struct player {
     struct prr_view view;
     int dec_open, mv_open;
     double next_ms;
+    /* The next frame is read into the decoder's input while this one renders, and the rendered
+     * frame is written out while the next one decodes; /state shows a generation once its file is
+     * in place. */
+    pthread_t reader, writer;
+    int reading, writing, ahead_idx, ahead_len;
+    double ahead_ms, write_ms;
+    _Atomic int published;
+    /* Last frame, ms: read, wait for the read, decode, render, write. */
+    double ms[5];
 };
 
 static double now_ms(void)
@@ -126,8 +136,66 @@ static void render(const struct prr_view *v, const uint16_t *bayer, int stride, 
             pthread_join(t[i], NULL);
 }
 
+static void *read_fn(void *arg)
+{
+    struct player *p = arg;
+    double t = now_ms();
+    p->ahead_len = prr_movr_read(&p->mv, (uint32_t)p->ahead_idx, prr_dec_input(&p->dec), p->dec.stream_cap);
+    p->ahead_ms = now_ms() - t;
+    return NULL;
+}
+
+/* Only once the decoder is done with its input: decstrm is synchronous. */
+static void start_read(struct player *p, int idx)
+{
+    if (idx >= p->count)
+        return;
+    p->ahead_idx = idx;
+    if (pthread_create(&p->reader, NULL, read_fn, p))
+        read_fn(p);
+    else
+        p->reading = 1;
+}
+
+static void join_read(struct player *p)
+{
+    if (p->reading)
+        pthread_join(p->reader, NULL);
+    p->reading = 0;
+}
+
+static void dump_files(const struct player *p);
+
+static void *write_fn(void *arg)
+{
+    struct player *p = arg;
+    double t = now_ms();
+    dump_files(p);
+    p->write_ms = now_ms() - t;
+    atomic_store(&p->published, p->generation);
+    return NULL;
+}
+
+static void start_write(struct player *p)
+{
+    if (pthread_create(&p->writer, NULL, write_fn, p))
+        write_fn(p);
+    else
+        p->writing = 1;
+}
+
+static void join_write(struct player *p)
+{
+    if (p->writing)
+        pthread_join(p->writer, NULL);
+    p->writing = 0;
+}
+
 static void close_clip(struct player *p)
 {
+    join_read(p);
+    join_write(p);
+    p->ahead_idx = -1;
     if (p->mv_open) {
         prr_movr_close(&p->mv);
         p->mv_open = 0;
@@ -141,20 +209,23 @@ static void close_clip(struct player *p)
     p->source[0] = 0;
 }
 
-static int pack_ppm(struct player *p)
+/* p->rgb points into p->ppm, after its header: frames render straight into what is served. */
+static int frame_buffer(struct player *p, int w, int h)
 {
+    if (p->ppm && p->out_w == w && p->out_h == h)
+        return 0;
     char hdr[HDR];
-    int hl = snprintf(hdr, sizeof hdr, "P6\n%d %d\n255\n", p->out_w, p->out_h);
-    size_t rgb_n = (size_t)p->out_w * (size_t)p->out_h * 3;
-    size_t n = (size_t)hl + rgb_n;
+    int hl = snprintf(hdr, sizeof hdr, "P6\n%d %d\n255\n", w, h);
+    size_t n = (size_t)hl + (size_t)w * (size_t)h * 3;
     uint8_t *buf = realloc(p->ppm, n);
-    if (!buf || !p->rgb)
+    if (!buf)
         return -1;
+    memcpy(buf, hdr, (size_t)hl);
     p->ppm = buf;
-    memcpy(p->ppm, hdr, (size_t)hl);
-    memcpy(p->ppm + hl, p->rgb, rgb_n);
     p->ppm_len = n;
-    p->generation++;
+    p->rgb = buf + hl;
+    p->out_w = w;
+    p->out_h = h;
     return 0;
 }
 
@@ -177,23 +248,31 @@ static void dump_files(const struct player *p)
 
 static int decode_index(struct player *p, int idx)
 {
-    int len = prr_movr_read(&p->mv, (uint32_t)idx, prr_dec_input(&p->dec), p->dec.stream_cap);
+    double t0 = now_ms();
+    join_read(p);
+    int len;
+    if (p->ahead_idx == idx) {
+        len = p->ahead_len;
+    } else {
+        p->ahead_ms = 0;
+        len = prr_movr_read(&p->mv, (uint32_t)idx, prr_dec_input(&p->dec), p->dec.stream_cap);
+    }
+    p->ahead_idx = -1;
     struct prr_dec_meta meta = { 0 };
+    double t1 = now_ms(), read_ms = p->ahead_ms ? p->ahead_ms : t1 - t0;
     if (len < 0 || prr_dec_decode(&p->dec, (uint32_t)len, &meta))
         return -1;
+    double t2 = now_ms();
+    start_read(p, idx + 1);
     prr_view_setup(&p->view, &meta, p->dec.width, p->dec.height, p->scale, 0);
-    if (!p->rgb || p->out_w != p->view.out_w || p->out_h != p->view.out_h) {
-        free(p->rgb);
-        p->rgb = malloc((size_t)p->view.out_w * (size_t)p->view.out_h * 3);
-        p->out_w = p->view.out_w;
-        p->out_h = p->view.out_h;
-    }
-    if (!p->rgb)
+    join_write(p);
+    if (frame_buffer(p, p->view.out_w, p->view.out_h))
         return -1;
     render(&p->view, p->dec.fva, p->dec.stride, p->rgb, p->threads);
-    if (pack_ppm(p))
-        return -1;
-    dump_files(p);
+    double t3 = now_ms();
+    p->generation++;
+    start_write(p);
+    p->ms[0] = read_ms, p->ms[1] = t1 - t0, p->ms[2] = t2 - t1, p->ms[3] = t3 - t2, p->ms[4] = p->write_ms;
     p->index = idx;
     p->position = p->fps > 0 ? idx / p->fps : 0;
     return 0;
@@ -230,6 +309,8 @@ static void open_clip(struct player *p, const char *src)
         fail(p, "首帧解码失败");
         return;
     }
+    /* The open reply is what the GUI waits for: frame 0 is on disk by then, not the last clip's. */
+    join_write(p);
     p->phase = PH_PLAYING;
     p->next_ms = now_ms() + (p->fps > 0 ? 1000.0 / p->fps : 41.67);
 }
@@ -327,13 +408,14 @@ static void handle_client(struct player *p, int fd)
         return;
     }
     if (!strncmp(req, "GET /state", 10)) {
-        char js[768];
+        char js[900];
         int m = snprintf(js, sizeof js,
                          "{\"schema\":1,\"phase\":\"%s\",\"source\":\"%s\",\"index\":%d,\"count\":%d,"
                          "\"width\":%d,\"height\":%d,\"position\":%.4f,\"duration\":%.4f,"
-                         "\"generation\":%d,\"error\":\"%s\"}\n",
+                         "\"generation\":%d,\"frame_ms\":[%.1f,%.1f,%.1f,%.1f,%.1f],\"error\":\"%s\"}\n",
                          phase_name(p->phase), p->source, p->index, p->count, p->out_w, p->out_h,
-                         p->position, p->duration, p->generation, p->error);
+                         p->position, p->duration, atomic_load(&p->published), p->ms[0], p->ms[1], p->ms[2],
+                         p->ms[3], p->ms[4], p->error);
         write_http(fd, 200, "application/json", js, (size_t)m);
         return;
     }
@@ -389,6 +471,7 @@ int main(int argc, char **argv)
     memset(&p, 0, sizeof p);
     p.scale = 4;
     p.threads = 2;
+    p.ahead_idx = -1;
     snprintf(p.dir, sizeof p.dir, "%s", DEFAULT_DIR);
     const char *listen = DEFAULT_LISTEN;
     const char *initial = NULL;

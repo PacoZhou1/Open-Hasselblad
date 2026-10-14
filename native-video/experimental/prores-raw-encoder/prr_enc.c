@@ -62,13 +62,24 @@ int prr_enc_open(struct prr_enc *e, const struct prr_enc_cfg *cfg)
     pthread_cond_init(&e->cv, NULL);
     e->frame_bytes = (uint32_t)cfg->stride * (uint32_t)cfg->height;
     e->ics_bytes = ((uint32_t)((cfg->width / 2 + 127) / 128) * (uint32_t)((cfg->height / 2 + 7) / 8) * 16 + 0xff) & ~0xffu;
-    e->stream_bytes = ((uint32_t)(e->frame_bytes * 0.8) + 0xfff) & ~0xfffu;
+    e->stream_bytes = ((cfg->stream_bytes ? cfg->stream_bytes : (uint32_t)(e->frame_bytes * 0.8)) + 0xfff) & ~0xfffu;
 
+    e->open_stage = 1;
     int rc = prr_hal_init();
     if (rc)
         return rc;
-    if ((rc = duss_hal_device_open("/dev/ion", NULL, &e->mem)) || (rc = duss_hal_device_start(e->mem, NULL)))
+    e->open_stage = 2;
+    /* Inside camera-service the service has already opened and started /dev/ion, so the open
+     * is refused; device_open still hands back that object, which allocates the same way.
+     * /dev/ion_codec:ms_enc is not an alternative: msenc0 opens it itself. */
+    if ((rc = duss_hal_device_open("/dev/ion", NULL, &e->mem))) {
+        uint8_t state = 0;
+        if (!e->mem || duss_hal_device_get_state(e->mem, &state) || state != PRR_HAL_STATE_STARTED)
+            return rc;
+        rc = 0;
+    } else if ((rc = duss_hal_device_start(e->mem, NULL))) {
         return rc;
+    }
 
     uint8_t *o = e->open_cfg;
     prr_putp(o, PRR_OPEN_STREAM_CTX, e);
@@ -84,9 +95,11 @@ int prr_enc_open(struct prr_enc *e, const struct prr_enc_cfg *cfg)
         prr_put16(o, PRR_OPEN_SENSEL_RANGE, 0xfeff);
         prr_put32(o, PRR_OPEN_U32_3C, 0x1000);
     }
+    e->open_stage = 3;
     if ((rc = duss_hal_device_open("/dev/msenc0", o, &e->enc)))
         return rc;
 
+    e->open_stage = 4;
     for (int i = 0; i < cfg->frame_slots; i++) {
         struct prr_frame_slot *f = &e->fr[i];
         void *iva;
@@ -100,10 +113,12 @@ int prr_enc_open(struct prr_enc *e, const struct prr_enc_cfg *cfg)
         prr_put32(f->frame, PRR_FRAME_PLANES, 1);
         prr_putp(f->ics, PRR_ICS_HANDLE, f->ibuf);
     }
+    e->open_stage = 5;
     for (int i = 0; i < cfg->stream_slots; i++) {
         struct prr_stream_pair *p = &e->st[i];
         for (int k = 0; k < 2; k++) {
-            if ((rc = alloc_map(e, &p->buf[k], (void **)&p->va[k], e->stream_bytes, 0)))
+            if ((rc = alloc_map(e, &p->buf[k], (void **)&p->va[k], e->stream_bytes,
+                                cfg->cached_stream ? PRR_MEM_CACHED : 0)))
                 return rc;
             prr_putp(p->s[k], PRR_STREAM_HANDLE, p->buf[k]);
             prr_put32(p->s[k], PRR_STREAM_ALLOCATED, e->stream_bytes);
@@ -114,9 +129,11 @@ int prr_enc_open(struct prr_enc *e, const struct prr_enc_cfg *cfg)
     prr_put32(e->start_cfg, PRR_START_HEIGHT, (uint32_t)cfg->height);
     prr_put32(e->start_cfg, PRR_START_PROFILE, (uint32_t)cfg->profile);
     prr_put32(e->start_cfg, PRR_START_PIXFMT, (uint32_t)(PRR_PIXFMT_BAYER16_BASE + 15 * cfg->bayer));
+    e->open_stage = 6;
     if ((rc = duss_hal_device_start(e->enc, e->start_cfg)))
         return rc;
     e->started = 1;
+    e->open_stage = 0;
     return 0;
 }
 
@@ -241,13 +258,23 @@ int prr_enc_next(struct prr_enc *e, struct prr_out *out, int timeout_ms)
             e->order_count--;
             pthread_mutex_unlock(&e->mu);
             const uint8_t *s1 = p->s[0], *s2 = p->s[1];
+            uint32_t head = prr_get32(s1, PRR_STREAM_DATA_OFFSET) + prr_get32(s1, PRR_STREAM_OFFSET);
             out->pair = pair;
             out->pts = p->pts;
             out->result = p->result;
-            out->a = p->va[0] + prr_get32(s1, PRR_STREAM_DATA_OFFSET) + prr_get32(s1, PRR_STREAM_OFFSET);
+            out->a = p->va[0] + head;
             out->alen = prr_get32(s1, PRR_STREAM_WRITTEN);
             out->b = p->va[1];
             out->blen = p->done == 2 ? prr_get32(s2, PRR_STREAM_WRITTEN) : 0;
+            p->span[0] = p->span[1] = 0;
+            if (e->cfg.cached_stream) {
+                uint64_t a = (uint64_t)head + out->alen, b = out->blen;
+                p->span[0] = (uint32_t)(a < e->stream_bytes ? a : e->stream_bytes);
+                p->span[1] = (uint32_t)(b < e->stream_bytes ? b : e->stream_bytes);
+                for (int k = 0; k < 2; k++)
+                    if (p->span[k])
+                        (void)duss_hal_mem_sync_ext(p->buf[k], 1, 0, p->span[k]);
+            }
             return 0;
         }
         if (timeout_ms == 0 || wait_until(e, dl) == ETIMEDOUT) {
@@ -259,6 +286,10 @@ int prr_enc_next(struct prr_enc *e, struct prr_out *out, int timeout_ms)
 
 void prr_enc_release(struct prr_enc *e, const struct prr_out *out)
 {
+    struct prr_stream_pair *p = &e->st[out->pair];
+    for (int k = 0; k < 2; k++)
+        if (p->span[k])
+            (void)duss_hal_mem_sync_ext(p->buf[k], 2, 0, p->span[k]);
     pthread_mutex_lock(&e->mu);
     e->st[out->pair].busy = 0;
     e->st[out->pair].done = 0;

@@ -10,20 +10,36 @@ static int alloc_map(struct prr_dec *d, void **buf, void **va, uint32_t size, ui
     return duss_hal_mem_map(*buf, va);
 }
 
+/* /dev/ion stays open and started for the life of the process: a second open is refused, but
+ * device_open still hands back that object, which allocates the same way. Without this every
+ * decoder after a process's first failed to open. */
+static int open_ion(struct prr_dec *d)
+{
+    int rc = duss_hal_device_open("/dev/ion", NULL, &d->mem);
+    if (!rc)
+        return duss_hal_device_start(d->mem, NULL);
+    uint8_t state = 0;
+    if (!d->mem || duss_hal_device_get_state(d->mem, &state) || state != PRR_HAL_STATE_STARTED)
+        return rc;
+    return 0;
+}
+
 int prr_dec_open(struct prr_dec *d, uint32_t max_frame_bytes, int sync_dir)
 {
     memset(d, 0, sizeof *d);
     d->sync_dir = sync_dir;
     int rc = prr_hal_init();
-    if (rc)
+    if (rc || (rc = open_ion(d)))
         return rc;
-    if ((rc = duss_hal_device_open("/dev/ion", NULL, &d->mem)) || (rc = duss_hal_device_start(d->mem, NULL)))
+    if ((rc = duss_hal_device_open("/dev/msdec0", NULL, &d->dev))) {
+        d->dev = NULL;
         return rc;
-    if ((rc = duss_hal_device_open("/dev/msdec0", NULL, &d->dev)))
-        return rc;
+    }
     d->stream_cap = (max_frame_bytes + 0xfff) & ~0xfffu;
-    if ((rc = alloc_map(d, &d->sbuf, (void **)&d->sva, d->stream_cap, 0)))
+    if ((rc = alloc_map(d, &d->sbuf, (void **)&d->sva, d->stream_cap, 0))) {
+        prr_dec_close(d);
         return rc;
+    }
     prr_putp(d->stream, PRR_STREAM_HANDLE, d->sbuf);
     prr_put32(d->stream, PRR_STREAM_ALLOCATED, d->stream_cap);
     prr_put32(d->stream, PRR_DSTREAM_MODE, 1);

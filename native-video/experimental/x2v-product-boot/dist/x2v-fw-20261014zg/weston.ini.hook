@@ -1,0 +1,6 @@
+[core]
+backend=eagle-backend.so
+shell=eagle-shell.so
+modules=x2v-boot-20261013c.so
+[keyboard]
+repeat-delay=250
