@@ -317,25 +317,58 @@ static void colour_capture(void *frame)
     atomic_store(&cdump, e ? 3 : 2);
 }
 
-/* The ISP's colour frames carry bands (pv_bands.h), measured on each frame itself and fixed in its
- * own buffer: the H.264 recorder copies it after this, and the display plane, in ISP view, takes it
- * after the dump callback returns, so neither ever sees the bands. Only the colour callback calls it. */
+/* The current scene-derived correction runs in the colour buffer before H.264
+ * and display consume it. It reduces the original bands but can introduce scene
+ * and history-dependent residuals; it is not a calibrated inverse response.
+ * Only the colour callback calls it. */
 static struct pv_bands col_bands;
 static uint8_t col_rgb[PV_OW * PV_OH * 3];
 static _Atomic uint32_t col_us, col_us_max;
 
+/* Explicit, idle-only diagnostic. Both copies belong to one colour callback and
+ * one mapping, before/after the existing correction. Allocate and write on the
+ * command thread; the callback only copies. Retain buffers until process exit so
+ * a timeout can never free memory still owned by the callback. */
+static _Atomic int cpair; /* 0 idle, 1 armed, 4 callback owns, 2 complete */
+static uint8_t *cpair_pre, *cpair_post;
+static uint8_t cpair_desc[0xc0];
+static struct pv_bands cpair_gains;
+static uint64_t cpair_begin_ns, cpair_end_ns;
+static uint32_t cpair_ordinal;
+
+extern int x2v_preview_lattice_aligned(void);
 static void colour_fix(void *frame)
 {
+    const int aligned = x2v_preview_lattice_aligned();
+    /* The aligned ISP output does not need scene-derived band correction.
+     * Keep same-frame diagnostics available without changing pixel values. */
+    if (aligned && atomic_load(&cpair) != 1) return;
     void *handle = (void *)(uintptr_t)u64(frame, 0x20), *p = NULL;
     uint32_t size = 0;
     if (!handle || duss_hal_mem_get_size(handle, &size) || size < PV_BYTES || duss_hal_mem_map(handle, &p)) return;
     uint64_t t0 = now_ns();
     if (p && !duss_hal_mem_sync_ext(handle, 1, 0, PV_BYTES)) {
-        pv_bands_measure_nv12(&col_bands, p, PV_STRIDE, PV_W, PV_H, col_rgb);
-        pv_bands_fix_nv12(&col_bands, p, PV_STRIDE, PV_W, PV_H);
-        pv_bands_fix_luma_interior(p, PV_STRIDE, PV_W, PV_H);
-        pv_bands_fix_luma_edges(p, PV_STRIDE, PV_W, PV_H);
-        pv_edge_polish_uv(p, PV_STRIDE, PV_W, PV_H);
+        int armed = 1;
+        int pair = atomic_compare_exchange_strong(&cpair, &armed, 4);
+        if (pair) {
+            cpair_begin_ns = now_ns();
+            cpair_ordinal = atomic_load(&S.pv_seen);
+            memcpy(cpair_desc, frame, sizeof cpair_desc);
+            memcpy(cpair_pre, p, PV_BYTES);
+        }
+        if (!aligned) pv_bands_measure_nv12(&col_bands, p, PV_STRIDE, PV_W, PV_H, col_rgb);
+        if (pair) memcpy(&cpair_gains, &col_bands, sizeof col_bands);
+        if (!aligned) {
+            pv_bands_fix_nv12(&col_bands, p, PV_STRIDE, PV_W, PV_H);
+            pv_bands_fix_luma_interior(p, PV_STRIDE, PV_W, PV_H);
+            pv_bands_fix_luma_edges(p, PV_STRIDE, PV_W, PV_H);
+            pv_edge_polish_uv(p, PV_STRIDE, PV_W, PV_H);
+        }
+        if (pair) {
+            memcpy(cpair_post, p, PV_BYTES);
+            cpair_end_ns = now_ns();
+            atomic_store(&cpair, 2);
+        }
         duss_hal_mem_sync_ext(handle, 2, 0, PV_BYTES);
     }
     duss_hal_mem_unmap(handle);
@@ -1341,6 +1374,37 @@ static void colour_dump_files(int raw)
     }
 }
 
+static void colour_pair_files(void)
+{
+    if (atomic_load(&cpair) == 4) return;
+    if (!cpair_pre) cpair_pre = malloc(PV_BYTES);
+    if (!cpair_post) cpair_post = malloc(PV_BYTES);
+    if (!cpair_pre || !cpair_post) return;
+    if (atomic_load(&cpair) != 2) {
+        atomic_store(&cpair, 1);
+        for (int i = 0; i < 200 && atomic_load(&cpair) != 2; i++) usleep(10000);
+    }
+    if (atomic_load(&cpair) != 2) {
+        int armed = 1;
+        atomic_compare_exchange_strong(&cpair, &armed, 0);
+        fprintf(stderr, "X2V_RESIDENT cpair timeout state=%d\n", atomic_load(&cpair));
+        return;
+    }
+    write_file(LIVE_DIR "/pair_pre.nv12", cpair_pre, PV_BYTES);
+    write_file(LIVE_DIR "/pair_post.nv12", cpair_post, PV_BYTES);
+    write_file(LIVE_DIR "/pair.desc", cpair_desc, sizeof cpair_desc);
+    write_file(LIVE_DIR "/pair_gains.bin", &cpair_gains, sizeof cpair_gains);
+    char j[512];
+    int n = snprintf(j, sizeof j,
+        "{\"schema\":1,\"callback_ordinal\":%u,\"begin_ns\":%llu,\"end_ns\":%llu,"
+        "\"width\":%d,\"height\":%d,\"stride\":%d,\"bytes\":%d,"
+        "\"same_callback\":true,\"hardware_frame_id_verified\":false}\n",
+        cpair_ordinal, (unsigned long long)cpair_begin_ns, (unsigned long long)cpair_end_ns,
+        PV_W, PV_H, PV_STRIDE, PV_BYTES);
+    write_file(LIVE_DIR "/pair.json", j, n);
+    atomic_store(&cpair, 0);
+}
+
 static const char *token(const char *p, char *out, size_t cap)
 {
     while (*p == ' ' || *p == '\t') p++;
@@ -1408,6 +1472,8 @@ static void *control_thread(void *unused)
                     arm_proxy();
                 } else if (!strcmp(verb, "cdump")) {
                     colour_dump_files(!strcmp(arg, "raw"));
+                } else if (!strcmp(verb, "cpair") && st == ST_IDLE) {
+                    colour_pair_files();
                 } else if (!strcmp(verb, "release")) {
                     atomic_store(&released, 1);
                     fprintf(stderr, "X2V_RESIDENT release guard_absorbed=%u\n", x2v_session_guard_absorbed());

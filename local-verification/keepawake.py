@@ -9,6 +9,30 @@ REMOTE='/blackbox/x2v-native-20261011'
 SCRIPT=REMOTE+'/keepawake.sh';LEASE=REMOTE+'/keepawake.lease'
 def adb(*args):return subprocess.run(['adb','-s','123456789ABCDEF',*args],capture_output=True,text=True,timeout=8,check=True).stdout
 
+def ensure():
+ """Re-arm at an operator-owned capture boundary, never from a competing worker."""
+ state=json.loads(STATE.read_text())
+ if not state.get('active'):raise RuntimeError('Keepawake is not enabled')
+ owner=json.loads((ROOT/'camera-testing.lock/owner.json').read_text())
+ if owner.get('owner')!='codex-preview-debug':raise RuntimeError('Camera belongs to another operator')
+ from factory_session import connect
+ adb('shell',f'echo {int(time.time())+120} > {LEASE}')
+ with connect() as r:
+  boot=r.factory_shell('cat /proc/sys/kernel/random/boot_id').strip()
+  pid=int(state.get('camera_pid') or 0)
+  alive=r.factory_shell(f"tr '\\000' ' ' < /proc/{pid}/cmdline;true").strip() if pid else ''
+  if SCRIPT not in alive:
+   result=r.factory_shell(f'toybox nohup sh {SCRIPT} >{REMOTE}/keepawake.log 2>&1 & echo $!').strip()
+   if not result.isdigit():raise RuntimeError('Camera watchdog did not launch: '+result)
+   state['camera_pid']=int(result)
+  wake=r.factory_shell('odindb-send -s system -m acquire_wake_lock -- x2v-debug-session').strip()
+  r.factory_shell('odindb-send -s system -p screen_idle_timeout -- 0')
+  actual=r.factory_shell('odindb-send -s system -p screen_idle_timeout').strip()
+  if actual.split('=')[-1].strip()!='0':raise RuntimeError(actual)
+ state.update(boot_id=boot,verified_at=time.time(),screen_idle_timeout=0,wake_reply=wake)
+ temp=STATE.with_suffix('.tmp');temp.write_text(json.dumps(state,indent=2));temp.replace(STATE)
+ print(json.dumps(state));return state
+
 def start():
  if STATE.exists() and json.loads(STATE.read_text()).get('active'):raise RuntimeError('Already active; use status/stop')
  from factory_session import connect
@@ -64,6 +88,6 @@ def stop():
  print('Lease stopped; camera restores timeout within 10 seconds.',state)
 
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('action',choices=['start','stop','status','worker']);a=p.parse_args().action
+ p=argparse.ArgumentParser();p.add_argument('action',choices=['start','stop','status','worker','ensure']);a=p.parse_args().action
  if a=='status':print(STATE.read_text() if STATE.exists() else 'inactive')
  else:globals()[a]()

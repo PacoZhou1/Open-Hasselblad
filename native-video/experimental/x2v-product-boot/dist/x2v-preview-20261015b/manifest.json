@@ -1,0 +1,24 @@
+{
+  "version": "preview-20261015b",
+  "base_firmware": "X2D II v1.3.16.2",
+  "base_extension": "20261014zm supervisor / 20261014zl session",
+  "installed_library": "/system/lib64/libx2v_preview_aligned_20261015b.so",
+  "installed_session": "/system/etc/x2v/x2v_video_session_20261014zl.sh",
+  "preview": {
+    "source_width": 3920,
+    "source_height": 2946,
+    "crop_y": 18,
+    "crop_height": 2910,
+    "output_width": 1300,
+    "output_height": 970
+  },
+  "raw_recording_changed": false,
+  "physical_user_acceptance": "2026-10-15: 修好了",
+  "reboot_tested": false,
+  "files": {
+    "build-receipt.json": "883a73d0c6fb6521ac6e1763343da4ffe4c676c12a64bbb56e9e6d8e0b8aeb07",
+    "libx2v_preview_aligned_20261015b.so": "782d559481ea0b9703a75eb850cf88548eb4ca17044d95691ea6a46886bb57a6",
+    "aligned-session.sh": "60459102e349aba661c877ba09d936b0f31ee6620b6b541375115c885de78161",
+    "rollback-session.sh": "8733bbf208487a4c2325c148d295fc3f224d4527615a0c7265b25890a03fddf9"
+  }
+}

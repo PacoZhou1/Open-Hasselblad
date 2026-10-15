@@ -1,0 +1,179 @@
+{
+  "scope": "Frozen OFFLINE target full transport rectangle candidate; BUILD GO only; no stage/device GO",
+  "artifact": "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/source-receiver-adapter/receiver_v7_target_fullrect/build/target-token/libx2v_target_token_v7_fullrect_arm.TOKEN_REQUIRED.so",
+  "sha256": "f94dbe6c443221eee06d8377885e7557b7ddb946192f28f901473c8f5e9e0596",
+  "bytes": 1080088,
+  "production_change_from_two_engine": [
+    "target_topology.c"
+  ],
+  "reviewed_geometry_source_sha256": "56635f2f8124d9cf1ef7c63a504dc693636baca553ba0e585b1da9e3ce20dc29",
+  "geometry_review_receipt": {
+    "path": "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/source-receiver-adapter/target_topology_geometry_review/review-receipt.json",
+    "sha256": "a4562ea5d0045232d971e13b80e36fdd00215f59e3d79b912a028b96b4542c78",
+    "actual_C_ASAN_UBSAN_cases": 13,
+    "host_report_sha256": "a97ba4e56482290d29224612f1350990606127bd025b671e97e531aee3c912d7",
+    "literal_ELF_fixture_receipt_sha256": "3ca5791823c8fd41c8cb506fa3f45f76a3139ec70a75ff259496c4c6ccf43591",
+    "independent_review": "native_album: geometry BUILD GO after independent source/test/source fixture inspection; no device GO"
+  },
+  "unchanged_two_engine_local_sources": {
+    "receiver.c": "38ab146fcc9a53fbe503f43fb519c556dfa4394d9aa666e0c2b852c30e632f7e",
+    "receiver.h": "9430155407f0b941ce24194ac5a580d3f976481796546c753757fddc89c5678b",
+    "control.c": "2fcf1eb50b8b2dfb5222f313f848522896d51c31779921b96dc8a19a75a63684",
+    "vendor_hook.c": "3ac6bbcc2a96826b654693097c3966e4911319930e8833cdc94daac8d64f4ece",
+    "hook.h": "4b17721ef697383a28b09e7763a45d0c771d738ff3450ef36e03ecc6dde8c592",
+    "shape.h": "3beef3beb23ee3b7fdd2fcc7b3925c46862fd203d8ff7cf369ea91b288ee0306",
+    "target_parser_gate.c": "bd54c49ed1cda60f448b6cfd48a7e20ba62bd4fc765009025d79f4f0979f19b9",
+    "target_start_gate.c": "58f27e68c686d5ca1b73bf2b08aa5052b94c5049165aa709147e770aa6931a25",
+    "check_elf.py": "076fbf1639db2d4d79069ce9d02c59d30d7c7bbcaf1effa006032e322769d618"
+  },
+  "unchanged_target_shared_sources": {
+    "native-video/experimental/source-receiver-adapter/android_stat_check.c": "f53b5a1085a478b5a39464c396aa07173cf54b22d941247c63cd98aa8c0f8d39",
+    "native-video/experimental/source-receiver-adapter/graph_binding.c": "166db4b79e3a5ba5287a29a61483c190c53a111a68dd2940433b28e045ffffaf",
+    "native-video/experimental/source-receiver-adapter/hal_topology_glue.c": "7e3e8522997d4a779ab809103e46fa7a98ad92e3b9a6d3fe27d4af468138aaa9",
+    "native-video/experimental/source-receiver-adapter/fps_guard_session.c": "055a8f16979320867e8bf7c9abf8f7cf19d77b1b66c999de86d5568c37f34371",
+    "research/full-fov-pipeline/source-adapter/source_mode21_guard_preload.c": "cf08d18459cfeb0151fd66cf06ec2f571bd33b59f1ace342e5c430f98f3b2259",
+    "research/full-fov-pipeline/source-adapter/owned_descriptor.c": "60e9cceb6c7b1e8bc7818385dbe7063da736dcf084ad7ef5c93ae911324e9683",
+    "research/full-fov-pipeline/source-adapter/hal_profile_adapter.c": "a2abef48d65c2442cce2feaa33d4588aa4fd4d83861a9278a96bb956e7defc80",
+    "research/full-fov-pipeline/source-adapter/target_descriptor.c": "0fbad8b3407a2412183cb1759cdaaa8ef829173ba4f7963f9cb4a014541a3b10"
+  },
+  "unchanged_shared_headers": {
+    "native-video/experimental/source-receiver-adapter/android_errno.h": "4a1f63dc8cce045b3f78f26ee10ea721d94e6845dae0bacb7631e8814794ff69",
+    "native-video/experimental/source-receiver-adapter/normal_diagnostic/diag_pins.h": "664f568f76ba11dde2b4a8d62287e119e741fe9d28cd719afec517781394adff"
+  },
+  "vendor_adapter_headers": {
+    "research/full-fov-pipeline/source-adapter/owned_descriptor.h": "574d95291ba5ef897a6cf2ae8e18fc3110c605140fe341e40b4be4b51b754579",
+    "research/full-fov-pipeline/source-adapter/hal_profile_adapter.h": "6f7a3b085f9814d7eac121f94bed75f315fe175ba58a80d0f84a23c1689b3959",
+    "research/full-fov-pipeline/source-adapter/hal_pins.h": "533275b4b016c8e2b9996317d6dbd5102849bb258e7d1df9d5dced87353acb0e",
+    "research/full-fov-pipeline/source-adapter/target_descriptor.h": "0228ef165e8e771265c28ba2f7c46349de1294b3d2ba77457f15cc0057fb433c",
+    "research/full-fov-pipeline/source-adapter/target_rows.h": "5260adc3fff147bd4d9772ff09c88820373976f5b756b7c547d762354f10833a",
+    "research/full-fov-pipeline/source-adapter/fps_guard_pins.h": "fb721bccd74545f5c167aad8b72b77476a7561b21176587ee488cc06823c5942",
+    "research/full-fov-pipeline/source-adapter/firmware_pins.h": "f6f234caf225898f90624028166f980598842d23392ee4a73f084f217358e0fa"
+  },
+  "two_engine_base_freeze_sha256": "b2bb46d5eb62aa4f4778fc01be3486c984215d5c843df92373de95c5f77a7e62",
+  "owner_review_receipt": {
+    "path": "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/source-receiver-adapter/target_engine_owner_review/review-receipt-v2.json",
+    "sha256": "b06f5c31c64d9072f80853dc2f699adb98fea4ce51dfbdf10ebe9c7a3d2d067d",
+    "focused_actual_C_ASAN_UBSAN_cases": 16,
+    "host_report_sha256": "b385a498b933b17fafff0447c9118fbdd83430cb0b4ab65368781966d72fdb3b",
+    "independent_review": "native_album: v2 source GO for independent target ELF build only; no new blocking P1"
+  },
+  "inherited_unchanged_shape_tests": {
+    "cases": 10,
+    "report_path": "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/source-receiver-adapter/receiver_v7_target_filter_port/host-test/report.json",
+    "report_sha256": "fde5565349b92208892b332d775fb21c3dce5fe77154d4afb6aceacc59dd50a9",
+    "not_rerun": true
+  },
+  "geometry": {
+    "format": 10001,
+    "width": 3920,
+    "validheight": 2946,
+    "planeheight": 2946,
+    "stride": 7936,
+    "offset": 0,
+    "planes": 1,
+    "bytes": 23379456,
+    "callback_key": "disp_null/FlterDmp",
+    "product_RAW_pairs": [
+      "row1+1c0/1c4",
+      "row1+1d0/1d4"
+    ],
+    "crop_enabled": 1,
+    "transport_crop": [
+      0,
+      0,
+      3920,
+      2946
+    ],
+    "unrelated_component_5bc": 986,
+    "receiver_relaxed": false,
+    "original_word_prechecks": 11,
+    "optical_crop_CFA_or_full_FOV_verified": false
+  },
+  "abi": {
+    "cfg_bytes": 152,
+    "cfg_sp_offset": 0,
+    "cfg_engine_offset": 128,
+    "native_out_engine_offset": 736,
+    "setparams_group_name_offset": 12,
+    "group_name_max_bytes": 72,
+    "setparams_signature": "int(void* engine,void* params)",
+    "start_signature": "int(void* engine,void* consumer_collection)",
+    "create_signature": "int(void* cfg,void** out)",
+    "RAW_role": 1,
+    "setup13_auto_start": true,
+    "extra_start1": false,
+    "format": 10001,
+    "width": 3920,
+    "height": 2946,
+    "stride": 7936,
+    "bytes": 23379456,
+    "callback_key": "disp_null/FlterDmp",
+    "receipt_version": 7,
+    "initial_state": "WAIT8",
+    "commands": "fixed same-inode 0/A/D",
+    "constructor_deadline": "40 seconds total, A does not reset"
+  },
+  "defined_hook_count": {
+    "cam_filter_dump_frame_data": 1,
+    "cam_cap_eng_set_streaming_params": 1,
+    "cam_cap_eng_start_streaming": 1,
+    "stream_group_mgr_create": 1,
+    "rcam_imgsys_create": 1,
+    "dlsym": 1,
+    "__open_2": 1,
+    "fopen": 1
+  },
+  "imports_count": 34,
+  "interposed_export_versions": {
+    "cam_filter_dump_frame_data": "libdcam_frwk_v_lz",
+    "cam_cap_eng_set_streaming_params": "libdcam_frwk_v_lz",
+    "cam_cap_eng_start_streaming": "libdcam_frwk_v_lz",
+    "stream_group_mgr_create": "libdcam_frwk_v_lz",
+    "rcam_imgsys_create": "librcam_v_lz",
+    "dlsym": "LIBC",
+    "__open_2": "LIBC",
+    "fopen": "LIBC"
+  },
+  "imported_versions": [
+    {
+      "provider": "libc.so",
+      "versions": [
+        "LIBC"
+      ]
+    },
+    {
+      "provider": "libdl.so",
+      "versions": [
+        "LIBC"
+      ]
+    },
+    {
+      "provider": "libduml_hal.so",
+      "versions": [
+        "libduml_hal_v_lz"
+      ]
+    }
+  ],
+  "files": {
+    "README.md": "bab7dd074bb663f30bbe08ef4042cf85cdfc060b30e408ddcbba5f05ae6e01bb",
+    "build.py": "b68c436033c478d115346a5c9cb1556dc1ebbd961a3117048f4e7fd3b9e0da4a",
+    "check_elf.py": "076fbf1639db2d4d79069ce9d02c59d30d7c7bbcaf1effa006032e322769d618",
+    "receiver.c": "38ab146fcc9a53fbe503f43fb519c556dfa4394d9aa666e0c2b852c30e632f7e",
+    "receiver.h": "9430155407f0b941ce24194ac5a580d3f976481796546c753757fddc89c5678b",
+    "control.c": "2fcf1eb50b8b2dfb5222f313f848522896d51c31779921b96dc8a19a75a63684",
+    "vendor_hook.c": "3ac6bbcc2a96826b654693097c3966e4911319930e8833cdc94daac8d64f4ece",
+    "hook.h": "4b17721ef697383a28b09e7763a45d0c771d738ff3450ef36e03ecc6dde8c592",
+    "shape.h": "3beef3beb23ee3b7fdd2fcc7b3925c46862fd203d8ff7cf369ea91b288ee0306",
+    "target_parser_gate.c": "bd54c49ed1cda60f448b6cfd48a7e20ba62bd4fc765009025d79f4f0979f19b9",
+    "target_start_gate.c": "58f27e68c686d5ca1b73bf2b08aa5052b94c5049165aa709147e770aa6931a25",
+    "target_topology.c": "56635f2f8124d9cf1ef7c63a504dc693636baca553ba0e585b1da9e3ce20dc29",
+    "target_topology.h": "2442d46f56f260184c6ae6f83f9d9c2918fe6a62dc0393ec5afa58cb730ba9fc",
+    "build/target-token/receipt.json": "290aa4614effefe8e4632ac993fa89830922aee15a1b552fdea738854bb5f70a",
+    "build/target-token/owner-compiled-check.json": "d9e21377a0f1a7e856a7a6101da32bc3193fba9c51ee56cb6edd19c268851517",
+    "build/target-token/libx2v_target_token_v7_fullrect_arm.TOKEN_REQUIRED.so": "f94dbe6c443221eee06d8377885e7557b7ddb946192f28f901473c8f5e9e0596"
+  },
+  "device_access": false,
+  "vendor_execution": false,
+  "staged": false,
+  "cpu_ack_is_dma_fence": false
+}

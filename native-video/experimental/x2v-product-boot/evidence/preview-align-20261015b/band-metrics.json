@@ -1,0 +1,62 @@
+{
+  "baseline": {
+    "roi": [
+      132,
+      110,
+      161,
+      290
+    ],
+    "model": "row medians = quadratic illumination + band indicator; old band positions only",
+    "band_offset_YCbCr": [
+      2.1768521565107504,
+      -19.234257094363375,
+      0.535767009038707
+    ],
+    "fit_residual_RMS": [
+      0.2710522644605485,
+      0.22268036272229966,
+      0.34305742243703236
+    ],
+    "source": "local-verification/preview-debug-20261015/crop-trial/baseline/raw-0.nv12"
+  },
+  "crop2910": {
+    "roi": [
+      132,
+      110,
+      161,
+      290
+    ],
+    "model": "row medians = quadratic illumination + band indicator; old band positions only",
+    "band_offset_YCbCr": [
+      0.3535773932934751,
+      0.015937726321311456,
+      -3.665251296286631e-14
+    ],
+    "fit_residual_RMS": [
+      0.2526714903725007,
+      0.25117028787430423,
+      2.7455866407548077e-14
+    ],
+    "source": "local-verification/preview-debug-20261015/crop-trial/crop2910/raw-0.nv12"
+  },
+  "restored": {
+    "roi": [
+      132,
+      110,
+      161,
+      290
+    ],
+    "model": "row medians = quadratic illumination + band indicator; old band positions only",
+    "band_offset_YCbCr": [
+      2.613817306241803,
+      -19.401601628129036,
+      0.1646137417306263
+    ],
+    "fit_residual_RMS": [
+      0.2962462393070798,
+      0.2906564301853804,
+      0.47034606641802806
+    ],
+    "source": "local-verification/preview-debug-20261015/crop-trial/restored/raw-0.nv12"
+  }
+}

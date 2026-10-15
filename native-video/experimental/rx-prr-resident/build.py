@@ -20,7 +20,7 @@ B.mkdir(exist_ok=True)
 ADAPTER = ['target_parser_gate.c', 'target_topology.c', 'graph_binding.c',
            'hal_topology_glue.c', 'fps_guard_session.c', 'source_mode21_guard_preload.c', 'target_descriptor.c']
 sources = ([HERE / 'resident.c', HERE / 'vrec.c', HERE / 'dng.c', HERE / 'awb.c', HERE / 'session_gate.c',
-            HERE / 'shutter_gate.c', CAND / 'debug_hub_guard.c',
+            HERE / 'shutter_gate.c', HERE / 'preview_geometry.c', CAND / 'debug_hub_guard.c',
             A / 'android_stat_check.c']
            + [BASE / n for n in ADAPTER + ['geometry.c']]
            + [H / 'owned_descriptor.c', H / 'hal_profile_adapter.c']
@@ -52,6 +52,8 @@ for i, src in enumerate(sources):
              '-fno-builtin-memcmp', '-ffunction-sections', '-fdata-sections', '-D_GNU_SOURCE', '-DX2V_ANDROID',
              '-DX2V_SHAPE=2', '-DX2V_ENABLE_MODE21_PROFILE=1', '-DX2V_ALLOW_MODE21_START=1',
              '-I', H, '-I', A, '-I', CAND, '-I', BASE, '-I', ENC, '-include', A / 'android_errno.h']
+    if src == BASE / 'geometry.c':
+        flags += ['-Dx2v_isp_full_transfer_geometry=x2v_base_isp_geometry']
     run([*z, *flags, '-c', src, '-o', obj])
     objects.append(obj)
 
