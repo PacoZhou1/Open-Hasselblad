@@ -11,14 +11,16 @@ Window {
     height: 768
     visibility: Window.FullScreen
 
-    // The session's camera-service turns every full press into a count for pollShutter() and
-    // never a still (shutter_gate.c), and says so in /tmp/x2v-live/fullpress: the keys then stay
-    // as in photo mode, the half press doing AF, putting prompts away and going back to the
-    // viewfinder. Only without that does video mode fall back to Override(3), which takes no
-    // still but keeps the half press from the service too; the Drive popover has its own.
+    // Full press in video is ignored (MODE21 still hang). Half press still does AF and
+    // dismisses stock pages when the gallery does not have focus. Without the session
+    // fullpress gate, Override(3) swallows stills and also the service half press.
     property bool nativeShutter: false
+    // Always Override(3) in video. nativeShutter used to drop this to 0 so half-press
+    // AF still reached the service; KEY_E then leaked into a still and the supervisor
+    // exited to photo. keyPressed is read-only (keyHooked stays false), so override is
+    // the only gate that actually holds.
     readonly property int videoShutterOverride:
-        recorder.videoMode && rec.session === "up" && !nativeShutter && !drive.driveVisible ? 3 : 0
+        recorder.videoMode && rec.session === "up" && !drive.driveVisible ? 3 : 0
     function pollNativeShutter() {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "file:///tmp/x2v-live/fullpress");
@@ -42,22 +44,15 @@ Window {
         };
         xhr.send();
     }
-    Timer { interval: 400; repeat: true; running: recorder.videoMode; triggeredOnStart: true; onTriggered: { root.pollNativeShutter(); root.pollView(); } }
+    Timer { interval: 400; repeat: true; running: recorder.videoMode; triggeredOnStart: true; onTriggered: { root.pollNativeShutter(); root.pollView(); root.pollStockZoom(); } }
 
 
-    // The full press in video mode reaches this GUI as Qt Key_E (the viewfinder's key handler,
-    // and the stock state machine's keyPressed for the stock screens), or as a count from
-    // camera-service where it writes the press to camera-uinput (shutter_gate.c). One press can
-    // come more than one way: within shutterMs only the first counts.
+    // Full press in video mode is absorbed and ignored. On MODE21 a still still
+    // hangs the body; recording is only the on-screen button.
     readonly property int shutterMs: 400
     property double lastShutter: 0
     function shutterTrigger(source, detail) {
-        var now = Date.now(), dup = now - lastShutter < shutterMs;
-        uiLog("shutter", {source: source, dup: dup, phase: rec.phase, stock: root.stockState(), detail: detail});
-        if (dup || !recorder.videoMode) return;
-        lastShutter = now;
-        bodyKeys.semanticShutterInput("full_press", false);
-        bodyKeys.semanticShutterInput("full_press", true);
+        uiLog("shutter_ignored", {source: source, phase: rec.phase, stock: root.stockState(), detail: detail});
     }
     property int keysLogged: 0
     function logKey(where, event) {
@@ -72,6 +67,11 @@ Window {
         shutterTrigger("key", {key: event.key});
         event.accepted = true;
         return true;
+    }
+    // Joystick zoom is stock LiveViewOverlay (ZoomIndicator + RawFence). Do not
+    // intercept it: our 4× PPM layer painted black over the zoomed plane.
+    function handleVideoZoom(event, released) {
+        return false;
     }
     // null until first read: whatever count is there then is not a press. The session's enter
     // removes the file, so a new service's first press always differs from it.
@@ -105,8 +105,8 @@ Window {
         readonly property int keyOverride: root.videoShutterOverride
         source: "qrc:/qt/qml/app/qml/liveview/LiveViewImage.qml"
         onLoaded: mainContentLoader.setSource("qrc:/qt/qml/app/qml/MainContent.qml", {liveviewLoader: liveviewLoader})
-        Keys.onPressed: (event) => { root.handleVideoFullPress(event, false); }
-        Keys.onReleased: (event) => { root.handleVideoFullPress(event, true); }
+        Keys.onPressed: (event) => { root.handleVideoZoom(event, false) || root.handleVideoFullPress(event, false); }
+        Keys.onReleased: (event) => { root.handleVideoZoom(event, true); root.handleVideoFullPress(event, true); }
     }
     // Resident session viewfinder: the stock liveview has no frames while group 13 owns the sensor.
     // Two images take turns: while one is shown the other loads the newest frame, and the next
@@ -121,7 +121,7 @@ Window {
         objectName: "x2vResidentPreview"
         z: -1
         anchors.fill: parent
-        visible: rec.session === "up" && !videoGallery.visible && !root.ispView
+        visible: rec.session === "up" && !videoGallery.visible && !root.ispView && !root.stockZoomed && profileSelection.selected.codec !== "h264"
         readonly property int pace: 38
         property int front: 0
         property int seq: 0
@@ -228,7 +228,7 @@ Window {
         var p = profileSelection.find(id);
         if (!p) return;
         profileAskedAt = Date.now();
-        root.writeCmd("codec_" + p.codec);
+        root.writeCmd("profile_" + p.id);
     }
 
     QtObject {
@@ -302,6 +302,7 @@ Window {
         fresh: true
         approvedRoots: [
             "/blackbox/x2v-native-20261011",
+            "/mnt/media_rw/ssd/video",
             "/mnt/media_rw/ssd/X2V_VIDEO",
             "/mnt/media_rw/ssd/X2V_RAW"
         ]
@@ -371,11 +372,13 @@ Window {
         sourceComponent: Component {
             ExperimentalVideoUi {
                 stockRoot: mainContentLoader.item
+                liveviewRoot: liveviewLoader.item
                 recordingProfiles: profileSelection
                 nativeExposureModel: root.mainModel() ? root.mainModel().controlScreen : null
                 videoMode: recorder.videoMode
                 galleryOpen: videoGallery.visible
-                interactionAllowed: !videoGallery.visible
+                stockZoomed: root.stockZoomed
+                interactionAllowed: !videoGallery.visible && !root.stockZoomed
             }
         }
     }
@@ -407,6 +410,14 @@ Window {
         }
         return root.openGallery();
     }
+    function leavePlayback() {
+        playbackController.stop();
+        videoGallery.visible = false;
+        root.focusMagnify = false;
+        root.restoreStockFocus();
+        root.uiLog("playback_leave", {reason: "half_press"});
+        return true;
+    }
     function nativeShutterInput(action, released) { return bodyKeys.semanticShutterInput(action, released); }
     property var browseHookItem: null
     property string lastStockState: ""
@@ -426,7 +437,8 @@ Window {
         // The keys a stock screen does not take itself reach MainContent.keyPressed, which emits
         // this first (auto-repeats excluded): the full press from the control screen or ISO pages.
         if (sm.keyPressed) sm.keyPressed.connect(function (k) {
-            if (recorder.videoMode && bodyKeys.isFullPressKey(k)) root.shutterTrigger("stock_key", {key: k});
+            if (recorder.videoMode && bodyKeys.isFullPressKey(k))
+                root.shutterTrigger("stock_key", {key: k});
         });
         // toggle_screen is a signal. Assigning a function does not disconnect
         // the stock state machine, so Playback still opens the photo browser.
@@ -473,8 +485,9 @@ Window {
                 event.accepted = true;
                 return;
             }
+            if (root.handleVideoZoom(event, false)) return;
             if (recorder.videoMode && bodyKeys.isFullPressEvent(event)) {
-                bodyKeys.semanticShutterInput("full_press", false);
+                root.shutterTrigger("stock_hook", {key: event.key});
                 event.accepted = true;
                 return;
             }
@@ -483,7 +496,6 @@ Window {
         if (typeof origReleased === "function") {
             stock.keyReleased = function (event) {
                 if (recorder.videoMode && bodyKeys.isFullPressEvent(event)) {
-                    bodyKeys.semanticShutterInput("full_press", true);
                     event.accepted = true;
                     return;
                 }
@@ -560,14 +572,12 @@ Window {
                 }
             }
         }
-        onLeaveRequested: {
-            playbackController.stop();
-            visible = false;
-        }
+        onLeaveRequested: root.leavePlayback()
         // With the focus here the stock root never sees Playback; it closes what it opened.
         Keys.onPressed: (event) => {
             root.uiLog("gallery_key", {key: event.key});
             if (bodyKeys.isPlayEvent(event)) { root.handlePlay(); event.accepted = true; }
+            else if (bodyKeys.isHalfPressEvent(event)) { root.leavePlayback(); event.accepted = true; }
         }
     }
 
@@ -638,7 +648,7 @@ Window {
         height: 120
         x: parent.width - width - 22
         y: 410
-        visible: recorder.videoMode && rec.session === "up" && !videoGallery.visible && !root.settingsOpen && !root.isoWbShown
+        visible: recorder.videoMode && rec.session === "up" && !videoGallery.visible && !root.settingsOpen && !root.isoWbShown && !root.stockZoomed
         readonly property bool recording: rec.phase === "recording"
         readonly property bool busy: ["starting", "finalizing", "entering", "exiting"].indexOf(rec.phase) >= 0
         Rectangle {
@@ -661,8 +671,7 @@ Window {
             enabled: !recButton.busy
             onClicked: {
                 root.uiLog("rec_button", {phase: rec.phase});
-                bodyKeys.semanticShutterInput("full_press", false);
-                bodyKeys.semanticShutterInput("full_press", true);
+                bodyKeys.recordToggle();
             }
         }
     }
@@ -705,7 +714,7 @@ Window {
                 else if (cmd === "home") { playbackController.stop(); videoGallery.visible = false; shotDelay.name = "prr-gui-home"; shotDelay.restart(); }
                 else if (cmd === "record") recorder.start();
                 else if (cmd === "stoprec") recorder.stop();
-                else if (/^shutter/.test(cmd)) { bodyKeys.semanticShutterInput("full_press", false); bodyKeys.semanticShutterInput("full_press", true); }
+                else if (/^shutter/.test(cmd)) { root.uiLog("shutter_ignored", {source: "gui_cmd"}); }
                 else if (cmd === "video") recorder.setVideoMode(true);
                 else if (cmd === "photo") recorder.setVideoMode(false);
                 else if (cmd === "settings" || cmd === "format") {
@@ -754,6 +763,8 @@ Window {
                  settings: !!root.settingsOpen, drive: drive.driveVisible, stock: root.stockState(),
                  keyHooked: root.keyHooked, browseHooked: root.browseHookItem !== null,
                  nativeShutter: root.nativeShutter, keyOverride: root.videoShutterOverride,
+                 focusMagnify: root.focusMagnify, stockZoomed: root.stockZoomed, playbackPhase: playbackController.phase,
+                 canPause: playbackController.canPause, canResume: playbackController.canResume,
                  pvShown: residentPreview.shown, pvVisible: residentPreview.visible, ispView: root.ispView,
                  recButton: {visible: recButton.visible, x: recButton.x + recButton.width / 2, y: recButton.y + recButton.height / 2},
                  isoWb: root.isoWbShown, events: uiEvents};
@@ -765,7 +776,8 @@ Window {
     // Which Qt keys the stock mapping gives each body function, for the acceptance runs' key
     // injection: read from KeyFn itself rather than found by pressing buttons.
     function logKeymap() {
-        var fns = ["Menu", "Play", "Escape", "Select", "Enter", "HalfPress", "Ael", "Afd", "Cross", "Square", "JstkCenter"];
+        var fns = ["Menu", "Play", "Escape", "Select", "Enter", "HalfPress", "Ael", "Afd", "Cross", "Square",
+                   "JstkCenter", "JstkUp", "JstkDown", "JstkLeft", "JstkRight", "ZoomIn", "Left", "Right", "Up", "Down"];
         var buttons = ["E_Button_FullPress", "E_Button_HalfPress", "E_Button_Play", "E_Button_Menu", "E_Button_IsoWb", "E_Button_Afd", "E_Button_Ael"];
         var map = {}, keys = [];
         for (var c = 32; c < 127; c++) keys.push(c);
@@ -803,6 +815,13 @@ Window {
                 root.uiLog("still_blocked", {from: root.lastStockState});
                 root.writeCmd("live_view_on");
             }
+            // Full press that still reached stock parks on the control screen, which
+            // looks like a forced return to photo. Pull live view back without exiting.
+            if (s === "control_screen" && root.lastStockState === "liveview" &&
+                recorder.videoMode && rec.session === "up") {
+                root.uiLog("liveview_restored", {from: s});
+                root.writeCmd("live_view_on");
+            }
             root.lastStockState = s;
         }
     }
@@ -810,6 +829,7 @@ Window {
         target: videoGallery
         function onVisibleChanged() {
             root.uiLog("gallery", {visible: videoGallery.visible, clips: playbackController.clips.length});
+            if (videoGallery.visible) root.focusMagnify = false;
             // The gallery took the focus; left with it, the body keys reached nothing.
             if (!videoGallery.visible) root.restoreStockFocus();
         }
@@ -817,11 +837,30 @@ Window {
     Connections {
         target: experimentalUiLoader.item
         ignoreUnknownSignals: true
-        function onExperimentalOpenChanged() { if (!experimentalUiLoader.item.experimentalOpen) root.restoreStockFocus(); }
+        function onExperimentalOpenChanged() {
+            if (!experimentalUiLoader.item.experimentalOpen) root.restoreStockFocus();
+            else root.focusMagnify = false;
+        }
     }
     function restoreStockFocus() {
         if (liveviewLoader.item) liveviewLoader.item.forceActiveFocus();
         root.uiLog("focus", {to: "liveview"});
+    }
+
+    property bool focusMagnify: false
+    property bool stockZoomed: false
+    function pollStockZoom() {
+        var img = liveviewLoader.item;
+        var on = !!(img && img.viewModel && img.viewModel.isZoomed);
+        if (on !== root.stockZoomed) {
+            root.stockZoomed = on;
+            root.uiLog("stock_zoom", {on: on});
+        }
+    }
+    Connections {
+        target: rec
+        function onSessionChanged() { if (rec.session !== "up") { root.focusMagnify = false; root.stockZoomed = false; } }
+        function onModeChanged() { if (rec.mode !== "video") { root.focusMagnify = false; root.stockZoomed = false; } }
     }
 
     Timer { interval: 250; repeat: true; running: true; onTriggered: root.pollRec() }

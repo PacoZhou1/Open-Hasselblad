@@ -333,7 +333,9 @@ static void colour_fix(void *frame)
     if (p && !duss_hal_mem_sync_ext(handle, 1, 0, PV_BYTES)) {
         pv_bands_measure_nv12(&col_bands, p, PV_STRIDE, PV_W, PV_H, col_rgb);
         pv_bands_fix_nv12(&col_bands, p, PV_STRIDE, PV_W, PV_H);
+        pv_bands_fix_luma_interior(p, PV_STRIDE, PV_W, PV_H);
         pv_bands_fix_luma_edges(p, PV_STRIDE, PV_W, PV_H);
+        pv_edge_polish_uv(p, PV_STRIDE, PV_W, PV_H);
         duss_hal_mem_sync_ext(handle, 2, 0, PV_BYTES);
     }
     duss_hal_mem_unmap(handle);

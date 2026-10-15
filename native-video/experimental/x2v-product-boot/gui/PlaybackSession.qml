@@ -22,6 +22,7 @@ QtObject {
     property int sessionId: 0
     property int requestId: 0
     property int lastSequence: -1
+    property string pendingOpenId: ""
     readonly property string title: selectedClip ? selectedClip.title : ""
     readonly property bool active: phase !== "idle"
     readonly property bool playing: phase === "playing"
@@ -47,6 +48,7 @@ QtObject {
         if (!canOpen) return false;
         for (var i = 0; i < clips.length; ++i) {
             if (clips[i].id !== id) continue;
+            pendingOpenId = "";
             selectedClip = clips[i]; ++sessionId; lastSequence = -1;
             position = 0; duration = selectedClip.duration; positionKnown = false; error = "";
             canPause = false; canSeek = false; canResume = false;
@@ -55,6 +57,22 @@ QtObject {
             return true;
         }
         return false;
+    }
+    function clipIndex(id) {
+        for (var i = 0; i < clips.length; ++i) if (clips[i].id === id) return i;
+        return -1;
+    }
+    function openAdjacent(delta) {
+        if (!clips.length || !delta) return false;
+        var ix = selectedClip ? clipIndex(selectedClip.id) : 0;
+        if (ix < 0) ix = 0;
+        var n = (ix + delta) % clips.length;
+        if (n < 0) n += clips.length;
+        if (clips[n].id === (selectedClip ? selectedClip.id : "") && clips.length === 1)
+            return false;
+        if (!active) return open(clips[n].id);
+        pendingOpenId = clips[n].id;
+        return stop(true);
     }
     function togglePlayback() {
         if (!ready) return false;
@@ -68,7 +86,8 @@ QtObject {
         pendingOp = "seek"; send("seek", { seconds: Math.max(0, Math.min(duration, seconds)) });
         return true;
     }
-    function stop() {
+    function stop(keepPending) {
+        if (!keepPending) pendingOpenId = "";
         if (!active || phase === "stopping") return false;
         // Stop stays available on heartbeat loss. Wait for release acknowledgement.
         phase = "stopping"; pendingOp = "stop"; send("stop", {}); return true;
@@ -92,6 +111,9 @@ QtObject {
         if (phase === "idle") {
             selectedClip = null; position = 0; duration = 0;
             canPause = false; canSeek = false; canResume = false; positionKnown = false;
+            var next = pendingOpenId;
+            pendingOpenId = "";
+            if (next) Qt.callLater(function () { root.open(next); });
         }
         return true;
     }

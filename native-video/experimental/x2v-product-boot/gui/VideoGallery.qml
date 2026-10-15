@@ -1,4 +1,5 @@
 import QtQuick
+import com.hasselblad.keys
 import "Catalog.js" as Catalog
 
 Rectangle {
@@ -8,8 +9,73 @@ Rectangle {
     signal leaveRequested()
     color: "#080808"
     focus: visible
-    onVisibleChanged: { if (!visible && session.active) session.stop(); }
+    onVisibleChanged: { if (!visible && session.active) session.stop(); if (visible) forceActiveFocus(); }
+    function isFn(event, name) {
+        if (!event || !name) return false;
+        try {
+            if (typeof KeyFn !== "undefined" && typeof KeyFn.isFn === "function" &&
+                KeyFn[name] !== undefined && KeyFn.isFn(event.key, event.modifiers, KeyFn[name]))
+                return true;
+        } catch (e) {}
+        return false;
+    }
+    function isAnyFn(event, names) {
+        for (var i = 0; i < names.length; i++) if (root.isFn(event, names[i])) return true;
+        return false;
+    }
+    function moveGrid(dx, dy) {
+        if (!grid.count) return;
+        if (grid.currentIndex < 0) grid.currentIndex = 0;
+        var cols = 3;
+        var ix = grid.currentIndex + dx + dy * cols;
+        if (ix < 0) ix = 0;
+        if (ix >= grid.count) ix = grid.count - 1;
+        grid.currentIndex = ix;
+        grid.positionViewAtIndex(ix, GridView.Contain);
+    }
+    function openCurrent() {
+        if (grid.currentIndex >= 0 && session.canOpen)
+            session.open(session.clips[grid.currentIndex].id);
+    }
+    function handleBodyNav(event) {
+        if (event.isAutoRepeat) return false;
+        var playing = session.active;
+        if (root.isAnyFn(event, ["HalfPress"]) || event.key === 65) { root.leaveRequested(); return true; }
+        if (root.isAnyFn(event, ["Escape"])) {
+            if (session.active) session.stop(); else root.leaveRequested();
+            return true;
+        }
+        if (playing) {
+            if (root.isAnyFn(event, ["JstkCenter", "Select", "Enter", "PopAccept", "Afd"])) {
+                session.togglePlayback(); return true;
+            }
+            if (root.isAnyFn(event, ["JstkLeft", "JstkUpLeft", "JstkDownLeft", "Left", "Up"])) {
+                session.openAdjacent(-1); return true;
+            }
+            if (root.isAnyFn(event, ["JstkRight", "JstkUpRight", "JstkDownRight", "Right", "Down"])) {
+                session.openAdjacent(1); return true;
+            }
+            if (root.isAnyFn(event, ["JstkUp"])) { session.openAdjacent(-1); return true; }
+            if (root.isAnyFn(event, ["JstkDown"])) { session.openAdjacent(1); return true; }
+            return false;
+        }
+        if (root.isAnyFn(event, ["JstkCenter", "Select", "Enter", "PopAccept", "Afd"])) {
+            root.openCurrent(); return true;
+        }
+        if (root.isAnyFn(event, ["JstkLeft", "JstkUpLeft", "JstkDownLeft", "Left"])) {
+            root.moveGrid(-1, 0); return true;
+        }
+        if (root.isAnyFn(event, ["JstkRight", "JstkUpRight", "JstkDownRight", "Right"])) {
+            root.moveGrid(1, 0); return true;
+        }
+        if (root.isAnyFn(event, ["JstkUp", "Up"])) { root.moveGrid(0, -1); return true; }
+        if (root.isAnyFn(event, ["JstkDown", "Down"])) { root.moveGrid(0, 1); return true; }
+        return false;
+    }
     Keys.onEscapePressed: { if (session.active) session.stop(); else root.leaveRequested(); }
+    Keys.onPressed: (event) => {
+        if (root.handleBodyNav(event)) event.accepted = true;
+    }
     Rectangle {
         id: header
         height: 90; width: parent.width; color: "#111111"
@@ -19,11 +85,6 @@ Rectangle {
             MouseArea { anchors.fill: parent; anchors.margins: -18; onClicked: root.leaveRequested() }
         }
         Text { anchors.centerIn: parent; text: "视频  ·  " + session.clips.length; color: "white"; font.pixelSize: 30 }
-        Text {
-            anchors.right: parent.right; anchors.rightMargin: 32; anchors.verticalCenter: parent.verticalCenter
-            text: "刷新"; color: session.fresh ? "#DDDDDD" : "#666666"; font.pixelSize: 24
-            MouseArea { anchors.fill: parent; anchors.margins: -18; enabled: session.fresh; onClicked: session.refreshRequested() }
-        }
     }
     GridView {
         id: grid

@@ -7,8 +7,8 @@ set -u
 LIVE=/tmp/x2v-live
 HOME_DIR=/blackbox/x2v-native-20261011/video
 # X2V_LIB/X2V_LIB_SHA: development override only; the supervisor never sets them.
-LIB=${X2V_LIB:-/system/lib64/libx2v_prr_resident_20261014zg.so}
-LIB_SHA=${X2V_LIB_SHA:-9864cc186587cd455961bfaf34a62a59e0455db3837a11c6bfee96bb4ebedb11}
+LIB=${X2V_LIB:-/system/lib64/libx2v_prr_resident_20261014zl.so}
+LIB_SHA=${X2V_LIB_SHA:-b0ec5c175861f457b3462b8de605ff966e424253f7bed540338647f8e0cbcf3b}
 ETC=${X2V_ETC:-/system/etc/x2v}
 SP=$ETC/imx861bqr_hb722.sp
 SP_SHA=594f651e83a6d916e9af64ac96c718038c511c3a419028690982b079a6e729e4
@@ -26,7 +26,9 @@ else
     CONF_SHA=31c0c21f207c9ac840edc7834767d8670a22832bf3e64b7fb16518a7374a4363
 fi
 SERVICE=/system/bin/camera-service
-CLIPS=/mnt/media_rw/ssd/X2V_RAW
+CLIPS=/mnt/media_rw/ssd/video
+# H.264 uses the MODE21 SOUT1 resident (24 fps, banded). Stock set_live_view_extended
+# is about 30 fps and is not this path.
 # stop: stop camera-gui for the session; keep: leave it alone; overlay: a supervisor owns camera-gui.
 GUI_MODE=${X2V_GUI_MODE:-stop}
 LOG=$HOME_DIR/session.log
@@ -298,15 +300,28 @@ enter() {
     echo up
 }
 
+# All codecs share /mnt/media_rw/ssd/video. Name is YYYYMMDDHHMM; a second clip
+# in the same minute gets A, then B, C.
+clip_name() {
+    stamp=$(date +%Y%m%d%H%M)
+    [ -e "$CLIPS/$stamp" ] || { printf '%s\n' "$stamp"; return 0; }
+    i=1
+    while [ "$i" -le 26 ]; do
+        L=$(printf '%s' 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' | cut -c"$i")
+        [ -e "$CLIPS/$stamp$L" ] || { printf '%s\n' "$stamp$L"; return 0; }
+        i=$((i + 1))
+    done
+    return 1
+}
 rec() {
     [ "$(cat "$LIVE/session" 2>/dev/null)" = up ] || return 3
     case "${1:-prores_raw}" in
-        prores_raw) p=PRR;;
-        h264) p=H264;;
-        dng) p=DNG;;
+        prores_raw|h264|dng) ;;
         *) log "rec_bad_codec $1"; return 2;;
     esac
-    d=$CLIPS/X2V_${p}_$(date +%Y%m%d_%H%M%S)
+    mkdir -p "$CLIPS" || return 4
+    n=$(clip_name) || { log rec_name_exhausted; return 4; }
+    d=$CLIPS/$n
     mkdir -p "$d" || return 4
     send "rec $d ${1:-prores_raw}" 15 || return 5
     [ "$(status_field state)" = recording ] || { log "rec_rejected state=$(status_field state) error=$(status_field error)"; return 6; }

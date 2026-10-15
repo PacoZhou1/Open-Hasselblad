@@ -53,7 +53,7 @@ Stock.HblGridView {
     Connections {target:stockGrid;ignoreUnknownSignals:true;function onCurrentIndexChanged(){if(!recorder.videoMode)root.syncSelection();}}
     Rectangle {z:-1;anchors.fill:parent;color:"#101010"}
     Text {x:44.8;y:30;text:qsTranslate("PopoverDriveMode","Drive Mode");color:"white";font.pixelSize:32}
-    Text {x:44.8;y:635;width:parent.width-89.6;text:root.currentIndex===6?(root.extensionOwner.recordingProfiles ? root.extensionOwner.recordingProfiles.selected.width+" × "+root.extensionOwner.recordingProfiles.selected.height+" · "+root.extensionOwner.recordingProfiles.selected.format+" · "+root.extensionOwner.recordingProfiles.selected.fps+" fps"+(root.extensionOwner.recordingProfiles.canRecord?"":" · "+root.extensionOwner.recordingProfiles.selected.verifiedLabel) : "录像规格未绑定"):(root.currentIndex>=0 && root.entries[root.currentIndex] ? qsTranslate("DriveModes",root.entries[root.currentIndex].item.description):"");color:"#AAAAAA";font.pixelSize:23;wrapMode:Text.WordWrap}
+    Text {x:44.8;y:635;width:parent.width-89.6;text:root.currentIndex===6?(root.extensionOwner.recordingProfiles ? root.extensionOwner.recordingProfiles.driveLine : "录像规格未绑定"):(root.currentIndex>=0 && root.entries[root.currentIndex] ? qsTranslate("DriveModes",root.entries[root.currentIndex].item.description):"");color:"#AAAAAA";font.pixelSize:23;wrapMode:Text.WordWrap}
     delegate: FocusScope {
         required property int index;required property var modelData
         width:root.cellWidth;height:root.cellHeight;focus:GridView.isCurrentItem

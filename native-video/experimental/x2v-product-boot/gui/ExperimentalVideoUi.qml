@@ -2,15 +2,20 @@ import QtQuick
 Item {
     id:root;objectName:"x2vExperimentalVideoUi";anchors.fill:parent;z:100002
     property Item stockRoot:null
+    property Item liveviewRoot:null
     property var nativeExposureModel:null
     property var recordingProfiles:null
     property bool videoMode:false
     property bool galleryOpen:false
+    property bool stockZoomed:false
     property bool interactionAllowed:false
     property Item menuAttachment:null
     property Item stockGrid:null
     property Item stockBottomArea:null
+    property Item stockAfIndicator:null
+    property Item stockMfAssist:null
     property alias exposureTabs:tabs
+    readonly property bool hideMfAid:root.videoMode && !!root.nativeExposureModel && root.nativeExposureModel.focusMode===8
     property bool experimentalOpen:false
     readonly property var defaultMenus:["exposureMenu","focusMenu","qualityMenu","cropModesMenu","flashMenu","displayMenu","powerMenu","storageMenu","ibisMenu","connectionMenu","generalMenu"]
     function findNamed(name) {
@@ -31,23 +36,37 @@ Item {
     }
     function scan() {
         var overlay=findNamed("LiveViewOverlay_root");
+        if(!overlay && liveviewRoot)overlay=findBelow(liveviewRoot,"LiveViewOverlay_root");
         stockBottomArea=overlay?findBelow(overlay,"bottom_area"):null;
+        stockAfIndicator=overlay?findBelow(overlay,"AfIndicator_root"):null;
+        stockMfAssist=overlay?findBelow(overlay,"MfAssistIndicator_root"):null;
         var grid=findNamed("MainScreen_grid");
         if(grid!==stockGrid){if(menuAttachment)menuAttachment.destroy();menuAttachment=null;stockGrid=grid;if(grid && grid.contentItem)menuAttachment=entryComponent.createObject(grid.contentItem,{stockGrid:grid});}
         if(menuAttachment)menuAttachment.layoutVerified=verifyLayout(grid);
     }
     onStockRootChanged:scan()
+    onLiveviewRootChanged:scan()
     Timer { interval:300;repeat:true;running:!!root.stockRoot;onTriggered:root.scan() }
     Component { id:entryComponent;ExperimentalMenuEntry { onOpenRequested:root.experimentalOpen=true } }
     ExposureTouchTabs {
         id:tabs;anchors.fill:parent;nativeModel:root.nativeExposureModel
-        visible:root.videoMode && !root.galleryOpen && !!root.stockRoot && root.stockRoot.state==="liveview"
+        visible:root.videoMode && !root.galleryOpen && !root.stockZoomed && !!root.stockRoot && root.stockRoot.state==="liveview"
         interactionAllowed:visible && root.interactionAllowed && !root.experimentalOpen
         onVisibleChanged:if(!visible)selectedParameter=""
     }
     Binding {
         target:root.stockBottomArea;property:"visible";value:false
         when:tabs.visible && !!root.stockBottomArea
+        restoreMode:Binding.RestoreBindingOrValue
+    }
+    Binding {
+        target:root.stockAfIndicator;property:"visible";value:false
+        when:root.hideMfAid && !!root.stockAfIndicator
+        restoreMode:Binding.RestoreBindingOrValue
+    }
+    Binding {
+        target:root.stockMfAssist;property:"visible";value:false
+        when:root.hideMfAid && !!root.stockMfAssist
         restoreMode:Binding.RestoreBindingOrValue
     }
     property alias settingsPage:settings.page

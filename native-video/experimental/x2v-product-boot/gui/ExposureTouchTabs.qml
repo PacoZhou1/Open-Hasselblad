@@ -12,17 +12,31 @@ Item {
     property string selectedParameter: ""
     readonly property var states: ["aperture", "shutterspeed", "iso", "exposure_adjust"]
     readonly property var labels: ["光圈", "快门", "ISO", "曝光补偿"]
+    // Stock ControlScreenViewModel: E_ExpMode_Manual is 0. In M the fourth tab
+    // is the light-meter over/under, not EV compensation.
+    readonly property bool manualExposure: !!nativeModel && nativeModel.expMode === 0
     readonly property real evStops: {
         if (!nativeModel || typeof nativeModel.quickAdjust !== "number") return 0;
         return nativeModel.quickAdjust / 12;
     }
+    readonly property real meterStops: {
+        if (!nativeModel || typeof nativeModel.balanceScaleEvValue !== "number") return 0;
+        return nativeModel.balanceScaleEvValue;
+    }
+    readonly property bool meterValid: !!nativeModel && nativeModel.balanceScaleValid === true
     readonly property string evLabel: {
         var v = root.evStops;
+        return (v > 0 ? "+" : "") + v.toFixed(1) + " EV";
+    }
+    readonly property string meterLabel: {
+        if (!root.meterValid) return "—";
+        var v = root.meterStops;
         return (v > 0 ? "+" : "") + v.toFixed(1) + " EV";
     }
     function canEdit(ix) {
         if (!interactionAllowed || !nativeModel) return false;
         if (ix === 3) {
+            if (root.manualExposure) return false;
             if (nativeModel.canChangeEvAdj === true) return true;
             if (nativeModel.quickAdjustEnabled === true) return true;
             if (typeof nativeModel.stepQuickAdjust === "function") return true;
@@ -35,7 +49,7 @@ Item {
         if (ix === 0) return "f/" + nativeModel.aperture;
         if (ix === 1) return String(nativeModel.shutterSpeed);
         if (ix === 2) return nativeModel.isoAndAutoAsString;
-        return root.evLabel;
+        return root.manualExposure ? root.meterLabel : root.evLabel;
     }
     function openParameter(ix) {
         if (!canEdit(ix)) return false;
@@ -71,6 +85,7 @@ Item {
         return false;
     }
     onInteractionAllowedChanged: if (!interactionAllowed) selectedParameter = ""
+    onManualExposureChanged: if (manualExposure && selectedParameter === "exposure_adjust") selectedParameter = ""
     Row {
         anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom
         anchors.leftMargin: 8; anchors.rightMargin: 8; anchors.bottomMargin: 8; height: 96
@@ -80,11 +95,15 @@ Item {
                 objectName: "exposureTab" + index
                 width: (root.width - 16) / 4; height: 96; color: tap.pressed ? "#4a4a4a" : "#171717"
                 border.width: 1; border.color: "#434343"
-                Text { x: 24; y: 12; text: root.labels[parent.index]; color: "#bdbdbd"; font.pixelSize: 21 }
+                readonly property bool meterTab: index === 3 && root.manualExposure
+                Text {
+                    x: 24; y: 12; text: root.labels[parent.index]
+                    color: parent.meterTab ? "#8a8a8a" : "#bdbdbd"; font.pixelSize: 21
+                }
                 Text {
                     x: 24; y: 40
                     text: root.valueText(parent.index)
-                    color: root.canEdit(parent.index) ? "white" : "#888888"
+                    color: parent.meterTab ? "#7a7a7a" : (root.canEdit(parent.index) ? "white" : "#888888")
                     font.pixelSize: 32; font.weight: Font.Medium
                 }
                 Text { anchors.right: parent.right; rightPadding: 18; y: 16; text: root.canEdit(parent.index) ? "⌄" : ""; color: "#bdbdbd"; font.pixelSize: 25 }

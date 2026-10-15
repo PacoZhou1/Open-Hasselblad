@@ -6,20 +6,26 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 R = HERE.parents[2]
 NV = R / 'native-video'
-VERSION = '20261014zg'
+VERSION = '20261015b'
 MODVER = '20261013c'
 OUT = HERE / 'dist' / f'x2v-fw-{VERSION}'
 sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 subprocess.run([sys.executable, HERE / 'build.py'], check=True)
+# Rebuild is allowed; a new weston/test hash would fail exists_different on the camera.
+ZK = HERE / 'dist' / 'x2v-fw-20261014zk'
+if sha(HERE / 'build/x2v-boot.so') != '95bb9145280095a1062deb29801227b9ff38e9267521a4aa9e5b0d8f1e9b6d75':
+    shutil.copy2(ZK / 'x2v-boot-20261013c.so', HERE / 'build/x2v-boot.so')
+if sha(HERE / 'build/x2v_weston_boot_test') != '6312cfc7c84ecd888ccd69f452b2d8940922857a295e11e3f3f1744c4f52014b':
+    shutil.copy2(ZK / 'x2v_weston_boot_test_20261013a', HERE / 'build/x2v_weston_boot_test')
 
 subprocess.run([sys.executable, NV / 'experimental/prores-raw-encoder/build.py'], check=True, capture_output=True)
 
 # (local source, pinned sha or None, mode, destination)
 FILES = [
     (NV / 'experimental/rx-prr-resident/build/libx2v_prr_resident.so',
-     '9864cc186587cd455961bfaf34a62a59e0455db3837a11c6bfee96bb4ebedb11', '644',
-     '/system/lib64/libx2v_prr_resident_20261014zg.so'),
+     'b0ec5c175861f457b3462b8de605ff966e424253f7bed540338647f8e0cbcf3b', '644',
+     '/system/lib64/libx2v_prr_resident_20261014zl.so'),
     (NV / 'outputs/runtime/libx2v_gui_bootstrap.so',
      '2ec7b4686682ea1c5c9e9de87876135e0085b8563c90d223211150c3572708dd', '644',
      '/system/lib64/libx2v_gui_bootstrap_20261011.so'),
@@ -33,11 +39,15 @@ FILES = [
     (NV / 'experimental/rx-prr-resident/imx861bqr_hb722_view.conf',
      '31c0c21f207c9ac840edc7834767d8670a22832bf3e64b7fb16518a7374a4363', '644',
      '/system/etc/x2v/imx861bqr_hb722_view_20261014zg.conf'),
-    (HERE / 'build/x2v-boot.so', None, '644', f'/system/lib64/weston/x2v-boot-{MODVER}.so'),
-    (HERE / 'build/x2v_weston_boot_test', None, '755', '/system/bin/x2v_weston_boot_test_20261013a'),
+    (HERE / 'build/x2v-boot.so',
+     '95bb9145280095a1062deb29801227b9ff38e9267521a4aa9e5b0d8f1e9b6d75', '644',
+     f'/system/lib64/weston/x2v-boot-{MODVER}.so'),
+    (HERE / 'build/x2v_weston_boot_test',
+     '6312cfc7c84ecd888ccd69f452b2d8940922857a295e11e3f3f1744c4f52014b', '755',
+     '/system/bin/x2v_weston_boot_test_20261013a'),
     (HERE / 'x2v_product_boot.sh', None, '755', f'/system/etc/x2v/x2v_product_boot_{VERSION}.sh'),
     (NV / 'experimental/rx-prr-resident/x2v_video_session.sh', None, '755',
-     '/system/etc/x2v/x2v_video_session_20261014zg.sh'),
+     f'/system/etc/x2v/x2v_video_session_{VERSION}.sh'),
 ]
 
 if OUT.exists():

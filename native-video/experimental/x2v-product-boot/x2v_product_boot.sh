@@ -16,9 +16,10 @@ REC=$ROOT/rec
 # Polled several times a second: tmpfs, not flash.
 RUN=/tmp/x2v-product
 ETC=/system/etc/x2v
-SESSION=$ETC/x2v_video_session_20261014zg.sh
+SESSION=$ETC/x2v_video_session_20261015b.sh
 LIVE=/tmp/x2v-live
-CLIPS=/mnt/media_rw/ssd/X2V_RAW
+CLIPS=/mnt/media_rw/ssd/video
+OLD_CLIPS=/mnt/media_rw/ssd/X2V_RAW
 GUI=/system/bin/camera-gui
 LOADER=/system/lib64/libx2v_gui_bootstrap_20261011.so
 PLAY=/system/bin/x2v_prr_play_20261014zg
@@ -172,7 +173,7 @@ FREE_MB=""; FREE_T=0; STOP_NOTE=""
 free_mb() {
     now; [ "${1:-}" = now ] || [ $((NOW - FREE_T)) -ge 1 ] || return 0; FREE_T=$NOW
     FREE_MB=""
-    set -- $(stat -f -c '%a %S' "$CLIPS" 2>/dev/null)
+    set -- $(stat -f -c '%a %S' "$CLIPS" 2>/dev/null || stat -f -c '%a %S' /mnt/media_rw/ssd 2>/dev/null)
     [ "$#" = 2 ] && [ "$2" -gt 0 ] && [ "$2" -le 1048576 ] && FREE_MB=$(( $1 / (1048576 / $2) ))
 }
 # odindb-send is a whole Qt process: seconds to start while a clip records. Each runs beside the
@@ -207,12 +208,33 @@ set_desired() {
 CODEC=prores_raw
 [ -f "$PROD/codec" ] && read CODEC < "$PROD/codec"
 case "$CODEC" in prores_raw|h264|dng) ;; *) CODEC=prores_raw;; esac
-set_profile() { case "$CODEC" in h264) PROFILE=h264_1300_970_24;; dng) PROFILE=dng_3888_2912_24;; *) PROFILE=raw_3920_2946_24;; esac; }
+# MODE21 is 24 fps. Stock set_live_view_extended H.264 is about 30 fps and is not this path.
+FPS=24
+set_profile() {
+    case "$CODEC" in
+        h264) PROFILE=h264_1300_970_24;;
+        dng) PROFILE=dng_3888_2912_24;;
+        *) PROFILE=raw_3920_2946_24;;
+    esac
+}
 set_profile
-set_codec() {
-    [ "$1" = "$CODEC" ] && return 0
-    CODEC=$1; set_profile; log "codec $CODEC"
-    echo "$1" > "$PROD/codec.tmp" && mv -f "$PROD/codec.tmp" "$PROD/codec"
+set_codec() { set_codec_fps "$1" "$FPS"; }
+set_codec_fps() {
+    case "$1" in prores_raw|h264|dng) ;; *) return 0;; esac
+    case "$2" in 24) ;; *) return 0;; esac
+    [ "$1" = "$CODEC" ] && [ "$2" = "$FPS" ] && return 0
+    CODEC=$1; FPS=$2; set_profile
+    echo "$CODEC" > "$PROD/codec.tmp" && mv -f "$PROD/codec.tmp" "$PROD/codec"
+    echo "$FPS" > "$PROD/fps.tmp" && mv -f "$PROD/fps.tmp" "$PROD/fps"
+    log "codec $CODEC fps=$FPS profile=$PROFILE"
+    # H.264 stays on the MODE21 SOUT1 resident (24 fps, banded). It does not leave the graph.
+}
+apply_profile_id() {
+    case "$1" in
+        h264_1300_970_24) set_codec_fps h264 24;;
+        dng_3888_2912_24) set_codec_fps dng 24;;
+        raw_3920_2946_24) set_codec_fps prores_raw 24;;
+    esac
 }
 start_job() {
     JOB_KIND=$1
@@ -282,8 +304,9 @@ command_in() {
                        else LAST=""; DETAIL=""; start_job rec "$CODEC"; fi;;
                esac;;
         codec_prores_raw|codec_h264|codec_dng)
-               # The codec of a clip is fixed when it starts; switching waits for it to end.
                [ -z "$JOB" ] && [ "$S_ST" != recording ] && [ "$S_ST" != finalizing ] && set_codec "${cmd#codec_}";;
+        profile_*)
+               [ -z "$JOB" ] && [ "$S_ST" != recording ] && [ "$S_ST" != finalizing ] && apply_profile_id "${cmd#profile_}";;
         stop) if [ "$JOB_KIND" = rec ]; then PENDING_STOP=1
               elif [ -z "$JOB" ] && [ "$S_ST" = recording ]; then start_job stop; fi;;
     esac
@@ -403,8 +426,13 @@ CAT_JOB=""; CAT_AGAIN=0; CAT_SSD=0; CAT_CS=0; CAT_N=0
 SAVE_WAIT=0
 LV_JOB=""
 lv_step() { reap_bg ${LV_JOB:-} || return 0; [ -n "$LV_JOB" ] && log "live_view_on rc=$BG_RC"; LV_JOB=""; }
+clip_root() {
+    [ -d "$CLIPS/$1" ] && { printf '%s\n' "$CLIPS"; return 0; }
+    [ -d "$OLD_CLIPS/$1" ] && { printf '%s\n' "$OLD_CLIPS"; return 0; }
+    return 1
+}
 catalog() {
-    if [ -d "$CLIPS" ]; then CAT_SSD=1; else CAT_SSD=0; fi
+    if [ -d "$CLIPS" ] || [ -d "$OLD_CLIPS" ]; then CAT_SSD=1; else CAT_SSD=0; fi
     if [ -n "$CAT_JOB" ]; then CAT_AGAIN=1; return 0; fi
     cs; CAT_CS=$CS; CAT_N=$((CAT_N + 1))
     bg write_catalog "$CAT_N"; CAT_JOB="$BG_PID $BG_PS"
@@ -420,20 +448,24 @@ catalog_step() {
 # per clip: at ~60 ms a fork, three per clip made 50 clips an 11 s catalog.
 catalog_entry() {
     E=""
-    case "$1" in
-        X2V_H264_*) m=$CLIPS/$1/clip.mp4; w=1300; h=970; f=H.264;;
-        # Plays its H.264 proxy; its size is the frames'.
-        X2V_DNG_*) m=$CLIPS/$1/proxy.mp4; w=3888; h=2912; f=CinemaDNG;;
-        *) m=$CLIPS/$1/clip.mov; w=3888; h=2912; f="ProRes RAW";;
-    esac
-    j=$CLIPS/$1/clip.json
+    r=$(clip_root "$1") || return 0
+    if [ -f "$r/$1/clip.mp4" ]; then
+        m=$r/$1/clip.mp4; w=1300; h=970; f=H.264
+    elif [ -f "$r/$1/proxy.mp4" ]; then
+        m=$r/$1/proxy.mp4; w=3888; h=2912; f=CinemaDNG
+    elif [ -f "$r/$1/clip.mov" ]; then
+        m=$r/$1/clip.mov; w=3888; h=2912; f="ProRes RAW"
+    else
+        return 0
+    fi
+    j=$r/$1/clip.json
     [ -f "$j" ] && IFS= read -r cj < "$j" || return 0
     E=-
     case "$cj" in *'"error":0'*) ;; *) return 0;; esac
     v=${cj#*\"duration\":}; [ "$v" != "$cj" ] || return 0; dur=${v%%[,\}]*}
     v=${cj#*\"bytes\":}; [ "$v" != "$cj" ] || return 0; bytes=${v%%[,\}]*}
     [ -n "$dur" ] && [ -n "$bytes" ] && [ -f "$m" ] || return 0
-    th=""; [ -f "$CLIPS/$1/thumb.ppm" ] && th=$CLIPS/$1/thumb.ppm
+    th=""; [ -f "$r/$1/thumb.ppm" ] && th=$r/$1/thumb.ppm
     E='{"id":"'$1'","state":"saved","finalized":true,"source":"'$m'","thumbnail":"'$th'","title":"'$1'","duration":'$dur',"bytes":'$bytes',"width":'$w',"height":'$h',"format":"'$f'"}'
 }
 # A clip just saved goes in front of the catalog as it is, in the loop: a whole rebuild lists the
@@ -460,8 +492,12 @@ write_catalog() {
     {
         printf '{"schemaVersion":1,"clips":['
         sep=""
-        # Newest first across codecs: order by the timestamp after the codec prefix.
-        for d in $(ls "$CLIPS" 2>/dev/null | grep -E '^X2V_(PRR|H264|DNG)_' | sed 's/^X2V_[A-Z0-9]*_\(.*\)$/\1 &/' | sort -r | cut -d' ' -f2); do
+        # Newest first. New clips are YYYYMMDDHHMM[A-Z] in video/; leftover
+        # X2V_* dirs in X2V_RAW still list so old takes stay playable.
+        for d in $( {
+            ls "$CLIPS" 2>/dev/null | grep -E '^[0-9]{12}[A-Z]?$'
+            ls "$OLD_CLIPS" 2>/dev/null | grep -E '^X2V_(PRR|H264|DNG)_'
+        } | sort -r ); do
             # Each entry once a boot, in tmpfs: a DNG clip's directory holds ~1400 files, which
             # exFAT reads through for every name it looks up, three a clip.
             ce=$RUN/cat/$d
@@ -506,7 +542,7 @@ while [ ! -f "$PROD/disable" ]; do
         fi
         ensure_play
         # The SSD mounts a few seconds after this starts, and leaves with USB storage.
-        if [ -d "$CLIPS" ]; then c_ssd=1; else c_ssd=0; fi
+        if [ -d "$CLIPS" ] || [ -d "$OLD_CLIPS" ]; then c_ssd=1; else c_ssd=0; fi
         [ "$c_ssd" = "$CAT_SSD" ] || { log "catalog ssd=$c_ssd"; catalog; }
     fi
     # A finished job stays in /proc as a zombie until waited for.

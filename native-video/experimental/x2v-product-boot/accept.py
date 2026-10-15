@@ -12,10 +12,12 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
+sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / 'rx-prr-resident'))
 sys.path.insert(0, str(HERE / 'exp/isp'))
 import device_test as d  # noqa: E402
 from pdlines import read_dng, pd_row_residual  # noqa: E402
+from accept_bands import band_score, band_interior  # noqa: E402
 
 G = d.BB
 DEV = G + '/accept/accept_dev.sh'
@@ -344,7 +346,11 @@ def clip_quality(f, codec, clip):
             verdict('record.%s.colour_frame' % codec, False, error=(r.stderr or r.stdout)[-200:])
         else:
             score = band_score(ppm)
-            verdict('record.%s.no_colour_bands' % codec, score < 1.5, band_score=round(score, 2))
+            interior = band_interior(ppm)
+            verdict('record.%s.no_colour_bands' % codec,
+                    score is not None and interior is not None and score < 1.5 and interior < 1.25,
+                    band_score=None if score is None else round(score, 2),
+                    band_interior=None if interior is None else round(interior, 2))
     if codec == 'dng':
         name = fq(f, 'ls %s/*_000010.dng 2>/dev/null; true' % folder, 4000).strip().split()[-1]
         if not name.endswith('.dng'):
@@ -614,21 +620,6 @@ def photo():
             verdict('photo.video_again', False, error=str(e))
 
 
-def band_score(ppm):
-    """Where the ISP colour port had its bands (rows 24 + 48k and 40 + 48k at this height): the
-    step in mean (B - G) across those rows over the step across all other rows. ~1 is clean."""
-    b = ppm.read_bytes()
-    parts = b.split(b'\n', 3)
-    w, h = map(int, parts[1].split())
-    px = parts[3]
-    bg = [sum(px[(y * w + x) * 3 + 2] - px[(y * w + x) * 3 + 1] for x in range(0, w, 2)) / (w / 2) for y in range(h)]
-    step = [abs(bg[y + 1] - bg[y]) for y in range(h - 1)]
-    edges = {y for k in range(11) for y in (24 + 48 * k - 1, 40 + 48 * k - 1) if 0 <= y < h - 1}
-    on = [step[y] for y in edges]
-    off = [step[y] for y in range(h - 1) if y not in edges]
-    return (sum(on) / len(on)) / max(1e-6, sum(off) / len(off))
-
-
 def nv12_half_ppm(nv12, dest, w=1300, h=970, stride=1536):
     """BT.709 2x2, as pv_bands.h: the ISP colour port at the half size band_score expects."""
     y = nv12
@@ -696,7 +687,11 @@ def viewfinder(secs=5):
             fq(f, 'cp /tmp/x2v-live/preview.ppm %s/accept/pv.ppm; chmod a+r %s/accept/pv.ppm; true' % (G, G), 6000)
             d.adb('pull', '%s/accept/pv.ppm' % G, str(OUT / 'viewfinder.ppm'))
         score = band_score(OUT / 'viewfinder.ppm')
-        verdict('viewfinder.no_bands', score < 1.5, band_score=round(score, 2), isp=bool(s.get('ispView')))
+        interior = band_interior(OUT / 'viewfinder.ppm')
+        verdict('viewfinder.no_bands',
+                score is not None and interior is not None and score < 1.5 and interior < 1.25,
+                band_score=None if score is None else round(score, 2),
+                band_interior=None if interior is None else round(interior, 2), isp=bool(s.get('ispView')))
         shot(f, 'viewfinder-idle')
         full = keymap(f).get('E_Button_FullPress', [69])[0]
         # The two RAW recorders take the most CPU: the viewfinder must neither stall nor cost frames.

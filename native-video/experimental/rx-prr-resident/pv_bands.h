@@ -7,12 +7,13 @@
  * and leaving a one-row luma spike there. The positions never move; the size of the
  * error depends on brightness and varies across the frame.
  *
- * Per band edge and 50-column block, a line fitted through the rows outside the
- * edge and one through the rows inside it are extrapolated to the edge: their
- * ratio is the band gain (a scene gradient across the edge cancels), and the three
- * rows at the edge are matched to a blend of the two lines. Gains are the median
- * over the block's columns, smoothed over frames; after the first frames each
- * frame measures every third band, in turn.
+ * Per band edge and 50-column block the gain is outside-rows / deep-interior rows.
+ * The ISP blend lives in the two rows on each side of an edge, so an edge-only fit
+ * reads a faded error and then interpolates that fade across the 32-row slab — the
+ * desk in the middle stays tinted. Interior rows sit well inside the slab; a scene
+ * step that crosses the band is dropped (green jump > PVB_DISC). Gains are the
+ * median over the block, smoothed over frames. Every band is measured every frame.
+ * The three blended edge rows fade that same gain with the ISP's mix shares.
  *
  * The colour port also has an inactive border: half-size rows 0-5 and columns 0-2
  * are black or half black, and take the nearest active row or column. */
@@ -31,17 +32,22 @@
 #define PVB_MAX 8
 #define PVB_BW 50
 #define PVB_MAXBLK 16
-#define PVB_FIT 7      /* rows per fitted line */
-#define PVB_GAP 2      /* the lines start this many rows from the edge row */
-#define PVB_WARM 4     /* frames that measure every band */
-#define PVB_ROUND 3    /* afterwards each frame measures every third band */
+#define PVB_FIT 7      /* kept for the unused edge-line helper */
+#define PVB_GAP 2
+#define PVB_WARM 4
+#define PVB_ROUND 3
+#define PVB_IN0 8      /* first interior row, inward from the edge */
+#define PVB_INN 6      /* interior rows averaged */
+#define PVB_OUT0 2     /* skip the blended rows just outside the edge */
+#define PVB_OUTN 6     /* outside rows averaged */
+#define PVB_DISC 40.f  /* skip a column whose green jumps this much (scene) */
 #define PV_TOP_FILL 6
 #define PV_LEFT_FILL 3
 
 struct pv_bands {
     /* band, edge (0: row a, 1: row e), block, RGB */
-    float g[PVB_MAX][2][PVB_MAXBLK][3];     /* band gain at the edge */
-    float t[PVB_MAX][2][3][PVB_MAXBLK][3];  /* gains of edge rows -1, 0, +1 */
+    float g[PVB_MAX][2][PVB_MAXBLK][3];     /* interior gain at each edge */
+    float t[PVB_MAX][2][3][PVB_MAXBLK][3];  /* faded gains of edge rows -1, 0, +1 */
     unsigned frames;
 };
 
@@ -146,7 +152,9 @@ static inline float pvb_median(float *v, int n)
 static inline int pvb_bands(int oh)
 {
     int n = 0;
-    while (n < PVB_MAX && PVB_FIRST + n * PVB_PITCH + PVB_H + PVB_GAP + PVB_FIT <= oh) n++;
+    while (n < PVB_MAX && PVB_FIRST + n * PVB_PITCH - (PVB_OUT0 + PVB_OUTN - 1) >= 0 &&
+           PVB_FIRST + n * PVB_PITCH + PVB_H + PVB_OUT0 + PVB_OUTN <= oh)
+        n++;
     return n;
 }
 
@@ -157,61 +165,58 @@ static inline void pvb_line(float *w, int u0, int d)
     for (int i = 0; i < PVB_FIT; i++) w[i] = 1.0f / PVB_FIT + (u0 + i - um) * (d - um) / ss;
 }
 
-/* Bands k0, k0 + kstep, ... below nb; every xstep-th column of each block. */
+/* Share of the banded pixel in edge rows -1, 0, +1 (top) and e-1, e, e+1 (bottom). */
+static const float pvb_edge_in[2][3] = { { 0.11f, 0.60f, 1 }, { 0.87f, 0.34f, 0 } };
+
+/* Bands k0, k0 + kstep, ... below nb; every xstep-th column of each block.
+ * Gain is mean(outside) / mean(deep interior); the three edge-row gains fade that. */
 static inline void pvb_measure_x(struct pv_bands *s, const uint8_t *rgb, int w, int nb, int nblk, int k0, int kstep,
                                  float alpha, int xstep)
 {
-    /* wo/wi[d+1]: line weights for the outside/inside rows at offset d; top edge, bottom is mirrored. */
-    float wo[3][PVB_FIT], wi[3][PVB_FIT], r[4][3][PVB_BW];
-    for (int d = -1; d <= 1; d++) {
-        pvb_line(wo[d + 1], -PVB_GAP - PVB_FIT + 1, d);
-        pvb_line(wi[d + 1], PVB_GAP, d);
-    }
+    float r[3][PVB_BW];
     for (int k = k0; k < nb; k += kstep) {
-        int a = PVB_FIRST + k * PVB_PITCH;
+        int a = PVB_FIRST + k * PVB_PITCH, e = a + PVB_H;
         for (int j = 0; j < 2; j++) {
-            /* sgn flips the row offsets for the bottom edge, whose inside is above it. */
-            int edge = j ? a + PVB_H : a, sgn = j ? -1 : 1;
+            int y0o = j ? e + PVB_OUT0 : a - PVB_OUT0 - PVB_OUTN + 1;
+            int y0i = j ? e - PVB_IN0 - PVB_INN + 1 : a + PVB_IN0;
             for (int n = 0; n < nblk; n++) {
                 int cnt = 0;
                 for (int x = n * PVB_BW; x < (n + 1) * PVB_BW; x += xstep) {
-                    float G[3], T[3][3];
+                    float G[3];
                     int ok = 1;
                     for (int c = 0; c < 3 && ok; c++) {
-                        float O[3] = { 0, 0, 0 }, I[3] = { 0, 0, 0 };
-                        for (int i = 0; i < PVB_FIT; i++) {
-                            int yo = edge + sgn * (-PVB_GAP - PVB_FIT + 1 + i), yi = edge + sgn * (PVB_GAP + i);
-                            float po = rgb[((size_t)yo * w + x) * 3 + c], pi = rgb[((size_t)yi * w + x) * 3 + c];
-                            for (int d = 0; d < 3; d++) { O[d] += wo[d][i] * po; I[d] += wi[d][i] * pi; }
+                        float O = 0, I = 0;
+                        for (int i = 0; i < PVB_OUTN; i++)
+                            O += rgb[((size_t)(y0o + i) * w + x) * 3 + c];
+                        for (int i = 0; i < PVB_INN; i++)
+                            I += rgb[((size_t)(y0i + i) * w + x) * 3 + c];
+                        O /= (float)PVB_OUTN;
+                        I /= (float)PVB_INN;
+                        if (O < 8 || I < 8 || O > 248 || I > 248) { ok = 0; break; }
+                        if (c == 1) {
+                            float dlt = O - I;
+                            if (dlt < -PVB_DISC || dlt > PVB_DISC) { ok = 0; break; }
                         }
-                        if (O[1] < 6 || I[1] < 6 || O[1] > 250 || I[1] > 250) { ok = 0; break; }
-                        G[c] = O[1] / I[1];
-                        for (int d = 0; d < 3; d++) {
-                            /* Each line weighs by its nearness: the other line's distance from this row. */
-                            float din = PVB_GAP - (d - 1), dout = PVB_GAP + (d - 1);
-                            float target = (din * O[d] + dout * G[c] * I[d]) / (din + dout);
-                            float p = rgb[((size_t)(edge + sgn * (d - 1)) * w + x) * 3 + c];
-                            if (p < 6 || p > 250) { ok = 0; break; }
-                            T[d][c] = target / p;
-                        }
+                        G[c] = O / I;
                     }
                     if (!ok) continue;
-                    for (int c = 0; c < 3; c++) {
-                        r[0][c][cnt] = G[c];
-                        for (int d = 0; d < 3; d++) r[1 + d][c][cnt] = T[d][c];
-                    }
+                    for (int c = 0; c < 3; c++) r[c][cnt] = G[c];
                     cnt++;
                 }
                 if (cnt < 20 / xstep) continue;
-                for (int c = 0; c < 3; c++)
-                    for (int q = 0; q < 4; q++) {
-                        /* Bottom-edge rows are stored top to bottom: e-1, e, e+1. */
-                        float m = pvb_median(r[q][c], cnt);
-                        float *g = q ? &s->t[k][j][j ? 3 - q : q - 1][n][c] : &s->g[k][j][n][c];
-                        *g += alpha * (m - *g);
-                        if (*g < 0.5f) *g = 0.5f;
-                        if (*g > 2.0f) *g = 2.0f;
+                for (int c = 0; c < 3; c++) {
+                    float m = pvb_median(r[c], cnt);
+                    float *g = &s->g[k][j][n][c];
+                    *g += alpha * (m - *g);
+                    if (*g < 0.5f) *g = 0.5f;
+                    if (*g > 2.0f) *g = 2.0f;
+                    for (int d = 0; d < 3; d++) {
+                        float in = pvb_edge_in[j][d], t = 1.f / (in / *g + 1.f - in);
+                        if (t < 0.5f) t = 0.5f;
+                        if (t > 2.0f) t = 2.0f;
+                        s->t[k][j][d][n][c] = t;
                     }
+                }
             }
         }
     }
@@ -225,8 +230,7 @@ static inline void pvb_measure(struct pv_bands *s, const uint8_t *rgb, int w, in
 
 static inline void pvb_measure_frame(struct pv_bands *s, const uint8_t *rgb, int w, int nb, int nblk)
 {
-    if (s->frames < PVB_WARM) pvb_measure(s, rgb, w, nb, nblk, 0, 1, 0.6f);
-    else pvb_measure(s, rgb, w, nb, nblk, (int)(s->frames % PVB_ROUND), PVB_ROUND, 0.5f);
+    pvb_measure(s, rgb, w, nb, nblk, 0, 1, s->frames < PVB_WARM ? 0.7f : 0.65f);
 }
 
 /* Block gains linearly interpolated between block centres; out is interleaved like the RGB row. */
@@ -355,9 +359,9 @@ static inline void pvb_fill_border(uint8_t *rgb, int w, int h)
 }
 
 /* The same correction on the full-size NV12 frame. A half-size pixel is one 2x2 luma block with its
- * chroma pair, so one gain triple applies to the whole block. The viewfinder's BT.709 conversion is
- * linear before clamping: the gained luma is an affine function of the old one, and the chroma comes
- * from the gained mean of the block. Reentrant: no static state, s is only read. */
+ * chroma pair, so one gain triple applies to the whole block. Only chroma is written: applying the
+ * RGB gains to luma as well turned each 32-row slab into a darker bar (the desk stripes). Luma edge
+ * spikes stay on pv_bands_fix_luma_edges. Reentrant: no static state, s is only read. */
 static inline uint8_t pvb_round8(float v) { return v <= 0 ? 0 : v >= 255 ? 255 : (uint8_t)(v + 0.5f); }
 
 static inline void pvb_fix_block(uint8_t *y0, uint8_t *y1, uint8_t *c, const float *gain)
@@ -367,13 +371,7 @@ static inline void pvb_fix_block(uint8_t *y0, uint8_t *y1, uint8_t *c, const flo
     float L = 1.16438f * ((y0[0] + y0[1] + y1[0] + y1[1]) * 0.25f - 16);
     /* The highlight knee is taken at the block mean, so the four luma values stay affine. */
     float g[3] = { pvb_gain_hl(L + cr, gain[0]), pvb_gain_hl(L + cg, gain[1]), pvb_gain_hl(L + cb, gain[2]) };
-    float wr = 0.18259f * g[0], wg = 0.61423f * g[1], wb = 0.06201f * g[2];
-    float kY = 1.16438f * (wr + wg + wb), kC = 16 + wr * cr + wg * cg + wb * cb - 16 * kY;
     float R = g[0] * (L + cr), G = g[1] * (L + cg), B = g[2] * (L + cb);
-    y0[0] = pvb_round8(kY * y0[0] + kC);
-    y0[1] = pvb_round8(kY * y0[1] + kC);
-    y1[0] = pvb_round8(kY * y1[0] + kC);
-    y1[1] = pvb_round8(kY * y1[1] + kC);
     c[0] = pvb_round8(128 - 0.10064f * R - 0.33857f * G + 0.43922f * B);
     c[1] = pvb_round8(128 + 0.43922f * R - 0.39894f * G - 0.04027f * B);
 }
@@ -441,23 +439,9 @@ static inline void pvb_fix_block4(uint8_t *y0, uint8_t *y1, uint8_t *c, const fl
     float32x4x3_t gn = vld3q_f32(gain);
     float32x4_t pr = vaddq_f32(L, cr), pg = vaddq_f32(L, cg), pb = vaddq_f32(L, cb);
     float32x4_t g0 = pvb_gain_hl4(pr, gn.val[0]), g1 = pvb_gain_hl4(pg, gn.val[1]), g2 = pvb_gain_hl4(pb, gn.val[2]);
-    float32x4_t wr = vmulq_n_f32(g0, 0.18259f), wg = vmulq_n_f32(g1, 0.61423f), wb = vmulq_n_f32(g2, 0.06201f);
-    float32x4_t kY = vmulq_n_f32(vaddq_f32(vaddq_f32(wr, wg), wb), 1.16438f);
-    float32x4_t kC = vaddq_f32(vdupq_n_f32(16), vfmaq_f32(vfmaq_f32(vmulq_f32(wr, cr), wg, cg), wb, cb));
-    kC = vfmsq_n_f32(kC, kY, 16);
     float32x4_t R = vmulq_f32(g0, pr), G = vmulq_f32(g1, pg), B = vmulq_f32(g2, pb);
     float32x4_t C0 = vfmaq_n_f32(vfmaq_n_f32(vfmaq_n_f32(vdupq_n_f32(128), R, -0.10064f), G, -0.33857f), B, 0.43922f);
     float32x4_t C1 = vfmaq_n_f32(vfmaq_n_f32(vfmaq_n_f32(vdupq_n_f32(128), R, 0.43922f), G, -0.39894f), B, -0.04027f);
-    /* Each block's kY, kC for both of its pixels in a row. */
-    float32x4x2_t ky = vzipq_f32(kY, kY), kc = vzipq_f32(kC, kC);
-    uint8_t *rows[2] = { y0, y1 };
-    uint8x8_t in[2] = { a, b };
-    for (int r = 0; r < 2; r++) {
-        uint16x8_t w16 = vmovl_u8(in[r]);
-        float32x4_t lo = vfmaq_f32(kc.val[0], ky.val[0], vcvtq_f32_u32(vmovl_u16(vget_low_u16(w16))));
-        float32x4_t hi = vfmaq_f32(kc.val[1], ky.val[1], vcvtq_f32_u32(vmovl_u16(vget_high_u16(w16))));
-        vst1_u8(rows[r], vqmovn_u16(vcombine_u16(pvb_round4(lo), pvb_round4(hi))));
-    }
     uint16x4x2_t z = vzip_u16(pvb_round4(C0), pvb_round4(C1));
     vst1_u8(c, vqmovn_u16(vcombine_u16(z.val[0], z.val[1])));
 }
@@ -590,31 +574,30 @@ static inline void pv_bands_fix_luma_edges(uint8_t *nv12, int stride, int fw, in
 {
     int nb = pvb_bands(fh / 2), nblk = fw / PVL_BW;
     if (nblk < 2 || nblk > PVL_MAXBLK || fw > 2048) return;
-    static const int fit[8] = { -6, -5, -4, -3, 2, 3, 4, 5 };
-    float gain[4][PVL_MAXBLK];
+    static const int fit[8] = { -8, -7, -6, -5, 3, 4, 5, 6 };
+    float gain[6][PVL_MAXBLK];
     uint16_t row[2048];
     for (int k = 0; k < nb; k++)
         for (int j = 0; j < 2; j++) {
             int r = 2 * (PVB_FIRST + k * PVB_PITCH + j * PVB_H);
-            if (r - 6 < 0 || r + 5 >= fh) continue;
+            if (r - 8 < 0 || r + 6 >= fh) continue;
             for (int b = 0; b < nblk; b++) {
-                float m[12];
-                for (int i = 0; i < 12; i++)
-                    m[i] = (float)pvl_sum(nv12 + (size_t)(r - 6 + i) * stride + b * PVL_BW, PVL_BW) / PVL_BW;
+                float m[16];
+                for (int i = 0; i < 16; i++)
+                    m[i] = (float)pvl_sum(nv12 + (size_t)(r - 8 + i) * stride + b * PVL_BW, PVL_BW) / PVL_BW;
                 float sx = 0, sy = 0, sxx = 0, sxy = 0;
                 for (int i = 0; i < 8; i++) {
-                    float x = (float)fit[i], y = m[fit[i] + 6];
+                    float x = (float)fit[i], y = m[fit[i] + 8];
                     sx += x; sy += y; sxx += x * x; sxy += x * y;
                 }
                 float slope = (8 * sxy - sx * sy) / (8 * sxx - sx * sx), icpt = (sy - slope * sx) / 8;
-                for (int d = 0; d < 4; d++) {
-                    float have = m[d + 4], want = icpt + slope * (float)(d - 2);
+                for (int d = 0; d < 6; d++) {
+                    float have = m[d + 5], want = icpt + slope * (float)(d - 3);
                     float g = have > 8 ? want / have : 1;
                     gain[d][b] = g < 0.85f ? 0.85f : g > 1.15f ? 1.15f : g;
                 }
             }
-            for (int d = 0; d < 4; d++) {
-                /* Gains linear between block centres, flat beyond the outer ones. */
+            for (int d = 0; d < 6; d++) {
                 const float one = (float)(1 << PVL_Q);
                 int x = 0;
                 for (; x < PVL_BW / 2 && x < fw; x++) row[x] = (uint16_t)(gain[d][0] * one + 0.5f);
@@ -623,29 +606,82 @@ static inline void pv_bands_fix_luma_edges(uint8_t *nv12, int stride, int fw, in
                     for (int i = 0; i < PVL_BW && x < fw; i++, x++) row[x] = (uint16_t)(g0 + dg * ((float)i + 0.5f) + 0.5f);
                 }
                 for (; x < fw; x++) row[x] = (uint16_t)(gain[d][nblk - 1] * one + 0.5f);
-                pvl_scale_row(nv12 + (size_t)(r - 2 + d) * stride, row, fw);
+                pvl_scale_row(nv12 + (size_t)(r - 3 + d) * stride, row, fw);
             }
         }
 }
 
+/* The PD slab is a few luma counts high after chroma-only colour_fix. One gain per block
+ * matches the interior mean to the rows just outside; edges stay for luma_edges. */
+static inline void pv_bands_fix_luma_interior(uint8_t *nv12, int stride, int fw, int fh)
+{
+    int nb = pvb_bands(fh / 2), nblk = fw / PVL_BW;
+    if (nblk < 2 || nblk > PVL_MAXBLK || fw > 2048) return;
+    float gain[PVL_MAXBLK];
+    uint16_t row[2048];
+    for (int k = 0; k < nb; k++) {
+        int a = 2 * (PVB_FIRST + k * PVB_PITCH), e = a + 2 * PVB_H;
+        if (a - 8 < 0 || e + 8 >= fh) continue;
+        for (int b = 0; b < nblk; b++) {
+            uint32_t o = 0, inn = 0;
+            int no = 0, ni = 0;
+            for (int y = a - 8; y < a - 2; y++, no++) o += pvl_sum(nv12 + (size_t)y * stride + b * PVL_BW, PVL_BW);
+            for (int y = e + 2; y < e + 8; y++, no++) o += pvl_sum(nv12 + (size_t)y * stride + b * PVL_BW, PVL_BW);
+            for (int y = a + 6; y < e - 6; y++, ni++) inn += pvl_sum(nv12 + (size_t)y * stride + b * PVL_BW, PVL_BW);
+            float out = (float)o / (no * PVL_BW), in = (float)inn / (ni * PVL_BW);
+            float g = (in > 8 && in < 252 && out > 8 && out < 252) ? out / in : 1;
+            gain[b] = g < 0.88f ? 0.88f : g > 1.12f ? 1.12f : g;
+        }
+        const float one = (float)(1 << PVL_Q);
+        int x = 0;
+        for (; x < PVL_BW / 2 && x < fw; x++) row[x] = (uint16_t)(gain[0] * one + 0.5f);
+        for (int b = 0; b + 1 < nblk; b++) {
+            float g0 = gain[b] * one, dg = (gain[b + 1] - gain[b]) * one / PVL_BW;
+            for (int i = 0; i < PVL_BW && x < fw; i++, x++)
+                row[x] = (uint16_t)(g0 + dg * ((float)i + 0.5f) + 0.5f);
+        }
+        for (; x < fw; x++) row[x] = (uint16_t)(gain[nblk - 1] * one + 0.5f);
+        for (int y = a + 2; y < e - 2; y++)
+            pvl_scale_row(nv12 + (size_t)y * stride, row, fw);
+    }
+}
+
 /* Measures the bands of the frame pv_bands_fix_nv12 is about to correct; rgb is a scratch of
- * fw/2 x fh/2 RGB8. The bands move with the scene, so gains from other frames leave them in: half
- * the bands each frame, alternately, keeps each at most one frame old, and only the rows the
- * measurement reads are converted. */
+ * fw/2 x fh/2 RGB8. Only the outside and deep-interior rows each band reads are converted. */
 static inline void pv_bands_measure_nv12(struct pv_bands *s, const uint8_t *nv12, int stride, int fw, int fh,
                                          uint8_t *rgb)
 {
     int w = fw / 2, h = fh / 2, nb = pvb_bands(h), nblk = w / PVB_BW;
     if (w > 1024 || nblk < 1 || nblk > PVB_MAXBLK) return;
-    const int warm = s->frames < PVB_WARM, k0 = warm ? 0 : (int)(s->frames & 1), kstep = warm ? 1 : 2;
-    const int reach = PVB_GAP + PVB_FIT - 1;
-    for (int k = k0; k < nb; k += kstep) {
+    for (int k = 0; k < nb; k++) {
         int a = PVB_FIRST + k * PVB_PITCH, e = a + PVB_H;
-        pv_nv12_to_rgb_rows(nv12, stride, fh, rgb, w, a - reach, a + reach + 1);
-        pv_nv12_to_rgb_rows(nv12, stride, fh, rgb, w, e - reach, e + reach + 1);
+        pv_nv12_to_rgb_rows(nv12, stride, fh, rgb, w, a - (PVB_OUT0 + PVB_OUTN - 1), a - PVB_OUT0 + 1);
+        pv_nv12_to_rgb_rows(nv12, stride, fh, rgb, w, a + PVB_IN0, a + PVB_IN0 + PVB_INN);
+        pv_nv12_to_rgb_rows(nv12, stride, fh, rgb, w, e - PVB_IN0 - PVB_INN + 1, e - PVB_IN0 + 1);
+        pv_nv12_to_rgb_rows(nv12, stride, fh, rgb, w, e + PVB_OUT0, e + PVB_OUT0 + PVB_OUTN);
     }
-    pvb_measure_x(s, rgb, w, nb, nblk, k0, kstep, 0.6f, 2);
+    pvb_measure_x(s, rgb, w, nb, nblk, 0, 1, s->frames < PVB_WARM ? 0.7f : 0.65f, 2);
     s->frames++;
+}
+
+/* After chroma+luma_edges: leftover accept failures are a ~1-count B−G step on
+ * UV rows 47,48,79,80 + 96k. Replace those rows with the neighbour average.
+ * Host hybrid-polish uv variant: holdouts pass score<1.5 and interior<1.25. */
+static inline void pv_edge_polish_uv(uint8_t *nv12, int stride, int fw, int fh)
+{
+    uint8_t *uv = nv12 + (size_t)stride * fh;
+    int h = fh / 2, nb = pvb_bands(h);
+    static const int edges[4] = { 47, 48, 79, 80 };
+    for (int k = 0; k < nb; k++)
+        for (int t = 0; t < 4; t++) {
+            int v = edges[t] + k * PVB_PITCH;
+            if (v < 2 || v + 2 >= h) continue;
+            const uint8_t *a = uv + (size_t)(v - 2) * stride;
+            const uint8_t *b = uv + (size_t)(v + 2) * stride;
+            uint8_t *d = uv + (size_t)v * stride;
+            for (int i = 0; i < fw; i++)
+                d[i] = (uint8_t)(((unsigned)a[i] + b[i] + 1u) >> 1);
+        }
 }
 
 /* rgb: w x h, RGB8. Only meaningful for the 1300x970 colour port at half size. */

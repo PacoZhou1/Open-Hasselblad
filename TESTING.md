@@ -2,9 +2,9 @@
 
 **Operator / 操作者：z-cursor-prr-gui**
 
-任务：video-mode shutter: keyOverride Override(3) + E_Button_FullPress; suppress still capture
+任务：zl live; review zip on Desktop; X2V_RAW purged, DCIM 4633 kept
 
-更新：2026-10-13T15:32:26.187847+08:00
+更新：2026-10-15T03:43:38.742670+08:00
 
 其他代理不得运行 ADB、USB、factory、录制、重启或装机命令。离线代码与文件分析可继续。占用无自动超时；只有操作者完成停止和原厂恢复后释放。原始数据保留，不刷启动/固件分区。
 

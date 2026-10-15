@@ -11,8 +11,8 @@
    "rc": 0,
    "timing": {
     "neon_scalar_mismatch": 0,
-    "neon_ms": 0.87,
-    "scalar_ms": 3.08
+    "neon_ms": 1.08,
+    "scalar_ms": 3.86
    },
    "frames": {
     "dark_212801": {
@@ -107,21 +107,21 @@
    "rc": 0,
    "timing": {
     "neon_scalar_mismatch": 0,
-    "neon_ms": 0.95,
-    "scalar_ms": 3.56
+    "neon_ms": 1.0,
+    "scalar_ms": 3.37
    },
    "frames": {
     "dark_212801": {
      "black_c": 3903.654,
      "black_numpy": 3903.654,
      "max_diff_plain": 1,
-     "max_diff_class": 1
+     "max_diff_class": 0
     },
     "flat_214208_c1": {
      "black_c": 4051.576,
      "black_numpy": 4051.576,
      "max_diff_plain": 1,
-     "max_diff_class": 2,
+     "max_diff_class": 1,
      "class_ratio_in": {
       "tiles": 3203,
       "median": 0.7151888577683061,
@@ -131,17 +131,17 @@
      },
      "class_ratio_out": {
       "tiles": 3249,
-      "median": 0.9999537508093608,
-      "p5": 0.995866840179632,
-      "p95": 1.0035948871318094,
-      "max_abs_dev": 0.06030389363722699
+      "median": 1.0,
+      "p5": 1.0,
+      "p95": 1.0,
+      "max_abs_dev": 0.00024857071836947853
      }
     },
     "flat_214208_c2": {
      "black_c": 4051.674,
      "black_numpy": 4051.674,
      "max_diff_plain": 1,
-     "max_diff_class": 2,
+     "max_diff_class": 1,
      "class_ratio_in": {
       "tiles": 3201,
       "median": 0.7155936246341494,
@@ -151,17 +151,17 @@
      },
      "class_ratio_out": {
       "tiles": 3248,
-      "median": 0.9999512403614834,
-      "p5": 0.9956870730768017,
-      "p95": 1.0034788922046463,
-      "max_abs_dev": 0.05607043558850788
+      "median": 1.0,
+      "p5": 1.0,
+      "p95": 1.0,
+      "max_abs_dev": 0.00024857071836947853
      }
     },
     "wall_221635_c1": {
      "black_c": 4051.492,
      "black_numpy": 4051.492,
      "max_diff_plain": 1,
-     "max_diff_class": 2,
+     "max_diff_class": 1,
      "class_ratio_in": {
       "tiles": 3104,
       "median": 0.7173218527199301,
@@ -171,17 +171,17 @@
      },
      "class_ratio_out": {
       "tiles": 3174,
-      "median": 0.9982267580069506,
-      "p5": 0.992855244288944,
-      "p95": 1.0027736454673837,
-      "max_abs_dev": 0.07799823847956544
+      "median": 1.0,
+      "p5": 1.0,
+      "p95": 1.0,
+      "max_abs_dev": 0.00024851338171072435
      }
     },
     "desk_235857_c1": {
      "black_c": 4062.709,
      "black_numpy": 4062.709,
      "max_diff_plain": 1,
-     "max_diff_class": 2,
+     "max_diff_class": 1,
      "class_ratio_in": {
       "tiles": 2909,
       "median": 0.7119458343877332,
@@ -191,10 +191,10 @@
      },
      "class_ratio_out": {
       "tiles": 2999,
-      "median": 0.9972640686999585,
-      "p5": 0.9671624444356502,
-      "p95": 1.024415713016855,
-      "max_abs_dev": 0.19420200119996112
+      "median": 1.0,
+      "p5": 1.0,
+      "p95": 1.0,
+      "max_abs_dev": 0.00024993751562107924
      }
     }
    }

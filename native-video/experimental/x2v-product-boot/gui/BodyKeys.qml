@@ -1,11 +1,10 @@
 import QtQuick
 import com.hasselblad.keys
 
-// Video-mode start and stop, from the shutter's full press and from the on-screen
-// record button. The full press reaches this GUI as a count, not a key: with the
-// video key override the service forwards it through camera-uinput, where
-// camera-service's shutter_gate.c takes it (main.qml polls the count). Do not take
-// Qt focus on this item: LiveViewOverlay needs activeFocus for WB / ISO / wheels.
+// Video-mode start and stop come only from the on-screen record button.
+// A full press in video mode is eaten and ignored: on the MODE21 graph it
+// still reaches a still capture and hangs the body. Do not take Qt focus
+// on this item: LiveViewOverlay needs activeFocus for WB / ISO / wheels.
 Item {
     id: root
     objectName: "x2vBodyKeys"
@@ -45,11 +44,37 @@ Item {
         return key === 69;
     }
     function isFullPressEvent(event) { return !!event && isFullPressKey(event.key); }
-    function isPlayEvent(event) {
-        if (!event) return false;
+    function isFnEvent(event, name) {
+        if (!event || !name) return false;
         try {
             if (typeof KeyFn !== "undefined" && typeof KeyFn.isFn === "function" &&
-                KeyFn.Play !== undefined && KeyFn.isFn(event.key, event.modifiers, KeyFn.Play))
+                KeyFn[name] !== undefined && KeyFn.isFn(event.key, event.modifiers, KeyFn[name]))
+                return true;
+        } catch (e) {}
+        return false;
+    }
+    function isFnListEvent(event, names) {
+        for (var i = 0; i < names.length; i++)
+            if (isFnEvent(event, names[i])) return true;
+        return false;
+    }
+    function isPlayEvent(event) { return isFnEvent(event, "Play"); }
+    function isHalfPressEvent(event) {
+        if (isFnEvent(event, "HalfPress")) return true;
+        try {
+            if (typeof KeyFn !== "undefined" && typeof KeyFn.isButton === "function" &&
+                KeyFn.E_Button_HalfPress !== undefined &&
+                KeyFn.isButton(KeyFn.E_Button_HalfPress, event.key))
+                return true;
+        } catch (e) {}
+        return !!event && event.key === 65;
+    }
+    function isZoomEvent(event) {
+        if (isFnListEvent(event, ["ZoomIn", "JstkCenter"])) return true;
+        try {
+            if (typeof KeyFn !== "undefined" && typeof KeyFn.isButton === "function" &&
+                KeyFn.E_Button_JstkClick !== undefined &&
+                KeyFn.isButton(KeyFn.E_Button_JstkClick, event.key))
                 return true;
         } catch (e) {}
         return false;
@@ -58,14 +83,21 @@ Item {
         if (action === "half_press") return false;
         if (action !== "full_press" || !recorder.videoMode) return false;
         if (released) { fullShutterDown = false; return true; }
-        if (fullShutterDown) return true;
         fullShutterDown = true;
-        if (galleryOpen || settingsOpen) return true;
-        if (!hardwareShutterReady) return true;
-        if (recorder.phase === "recording" || recorder.stopNeedsRetry === true) stopRecording();
-        else if (recorder.phase === "starting" || startCommandPending) hardwareStopPending = true;
-        else if (canStart) startRecording();
         return true;
+    }
+    function recordToggle() {
+        if (!recorder.videoMode || galleryOpen || settingsOpen) return false;
+        if (recorder.phase === "recording" || recorder.stopNeedsRetry === true) {
+            stopRecording();
+            return true;
+        }
+        if (recorder.phase === "starting" || startCommandPending) {
+            hardwareStopPending = true;
+            return true;
+        }
+        if (canStart) return startRecording();
+        return false;
     }
     function reconcileHardwareStop() {
         if (hardwareStopPending && recorder.phase === "recording") {
