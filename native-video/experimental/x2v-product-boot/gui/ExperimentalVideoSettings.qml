@@ -1,12 +1,17 @@
 import QtQuick
 import "qrc:/qt/qml/app/qml/mainmenu" as NativeMenu
 import "qrc:/qt/qml/app/qml/components" as NativeComponents
+import "qrc:/qt/qml/app/qml/components/controls" as NativeControls
 Rectangle {
     id: root
     objectName: "x2vExperimentalVideoSettings"
     color: "black"
     property var profiles: null
     property string page: ""
+    property bool durationOpen: false
+    property bool foreverWarning: false
+    onVisibleChanged: { if (!visible) { durationOpen = false; foreverWarning = false; } }
+    onEditableChanged: { if (!editable) { durationOpen = false; foreverWarning = false; } }
     readonly property var chosen: profiles ? profiles.selected : null
     readonly property bool editable: !!profiles && !profiles.busy
     readonly property var options: {
@@ -59,24 +64,25 @@ Rectangle {
         width: parent.width
         visible: !root.page
         Repeater {
-            model: ["分辨率", "帧率", "RAW", "格式", "录像状态"]
+            model: ["分辨率", "帧率", "RAW", "格式", "录制时长", "录像状态"]
             delegate: Item {
                 required property int index
                 required property string modelData
                 width: root.width
-                height: 110
-                readonly property bool openable: index === 1 || index === 3
+                height: 94
+                readonly property bool openable: index === 1 || index === 3 || index === 4
                 Text { x: 48; y: 30; text: parent.modelData; color: "white"; font.pixelSize: 30; font.weight: Font.Medium }
                 Text {
                     anchors.right: parent.right
                     anchors.rightMargin: parent.openable ? 72 : 48
                     y: 30
                     visible: index !== 2
-                    color: index === 4 ? (profiles && profiles.canRecord ? "white" : "#A0A0A0") : "white"
+                    color: index === 5 ? (profiles && profiles.canRecord ? "white" : "#A0A0A0") : "white"
                     font.pixelSize: 29
                     text: !root.chosen ? "—" : index === 0 ? root.chosen.width + " × " + root.chosen.height
                         : index === 1 ? root.chosen.fps + " fps"
                         : index === 3 ? root.chosen.format
+                        : index === 4 ? profiles.durationLabel
                         : profiles.canRecord ? "就绪" : "等待会话"
                 }
                 Text {
@@ -98,8 +104,8 @@ Rectangle {
                 }
                 Text {
                     x: 48
-                    y: 75
-                    visible: index === 4
+                    y: 66
+                    visible: index === 5
                     text: root.chosen ? root.spec(root.chosen) : ""
                     color: "#8E8E8E"
                     font.pixelSize: 23
@@ -107,11 +113,12 @@ Rectangle {
                 Rectangle { x: 48; width: parent.width - 96; height: 1; anchors.bottom: parent.bottom; color: "#333" }
                 MouseArea {
                     anchors.fill: parent
-                    enabled: root.editable && index !== 4 && index !== 0
+                    enabled: root.editable && index !== 5 && index !== 0
                     onClicked: {
                         if (index === 1) root.openPage("fps");
                         else if (index === 2) profiles.setRaw(!root.chosen.raw);
                         else if (index === 3) root.openPage("format");
+                        else if (index === 4) root.durationOpen = true;
                     }
                 }
             }
@@ -149,9 +156,48 @@ Rectangle {
             }
         }
     }
+    Loader {
+        id: durationLoader
+        z: 10
+        anchors.fill: parent
+        active: root.durationOpen
+        sourceComponent: NativeControls.PopupListSelector {
+            anchors.fill: parent
+            interactive: true
+            defaultPixelSize: 64
+            model: { var a = []; for (var i = 1; i <= 30; ++i) a.push(i + " 分钟"); a.push("永不"); return a; }
+            currentlySelectedValue: root.profiles ? root.profiles.durationLabel : "5 分钟"
+            popupAnchor.leftMargin: (width - 420) / 2
+            popupAnchor.rightMargin: (width - 420) / 2
+            onSelectedValueChanged: (value) => {
+                if (value === "永不") root.foreverWarning = true;
+                else if (root.editable) root.profiles.selectDuration(parseInt(value) * 60);
+            }
+            onClose: { root.durationOpen = false; }
+            Component.onCompleted: forceActiveFocus()
+        }
+    }
+    Loader {
+        anchors.fill: parent
+        z: 11
+        active: root.foreverWarning
+        sourceComponent: NativeComponents.GenericConfirm {
+            anchors.fill: parent
+            sideOriented: false
+            headerText: "取消录制时长限制？"
+            infoText: "长时间录制导致温度过高可能产生硬件损坏"
+            infoText2: "选择永不仍保留温度和存储空间保护。"
+            btn1.text: "选择永不"
+            btn2.text: "取消"
+            onBtn1Selected: { if (root.editable) root.profiles.selectDuration(0); }
+            onClose: root.foreverWarning = false
+            Component.onCompleted: forceActiveFocus()
+        }
+    }
     Text {
         x: 48
         anchors.bottom: parent.bottom
+        visible: !root.durationOpen && !root.foreverWarning
         anchors.bottomMargin: 27
         color: "#8E8E8E"
         font.pixelSize: 23

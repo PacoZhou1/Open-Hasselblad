@@ -1,0 +1,13 @@
+{
+  "version": "20261015c-record-limits",
+  "base": "installed 20261014zm supervisor + aligned 20261015b receiver",
+  "receiver_changed": false,
+  "installed": true,
+  "files": {
+    "x2v_product_boot_20261015c.sh": "93d7ff8ba8f37576138a6368ed607a0770e57533044e9a4f52f6f47e9369a93a",
+    "gui/RecordingProfiles.qml": "bb2b2b082832febad9ee53d6582f2a6cbbd41c8df2d2939494a0b0e19fa8af41",
+    "gui/main.qml": "ddf7586750ab8882b9c575d2f11278f5d00e6220b1f7ad2114dd5814022b6fe0",
+    "gui/ExperimentalVideoSettings.qml": "fdd06aa49d6fcf1ee0d7242deee8c67ed3c8e5d1c3546240814a4113d6e09c64"
+  },
+  "installation_evidence": "../../evidence/record-limits-20261015/permanent-install.json"
+}

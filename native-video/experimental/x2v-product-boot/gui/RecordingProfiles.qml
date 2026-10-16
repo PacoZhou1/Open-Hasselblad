@@ -16,6 +16,14 @@ QtObject {
     property string backendProfileId: ""
     property bool backendReady: false
     property bool busy: false
+    property int durationSeconds: 300
+    readonly property string durationLabel: durationSeconds === 0 ? "永不" : (durationSeconds / 60) + " 分钟"
+    signal durationSelected(int seconds)
+    function selectDuration(seconds) {
+        if (busy || !Number.isInteger(seconds) || (seconds !== 0 && (seconds < 60 || seconds > 1800 || seconds % 60 !== 0))) return false;
+        durationSelected(seconds);
+        return true;
+    }
     readonly property var selected: find(selectedProfileId) || find("raw_3920_2946_24")
     readonly property bool selectionValid: selectedProfileId === selected.id
     readonly property bool canRecord: selectionValid && backendReady && backendProfileId === selectedProfileId && !busy

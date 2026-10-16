@@ -1,0 +1,58 @@
+{
+  "simulation": true,
+  "actual_hardware_heat_test": false,
+  "state": {
+    "schema": 1,
+    "backend_ready": false,
+    "profile_id": "raw_3920_2946_24",
+    "codec": "prores_raw",
+    "phase": "error",
+    "detail": "",
+    "fresh": true,
+    "uptime": 1615,
+    "mode": "photo",
+    "session": "down",
+    "seconds": 0,
+    "frames": 0,
+    "preview_gen": 0,
+    "duration_limit_seconds": 0,
+    "temperature_status": "high",
+    "supervisor_pid": 17576
+  },
+  "clip": {
+    "schema": 1,
+    "format": "ProRes RAW",
+    "fourcc": "aprn",
+    "width": 3888,
+    "height": 2912,
+    "fps": 24,
+    "frames": 80,
+    "dropped": 0,
+    "lost": 0,
+    "seen": 80,
+    "bytes": 198966344,
+    "seconds": 3.389,
+    "duration": 3.333,
+    "source_span_raw": 3291733,
+    "queue_max": 2492921,
+    "write_ms_max": 11,
+    "direct": 1,
+    "wb": [
+      2.8606,
+      1.8396
+    ],
+    "copy_ms_max": 12,
+    "acq_ms_max": 0,
+    "pre_ms_max": 46,
+    "sub_ms_max": 20,
+    "harv_ms_max": 12,
+    "drop_phase": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "error": 0
+  },
+  "log": "1525.24 job_start exit pid=23287\n1540.18 job_end exit rc=7 out=\n1540.21 job_start exit pid=23958\n1547.84 job_end exit rc=0 out=\n1593.16 cmd 910 video_on session=down state= job=\n1593.23 job_start enter pid=25100\n1603.45 job_end enter rc=0 out=up \n1605.04 cmd 902 duration_0 session=up state=idle job=\n1605.89 cmd 1792061493739-4 start session=up state=idle job=\n1605.94 job_start rec pid=26058\n1606.61 job_end rec rc=0 out=/mnt/media_rw/ssd/X2V_RAW/X2V_PRR_20261015_185133 \n1606.95 wake acquire_wake_lock rc=0\n1609.09 thermal_stop reason=hot status=high\n1609.17 job_start stop pid=26166\n1609.85 job_end stop rc=0 out=/mnt/media_rw/ssd/X2V_RAW/X2V_PRR_20261015_185133 \n1610.08 job_start exit pid=26222\n1610.10 wake release_wake_lock rc=0\n1615.56 job_end exit rc=0 out=\n"
+}

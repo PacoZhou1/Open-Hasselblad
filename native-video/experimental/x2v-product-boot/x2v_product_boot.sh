@@ -205,6 +205,34 @@ set_desired() {
     [ "$1" = "$DESIRED" ] && return 0
     DESIRED=$1; echo "$1" > "$PROD/mode.tmp" && mv -f "$PROD/mode.tmp" "$PROD/mode"
 }
+# Per-clip limit is enforced here, independent of GUI lifetime and frame count.
+# 0 is an explicit opt-out; missing/corrupt settings always mean five minutes.
+valid_duration() {
+    case "${1:-}" in ''|*[!0-9]*|0[0-9]*|??????????*) return 1;; esac
+    [ "$1" = 0 ] || { [ "$1" -ge 60 ] && [ "$1" -le 1800 ] && [ $(( $1 % 60 )) = 0 ]; }
+}
+load_duration() {
+    DURATION=300
+    value=""; [ -f "$PROD/duration_seconds" ] && read value < "$PROD/duration_seconds"
+    valid_duration "$value" && DURATION=$value
+    return 0
+}
+set_duration() {
+    valid_duration "$1" || return 1
+    printf '%s\n' "$1" > "$PROD/duration_seconds.tmp" &&
+        mv -f "$PROD/duration_seconds.tmp" "$PROD/duration_seconds" || return 1
+    DURATION=$1
+}
+load_duration
+CLIP_LIMIT=$DURATION
+watch_duration() {
+    [ "$S_SES" = up ] && [ "$S_ST" = recording ] && [ -z "$JOB" ] && [ "$CLIP_LIMIT" -gt 0 ] || return 0
+    sf seconds; elapsed=${SF%%.*}
+    case "$elapsed" in ''|*[!0-9]*) return 0;; esac
+    [ "$elapsed" -ge "$CLIP_LIMIT" ] || return 0
+    log "duration_limit seconds=$elapsed limit=$CLIP_LIMIT"
+    STOP_NOTE="已达到录制时长，视频已停止并保存"; start_job stop
+}
 CODEC=prores_raw
 [ -f "$PROD/codec" ] && read CODEC < "$PROD/codec"
 case "$CODEC" in prores_raw|h264|dng) ;; *) CODEC=prores_raw;; esac
@@ -301,8 +329,11 @@ command_in() {
                        storage_limits; free_mb now
                        if [ -n "$FREE_MB" ] && [ "$FREE_MB" -lt "$FREE_START_MB" ]; then
                            log "start_refused free_mb=$FREE_MB"; LAST=""; DETAIL="存储空间不足，无法开始录制"
-                       else LAST=""; DETAIL=""; start_job rec "$CODEC"; fi;;
+                       elif ! thermal_ready; then LAST=""; DETAIL="温度状态未就绪或过高，暂不能录像"
+                       else LAST=""; DETAIL=""; CLIP_LIMIT=$DURATION; start_job rec "$CODEC"; fi;;
                esac;;
+        duration_*)
+               [ -z "$JOB" ] && [ "$S_ST" != recording ] && [ "$S_ST" != finalizing ] && set_duration "${cmd#duration_}";;
         codec_prores_raw|codec_h264|codec_dng)
                [ -z "$JOB" ] && [ "$S_ST" != recording ] && [ "$S_ST" != finalizing ] && set_codec "${cmd#codec_}";;
         profile_*)
@@ -316,10 +347,45 @@ command_in() {
 # stays, so the next boot comes back to it.
 # Photo mode holds neither and needs no watching; odindb-send is a whole Qt process.
 SYS_T=0; SYS_JOB=""
+TEMP_STATUS=unknown; TEMP_AT=0; THERMAL_TRIPPED=0
+thermal_ready() {
+    now
+    [ "$TEMP_AT" -gt 0 ] && [ $((NOW - TEMP_AT)) -le 10 ] &&
+        { [ "$TEMP_STATUS" = low ] || [ "$TEMP_STATUS" = moderate ]; }
+}
+watch_thermal() {
+    [ "$S_SES" = up ] || return 0
+    now
+    why=""
+    case "$TEMP_STATUS" in high|critical) why=hot;; esac
+    if [ "$S_ST" = recording ] && ! thermal_ready; then why=${why:-unavailable}; fi
+    [ -n "$why" ] || { THERMAL_TRIPPED=0; return 0; }
+    if [ "$THERMAL_TRIPPED" = 0 ]; then
+        log "thermal_stop reason=$why status=$TEMP_STATUS"
+        THERMAL_TRIPPED=1
+        if [ "$why" = hot ]; then DETAIL="机身温度过高，已停止录像并退出视频模式"
+        else DETAIL="温度监测失联，已停止录像并退出视频模式"; fi
+        # Do not automatically resume a hot video graph when it cools down.
+        set_desired photo
+    fi
+    if [ "$S_ST" = recording ] && [ -z "$JOB" ]; then STOP_NOTE=$DETAIL; start_job stop; fi
+}
+
 watch_system() {
     reap_bg ${SYS_JOB:-} || return 0
     if [ -n "$SYS_JOB" ]; then
         SYS_JOB=""
+        now
+        [ -f "$RUN/temperature" ] && {
+            read t < "$RUN/temperature"
+            case "$t" in
+                'temperature_status = E_TemperatureStatus_Low(1)') TEMP_STATUS=low; TEMP_AT=$NOW;;
+                'temperature_status = E_TemperatureStatus_Moderate(2)') TEMP_STATUS=moderate; TEMP_AT=$NOW;;
+                'temperature_status = E_TemperatureStatus_High(3)') TEMP_STATUS=high; TEMP_AT=$NOW;;
+                'temperature_status = E_TemperatureStatus_Critical(4)') TEMP_STATUS=critical; TEMP_AT=$NOW;;
+                *) TEMP_STATUS=unknown;;
+            esac
+        }
         # A redirection that fails on a compound command ends a non-interactive shell.
         [ -f "$RUN/system_state" ] && while IFS= read -r l; do
             case "$l" in
@@ -329,7 +395,7 @@ watch_system() {
     fi
     [ "$S_SES" = up ] || [ "$WOKE" = 1 ] || return 0
     now; [ $((NOW - SYS_T)) -ge 2 ] || return 0; SYS_T=$NOW
-    bg sh -c 'timeout 3 odindb-send -s system -p system_state > "$1" 2>/dev/null' x2v "$RUN/system_state"
+    bg sh -c 'timeout 3 odindb-send -s system -p temperature_status > "$2" 2>/dev/null; timeout 3 odindb-send -s system -p system_state > "$1" 2>/dev/null' x2v "$RUN/system_state" "$RUN/temperature"
     SYS_JOB="$BG_PID $BG_PS"
 }
 # The receiver's preview counter advances ~12 times a second while group13 streams.
@@ -406,7 +472,7 @@ publish() {
     [ "$s" = up ] && { sf seconds; secs=$SF; sf preview_gen; gen=$SF; sf written; frames=$SF; }
     now
     # DETAIL is always one of our own messages: nothing in it needs JSON escaping.
-    p='{"schema":1,"backend_ready":'$ready',"profile_id":"'$PROFILE'","codec":"'$CODEC'","phase":"'$phase'","detail":"'$DETAIL'","fresh":true,"uptime":'$NOW',"mode":"'$DESIRED'","session":"'$s'","seconds":'${secs:-0}',"frames":'${frames:-0}',"preview_gen":'${gen:-0}',"supervisor_pid":'$$'}'
+    p='{"schema":1,"backend_ready":'$ready',"profile_id":"'$PROFILE'","codec":"'$CODEC'","phase":"'$phase'","detail":"'$DETAIL'","fresh":true,"uptime":'$NOW',"mode":"'$DESIRED'","session":"'$s'","seconds":'${secs:-0}',"frames":'${frames:-0}',"preview_gen":'${gen:-0}',"duration_limit_seconds":'$DURATION',"temperature_status":"'$TEMP_STATUS'","supervisor_pid":'$$'}'
     [ "$p" = "$PUB" ] && return 0
     # One small write into tmpfs; a reader that catches it half-written just skips that poll.
     printf '%s\n' "$p" > "$RUN/state.json"; PUB=$p
@@ -549,7 +615,9 @@ while [ ! -f "$PROD/disable" ]; do
     [ -n "$JOB" ] && ! pstart "$JOB" && job_done
     load
     watch_system
+    watch_thermal
     watch_session
+    watch_duration
     watch_storage
     command_in
     converge

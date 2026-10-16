@@ -221,6 +221,7 @@ Window {
         backendReady: rec.backendReady
         busy: rec.busy
         onIntentSelected: (id) => root.requestProfile(id)
+        onDurationSelected: (seconds) => root.writeCmd("duration_" + seconds)
     }
     // The supervisor owns the codec; a choice shows at once and then follows what it publishes.
     property double profileAskedAt: 0
@@ -260,6 +261,7 @@ Window {
             if (typeof v.session === "string") session = v.session;
             seconds = typeof v.seconds === "number" ? v.seconds : 0;
             frames = typeof v.frames === "number" ? v.frames : 0;
+            if (typeof v.duration_limit_seconds === "number") profileSelection.durationSeconds = v.duration_limit_seconds;
         }
     }
 

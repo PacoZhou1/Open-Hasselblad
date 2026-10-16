@@ -18,6 +18,9 @@ def ensure():
  from factory_session import connect
  adb('shell',f'echo {int(time.time())+120} > {LEASE}')
  with connect() as r:
+  thermal=r.factory_shell('odindb-send -s system -p temperature_status').strip()
+  if thermal not in ('temperature_status = E_TemperatureStatus_Low(1)', 'temperature_status = E_TemperatureStatus_Moderate(2)'):
+   raise RuntimeError('Keepawake refused: '+thermal)
   boot=r.factory_shell('cat /proc/sys/kernel/random/boot_id').strip()
   pid=int(state.get('camera_pid') or 0)
   alive=r.factory_shell(f"tr '\\000' ' ' < /proc/{pid}/cmdline;true").strip() if pid else ''
@@ -25,6 +28,8 @@ def ensure():
    result=r.factory_shell(f'toybox nohup sh {SCRIPT} >{REMOTE}/keepawake.log 2>&1 & echo $!').strip()
    if not result.isdigit():raise RuntimeError('Camera watchdog did not launch: '+result)
    state['camera_pid']=int(result)
+   # Development factory commands inherit camera-test's disposable cgroup.
+   adb('shell',f'p=$(pidof adbd); echo {int(result)} > /acct/uid_0/pid_$p/cgroup.procs')
   wake=r.factory_shell('odindb-send -s system -m acquire_wake_lock -- x2v-debug-session').strip()
   r.factory_shell('odindb-send -s system -p screen_idle_timeout -- 0')
   actual=r.factory_shell('odindb-send -s system -p screen_idle_timeout').strip()
@@ -38,6 +43,9 @@ def start():
  from factory_session import connect
  # Baseline is read before every fresh start.
  with connect() as r:
+  thermal=r.factory_shell('odindb-send -s system -p temperature_status').strip()
+  if thermal not in ('temperature_status = E_TemperatureStatus_Low(1)', 'temperature_status = E_TemperatureStatus_Moderate(2)'):
+   raise RuntimeError('Keepawake refused: '+thermal)
   value=r.factory_shell('odindb-send -s system -p screen_idle_timeout')
   old=int(value.split('=')[1].strip())
   script=f'''#!/system/bin/sh
@@ -52,7 +60,11 @@ while [ -f {LEASE} ]; do
  now=$(date +%s)
  case "$expiry" in ''|*[!0-9]*) exit 1;; esac
  [ "$now" -lt "$expiry" ] || exit 0
- sleep 10
+ temp=$(timeout 2 odindb-send -s system -p temperature_status)
+ case "$temp" in *E_TemperatureStatus_Low*|*E_TemperatureStatus_Moderate*) ;; *) exit 0;; esac
+ state=$(timeout 2 odindb-send -s system -p system_state)
+ case "$state" in *PrepareShutdown*|*Shutdown*) exit 0;; esac
+ sleep 2
 done
 '''
   local=ROOT/'keepawake-device.sh';local.write_text(script)
@@ -61,6 +73,7 @@ done
   adb('shell',f'echo {int(time.time())+120} > {LEASE}')
   pid=r.factory_shell(f'toybox nohup sh {SCRIPT} >{REMOTE}/keepawake.log 2>&1 & echo $!').strip()
   if not pid.isdigit():raise RuntimeError('Camera watchdog did not launch')
+  adb('shell',f'p=$(pidof adbd); echo {int(pid)} > /acct/uid_0/pid_$p/cgroup.procs')
   r.factory_shell('odindb-send -s system -m acquire_wake_lock -- x2v-debug-session')
   r.factory_shell('odindb-send -s system -p screen_idle_timeout -- 0')
   r.factory_shell('odindb-send -s system -m set_screen_enabled -- true')
@@ -85,7 +98,7 @@ def stop():
  state=json.loads(STATE.read_text());state['active']=False;STATE.write_text(json.dumps(state,indent=2))
  adb('shell',f'rm -f {LEASE}')
  # Actual restoration is performed by the camera's factory-domain watchdog.
- print('Lease stopped; camera restores timeout within 10 seconds.',state)
+ print('Lease stopped; camera restores timeout within a few seconds.',state)
 
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('action',choices=['start','stop','status','worker','ensure']);a=p.parse_args().action
