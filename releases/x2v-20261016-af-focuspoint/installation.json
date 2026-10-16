@@ -1,0 +1,19 @@
+{
+  "installed": true,
+  "release": "x2v-20261016-af-focuspoint",
+  "changed_gui_files_match": {
+    "X2VLiveViewImage.qml": true,
+    "X2VLiveviewViewModel.qml": true,
+    "main.qml": true,
+    "X2VLiveViewOverlay.qml": true
+  },
+  "persistent_directory": "/blackbox/x2v-native-20261011/gui",
+  "boot_id": "afacd0cf-dcaa-4ea6-bd0f-37b25a7d457c",
+  "camera": "af_status = E_AutoFocusStatus_RunningCont(3)\nfocus_point = 301142179\n",
+  "error": "active_error = false\n",
+  "keepawake": "screen_idle_timeout = 0\ntemperature_status = E_TemperatureStatus_Low(1)\n",
+  "user_acceptance": "成功了 我试了试 可以把这个版本编译装机",
+  "new_reboot_test": false,
+  "recording_test_this_change": false,
+  "time": 1792161796.2612102
+}

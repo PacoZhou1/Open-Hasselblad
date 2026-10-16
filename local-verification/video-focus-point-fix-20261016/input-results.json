@@ -1,0 +1,80 @@
+[
+  {
+    "focusPoint": 327685000,
+    "focusSession": true,
+    "focusCanChange": true,
+    "focusTouch": true,
+    "focusVideoMove": true,
+    "afStatus": 3,
+    "stock": "liveview",
+    "gallery": false,
+    "phase": "idle",
+    "label": "before",
+    "native": "af_status = E_AutoFocusStatus_RunningCont(3)\nfocus_point = 327685000\n"
+  },
+  {
+    "focusPoint": 255658863,
+    "focusSession": true,
+    "focusCanChange": true,
+    "focusTouch": true,
+    "focusVideoMove": true,
+    "afStatus": 3,
+    "stock": "liveview",
+    "gallery": false,
+    "phase": "idle",
+    "label": "touch_A",
+    "native": "af_status = E_AutoFocusStatus_RunningCont(3)\nfocus_point = 255658863\n"
+  },
+  {
+    "focusPoint": 340925101,
+    "focusSession": true,
+    "focusCanChange": true,
+    "focusTouch": true,
+    "focusVideoMove": true,
+    "afStatus": 3,
+    "stock": "liveview",
+    "gallery": false,
+    "phase": "idle",
+    "label": "touch_B",
+    "native": "af_status = E_AutoFocusStatus_RunningCont(3)\nfocus_point = 340925101\n"
+  },
+  {
+    "focusPoint": 255658863,
+    "focusSession": true,
+    "focusCanChange": true,
+    "focusTouch": true,
+    "focusVideoMove": true,
+    "afStatus": 3,
+    "stock": "liveview",
+    "gallery": false,
+    "phase": "idle",
+    "label": "touch_A_again",
+    "native": "af_status = E_AutoFocusStatus_RunningCont(3)\nfocus_point = 255658863\n"
+  },
+  {
+    "focusPoint": 255658863,
+    "focusSession": true,
+    "focusCanChange": true,
+    "focusTouch": true,
+    "focusVideoMove": true,
+    "afStatus": 3,
+    "stock": "liveview",
+    "gallery": false,
+    "phase": "idle",
+    "label": "joystick_right",
+    "native": "af_status = E_AutoFocusStatus_RunningCont(3)\nfocus_point = 255658863\n"
+  },
+  {
+    "focusPoint": 255658863,
+    "focusSession": true,
+    "focusCanChange": true,
+    "focusTouch": true,
+    "focusVideoMove": true,
+    "afStatus": 3,
+    "stock": "liveview",
+    "gallery": false,
+    "phase": "idle",
+    "label": "joystick_left",
+    "native": "af_status = E_AutoFocusStatus_RunningCont(3)\nfocus_point = 255658863\n"
+  }
+]

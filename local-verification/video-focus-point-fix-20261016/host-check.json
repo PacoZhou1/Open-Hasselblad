@@ -1,0 +1,17 @@
+{
+  "qt_gate_regression": "passed",
+  "checks": [
+    "repeated_touch_A_B_A",
+    "typed_joystick",
+    "typed_reset",
+    "real_session_retained",
+    "exposure_blocked",
+    "photo_session_blocked",
+    "single_af_blocked",
+    "native_permissions",
+    "zoom_blocked",
+    "swipe_blocked",
+    "stock_idle_preserved"
+  ],
+  "hardware_input_verified": false
+}
