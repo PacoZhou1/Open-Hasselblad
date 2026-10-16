@@ -1,3 +1,9 @@
+# 当前状态（2026-10-16，优先于下方历史记录）
+
+用户已恢复本任务授权。正式持久安装包位于 `releases/x2v-20261016-af-fps`；`installation.json` 记录用户重启后的实际正式25fps运行核验。当前保存重要恢复点并推GitHub，接着处理触摸一次改变对焦点后触屏/五维摇杆无法再移动的问题。30fps可能掉帧，近端间歇性失效尚未根治，不包含临时诊断/对比度扫描实验。相机由codex-preview-debug独占，保活开启。以下为历史记录，暂停/占用状态不应覆盖本段。
+
+---
+
 # USER PAUSED — Cursor接手
 
 用户于2026-10-13明确要求暂停全部Codex/Grok任务并恢复相机。goal已paused；未经用户明确恢复不得继续。Grok PID40056、62465及子进程60204、60212已SIGSTOP，不能自动SIGCONT。native_album已interrupt；其他subagent已完成。

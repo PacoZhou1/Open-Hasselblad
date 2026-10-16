@@ -1,0 +1,17 @@
+{
+  "confirmed_at": "2026-10-16T18:09:28.650895+08:00",
+  "reply": "可以了！",
+  "question_scope": [
+    "physical side keys",
+    "preview brightness after fix"
+  ],
+  "automated": [
+    "menu from continuous AF",
+    "main menu",
+    "playback gallery",
+    "return to liveview resumes AF"
+  ],
+  "persistent_files": true,
+  "installed_fps": 24,
+  "new_recording_test_this_fix": false
+}

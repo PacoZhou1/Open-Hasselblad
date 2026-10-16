@@ -1,0 +1,104 @@
+{
+  "release": "x2v-20261016-af-fps",
+  "base": "existing X2V installation on X2D II 1.3.16.2",
+  "assets": [
+    {
+      "file": "files/system/etc/x2v/x2v_video_session_20261014zl.sh",
+      "destination": "/system/etc/x2v/x2v_video_session_20261014zl.sh",
+      "mode": "755",
+      "sha256": "097eef91f4a9390c8a49a4a57ed12a599aca3f56ba9e09b88bfdc257c10845c8",
+      "source": "local-verification/video-af-fps-release-20261016/session.sh"
+    },
+    {
+      "file": "files/system/etc/x2v/x2v_product_boot_20261015c.sh",
+      "destination": "/system/etc/x2v/x2v_product_boot_20261015c.sh",
+      "mode": "755",
+      "sha256": "997e421c2bdd594e79466d28a3f2094eb33c5d460e371e543103aeb049c383d6",
+      "source": "local-verification/video-af-fps-release-20261016/supervisor.sh"
+    },
+    {
+      "file": "files/system/etc/x2v/video-afc-watch.sh",
+      "destination": "/system/etc/x2v/video-afc-watch.sh",
+      "mode": "755",
+      "sha256": "e947ca8ccba8b167fde5a4417ebae2966dff3eacd6bcebe7bbeb0cf6d865be9a",
+      "source": "local-verification/video-afc-continuous-20261016/button-fix/video-afc-watch.sh"
+    },
+    {
+      "file": "files/blackbox/x2v-native-20261011/gui/main.qml",
+      "destination": "/blackbox/x2v-native-20261011/gui/main.qml",
+      "mode": "644",
+      "sha256": "0b343dc9d7e9ac7d7de17aa2944c888759c1022e83a7bc349f23dfdbfddc816d",
+      "source": "local-verification/video-af-fps-release-20261016/main.qml"
+    },
+    {
+      "file": "files/blackbox/x2v-native-20261011/gui/RecordingProfiles.qml",
+      "destination": "/blackbox/x2v-native-20261011/gui/RecordingProfiles.qml",
+      "mode": "644",
+      "sha256": "a0ee78a15f626db8b043869eef0ece260396ae0dd9f5f6e69a5ff6953229dc2a",
+      "source": "local-verification/video-af-fps-release-20261016/RecordingProfiles.qml"
+    },
+    {
+      "file": "files/blackbox/x2v-native-20261011/gui/ExperimentalVideoSettings.qml",
+      "destination": "/blackbox/x2v-native-20261011/gui/ExperimentalVideoSettings.qml",
+      "mode": "644",
+      "sha256": "0ffa6daec9958d644698b8cae744c2c15e5e4d7da7dc34242bc3a0df34b0aeab",
+      "source": "local-verification/video-af-fps-release-20261016/ExperimentalVideoSettings.qml"
+    },
+    {
+      "file": "files/blackbox/x2v-native-20261011/gui/X2VLiveViewOverlay.qml",
+      "destination": "/blackbox/x2v-native-20261011/gui/X2VLiveViewOverlay.qml",
+      "mode": "644",
+      "sha256": "63221136b9bccc8872675c9af18e22734c7ac5c0b0862ff9900dc8e1d193f01f",
+      "source": "local-verification/video-afc-continuous-20261016/button-fix/gui/X2VLiveViewOverlay.qml"
+    },
+    {
+      "file": "files/blackbox/x2v-native-20261011/gui/X2VMainContent.qml",
+      "destination": "/blackbox/x2v-native-20261011/gui/X2VMainContent.qml",
+      "mode": "644",
+      "sha256": "9439b77e6e0185a743d2820da0be9c3ad85ea27c8a48cda42d2c29bb850ff6c6",
+      "source": "local-verification/video-afc-continuous-20261016/button-fix/gui/X2VMainContent.qml"
+    },
+    {
+      "file": "files/blackbox/x2v-native-20261011/gui/X2VLiveViewImage.qml",
+      "destination": "/blackbox/x2v-native-20261011/gui/X2VLiveViewImage.qml",
+      "mode": "644",
+      "sha256": "65e06f6ddd624c406c6a22cfdb13927044cf6b2761de761f4cd8ce395abe1231",
+      "source": "local-verification/video-afc-continuous-20261016/button-fix/gui/X2VLiveViewImage.qml"
+    },
+    {
+      "file": "files/system/lib64/libx2v_af_25_20261016.so",
+      "destination": "/system/lib64/libx2v_af_25_20261016.so",
+      "mode": "644",
+      "sha256": "c57d60450d5cb9f937ee9e7f8900387422e498128538781aa7f8919ddd7ff1cf",
+      "source": "native-video/experimental/rx-prr-af-c25-20261016/build/libx2v_prr_resident.so"
+    },
+    {
+      "file": "files/system/etc/x2v/x2v_af_25_20261016.conf",
+      "destination": "/system/etc/x2v/x2v_af_25_20261016.conf",
+      "mode": "644",
+      "sha256": "85344666bee507ebeb8f59a6a6b616a209f3f44dbae318ae46ce734027a60fa6",
+      "source": "native-video/experimental/rx-prr-af-c25-20261016/view.conf"
+    },
+    {
+      "file": "files/system/lib64/libx2v_af_30_20261016.so",
+      "destination": "/system/lib64/libx2v_af_30_20261016.so",
+      "mode": "644",
+      "sha256": "2cf95c8c15dd8cd4829decb64e2f374538ff22183a1ca6be5c29740fce0d093c",
+      "source": "native-video/experimental/rx-prr-af-d30-20261016/build/libx2v_prr_resident.so"
+    },
+    {
+      "file": "files/system/etc/x2v/x2v_af_30_20261016.conf",
+      "destination": "/system/etc/x2v/x2v_af_30_20261016.conf",
+      "mode": "644",
+      "sha256": "b5b8e3c5c6a6ecf108f1199d950e57597d64560726ef21b917b505e8e9aec14c",
+      "source": "native-video/experimental/rx-prr-af-d30-20261016/view.conf"
+    },
+    {
+      "file": "files/system/lib64/libx2v_explore_toflimits_20261015.so",
+      "destination": "/system/lib64/libx2v_explore_toflimits_20261015.so",
+      "mode": "644",
+      "sha256": "a7f2aef85196424f8e41aa1026f545ca9f4f38def35cdea75db62ea86e18a409",
+      "source": "native-video/experimental/rx-prr-explore-toflimits-20261016/build/libx2v_prr_resident.so"
+    }
+  ]
+}

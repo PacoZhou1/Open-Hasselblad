@@ -1,0 +1,15 @@
+{
+  "fps": 25,
+  "driver": 17,
+  "timing": [
+    36000000,
+    450,
+    3200
+  ],
+  "lib": "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/rx-prr-af-c25-20261016/build/libx2v_prr_resident.so",
+  "lib_sha": "c57d60450d5cb9f937ee9e7f8900387422e498128538781aa7f8919ddd7ff1cf",
+  "conf": "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/rx-prr-af-c25-20261016/view.conf",
+  "conf_sha": "85344666bee507ebeb8f59a6a6b616a209f3f44dbae318ae46ce734027a60fa6",
+  "base": "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/rx-prr-explore-toflimits-20261016",
+  "af_frame_rate": 25
+}

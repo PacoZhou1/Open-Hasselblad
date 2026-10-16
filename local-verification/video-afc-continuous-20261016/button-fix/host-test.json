@@ -1,0 +1,10 @@
+{
+  "idle_af": true,
+  "no_repeated_start": true,
+  "mf_stops": true,
+  "af_resumes": true,
+  "video_exit_stops": true,
+  "navigation_pauses": true,
+  "return_resumes": true,
+  "physical_ring_verified": false
+}

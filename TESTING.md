@@ -1,13 +1,7 @@
-# TESTING — 相机正在被占用
+# TESTING — 相机由 Codex 占用
 
-**Operator / 操作者：codex-preview-debug**
+操作者：codex-preview-debug。用户已于2026-10-15恢复授权，2026-10-16要求保存并推送当前已装机版，随后排查对焦点锁死。
 
-任务：已将实验ToF对焦接入机内rec流程，用户点右侧红色触屏录制按钮即触发AF，25秒自动停止；可反复测试，不再有电脑端5分钟等待期限。14:24机内自测完成，无错误，当前特意保持video/up/saved待用户使用。本次开机UUID匹配才启用候选，重启回稳定库。其他操作者不得操作相机。动态跟焦质量仍待用户移动测试。
+已安装的恢复点：releases/x2v-20261016-af-fps。持续AF、MF切换、按键修复和24/25/30fps选择已持久化；重启后正式25fps库、RunningCont和无错误已核验。30fps仍可能掉帧，近端间歇性失效未闭合，新报告的触屏/摇杆对焦点锁死未修复。没有产品25秒自动停止限制；默认录制上限300秒。
 
-更新：2026-10-16T14:25:00+08:00
-
-其他代理不得运行 ADB、USB、factory、录制、重启或装机命令。离线代码与文件分析可继续。占用无自动超时；只有操作者完成停止和原厂恢复后释放。原始数据保留，不刷启动/固件分区。
-
-状态：`python3 local-verification/camera_testing.py status`
-
-释放：`python3 local-verification/camera_testing.py release codex-preview-debug RESTORED_REPORT.json`
+只有当前操作者可发设备命令，其他工作可离线分析；保留原厂恢复路径。未经协调不得启动ADB、USB、录制、重启或装机测试。设备锁：local-verification/camera-testing.lock/owner.json。

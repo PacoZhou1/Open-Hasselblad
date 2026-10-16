@@ -1,0 +1,47 @@
+[
+  {
+    "t": 1792145103831,
+    "stock": "liveview",
+    "mode": "video",
+    "gallery": false,
+    "isoWb": false,
+    "action": "halfpress",
+    "af": "af_status = E_AutoFocusStatus_RunningCont(3)\nexposure_status = E_ExposureStatus_InSession(16)\nlive_view_state = E_LiveViewState_Active(1)\n"
+  },
+  {
+    "t": 1792145104831,
+    "stock": "control_screen",
+    "mode": "video",
+    "gallery": false,
+    "isoWb": false,
+    "action": "menu",
+    "af": "af_status = E_AutoFocusStatus_Idle(1)\nexposure_status = E_ExposureStatus_None(0)\nlive_view_state = E_LiveViewState_Off(0)\n"
+  },
+  {
+    "t": 1792145106331,
+    "stock": "main_menu",
+    "mode": "video",
+    "gallery": false,
+    "isoWb": false,
+    "action": "menu2",
+    "af": "af_status = E_AutoFocusStatus_Idle(1)\nexposure_status = E_ExposureStatus_None(0)\nlive_view_state = E_LiveViewState_Off(0)\n"
+  },
+  {
+    "t": 1792145107831,
+    "stock": "main_menu",
+    "mode": "video",
+    "gallery": true,
+    "isoWb": false,
+    "action": "play",
+    "af": "af_status = E_AutoFocusStatus_Idle(1)\nexposure_status = E_ExposureStatus_None(0)\nlive_view_state = E_LiveViewState_Off(0)\n"
+  },
+  {
+    "t": 1792145109332,
+    "stock": "liveview",
+    "mode": "video",
+    "gallery": false,
+    "isoWb": false,
+    "action": "return",
+    "af": "af_status = E_AutoFocusStatus_RunningCont(3)\nexposure_status = E_ExposureStatus_InSession(16)\nlive_view_state = E_LiveViewState_Active(1)\n"
+  }
+]
