@@ -1,0 +1,233 @@
+{
+  "release": "x2v-20261021-classonly-24-25",
+  "base": "x2v-20261017-flat-prr / 6648b237",
+  "installed": true,
+  "device_verified": true,
+  "assets": [
+    {
+      "source": "native-video/experimental/rx-prr-classonly-24-release-20261021/build/libx2v_prr_resident.so",
+      "file": "files/system/lib64/libx2v_classonly24_20261021a.so",
+      "destination": "/system/lib64/libx2v_classonly24_20261021a.so",
+      "mode": "644",
+      "sha256": "53c69dd1a18f4f5770e984d7c220183755c65849150ec26a551ae9275228264c",
+      "bytes": 1447696
+    },
+    {
+      "source": "native-video/experimental/rx-prr-classonly-25-release-20261021/build/libx2v_prr_resident.so",
+      "file": "files/system/lib64/libx2v_classonly25_20261021a.so",
+      "destination": "/system/lib64/libx2v_classonly25_20261021a.so",
+      "mode": "644",
+      "sha256": "c6834227057ab3c3638754db06eb08db74f108f1023a8cbdd05d9fb083586cdd",
+      "bytes": 1447640
+    },
+    {
+      "source": "derived from installed x2v-20261017-flat-prr",
+      "file": "files/system/etc/x2v/x2v_video_session_20261021a.sh",
+      "destination": "/system/etc/x2v/x2v_video_session_20261021a.sh",
+      "mode": "755",
+      "sha256": "c95a29e017d30181961c0b204679e423f3e01eeb9f5929dc3dd4422cd1c796e8",
+      "bytes": 20035
+    },
+    {
+      "source": "derived from installed x2v-20261017-flat-prr",
+      "file": "files/system/etc/x2v/x2v_product_boot_20261021a.sh",
+      "destination": "/system/etc/x2v/x2v_product_boot_20261021a.sh",
+      "mode": "755",
+      "sha256": "e92867b992b3422b0a41e48a0bcb2f99b8ec98d924fd8507697ee98ab54113a5",
+      "bytes": 29185
+    }
+  ],
+  "scope": "ProRes RAW 24/25fps defect-class-only reconstruction; 30fps and DNG unchanged",
+  "recovery_boot": "/system/etc/x2v/x2v_product_boot_20261017a.sh",
+  "verification": {
+    "assets_readback": [
+      {
+        "path": "/system/lib64/libx2v_classonly24_20261021a.so",
+        "matches": true
+      },
+      {
+        "path": "/system/lib64/libx2v_classonly25_20261021a.so",
+        "matches": true
+      },
+      {
+        "path": "/system/etc/x2v/x2v_video_session_20261021a.sh",
+        "matches": true
+      },
+      {
+        "path": "/system/etc/x2v/x2v_product_boot_20261021a.sh",
+        "matches": true
+      }
+    ],
+    "compositor_autostart_verified": true,
+    "full_camera_reboot_tested": false,
+    "automatic_boot_cmdline": "sh /system/etc/x2v/x2v_product_boot_20261021a.sh ",
+    "recordings": [
+      {
+        "fps": 25,
+        "take": 1,
+        "path": "/mnt/media_rw/ssd/X2V_RAW/X2V_PRR_20261021_145740.mov",
+        "schema": 1,
+        "format": "ProRes RAW",
+        "fourcc": "aprn",
+        "width": 3888,
+        "height": 2912,
+        "frames": 114,
+        "dropped": 2,
+        "lost": 0,
+        "seen": 116,
+        "bytes": 272612643,
+        "seconds": 4.664,
+        "duration": 4.56,
+        "source_span_raw": 4600100,
+        "queue_max": 2397274,
+        "write_ms_max": 14,
+        "direct": 1,
+        "wb": [
+          2.6782,
+          1.77
+        ],
+        "copy_ms_max": 58,
+        "acq_ms_max": 0,
+        "pre_ms_max": 56,
+        "sub_ms_max": 24,
+        "harv_ms_max": 24,
+        "drop_phase": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "error": 0
+      },
+      {
+        "fps": 25,
+        "take": 2,
+        "path": "/mnt/media_rw/ssd/X2V_RAW/X2V_PRR_20261021_145747.mov",
+        "schema": 1,
+        "format": "ProRes RAW",
+        "fourcc": "aprn",
+        "width": 3888,
+        "height": 2912,
+        "frames": 103,
+        "dropped": 0,
+        "lost": 0,
+        "seen": 103,
+        "bytes": 247296293,
+        "seconds": 4.182,
+        "duration": 4.12,
+        "source_span_raw": 4080083,
+        "queue_max": 2409456,
+        "write_ms_max": 8,
+        "direct": 1,
+        "wb": [
+          2.6796,
+          1.7699
+        ],
+        "copy_ms_max": 14,
+        "acq_ms_max": 0,
+        "pre_ms_max": 42,
+        "sub_ms_max": 21,
+        "harv_ms_max": 11,
+        "drop_phase": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "error": 0
+      },
+      {
+        "fps": 24,
+        "take": 1,
+        "path": "/mnt/media_rw/ssd/X2V_RAW/X2V_PRR_20261021_145812.mov",
+        "schema": 1,
+        "format": "ProRes RAW",
+        "fourcc": "aprn",
+        "width": 3888,
+        "height": 2912,
+        "frames": 92,
+        "dropped": 3,
+        "lost": 0,
+        "seen": 95,
+        "bytes": 220684374,
+        "seconds": 3.999,
+        "duration": 3.833,
+        "source_span_raw": 3916750,
+        "queue_max": 2404683,
+        "write_ms_max": 12,
+        "direct": 1,
+        "wb": [
+          2.6756,
+          1.7737
+        ],
+        "copy_ms_max": 58,
+        "acq_ms_max": 0,
+        "pre_ms_max": 62,
+        "sub_ms_max": 32,
+        "harv_ms_max": 12,
+        "drop_phase": [
+          0,
+          0,
+          3,
+          0
+        ],
+        "error": 0
+      },
+      {
+        "fps": 24,
+        "take": 2,
+        "path": "/mnt/media_rw/ssd/X2V_RAW/X2V_PRR_20261021_145818.mov",
+        "schema": 1,
+        "format": "ProRes RAW",
+        "fourcc": "aprn",
+        "width": 3888,
+        "height": 2912,
+        "frames": 116,
+        "dropped": 0,
+        "lost": 0,
+        "seen": 116,
+        "bytes": 278607966,
+        "seconds": 4.9,
+        "duration": 4.833,
+        "source_span_raw": 4791766,
+        "queue_max": 2409246,
+        "write_ms_max": 9,
+        "direct": 1,
+        "wb": [
+          2.675,
+          1.7738
+        ],
+        "copy_ms_max": 13,
+        "acq_ms_max": 0,
+        "pre_ms_max": 57,
+        "sub_ms_max": 27,
+        "harv_ms_max": 9,
+        "drop_phase": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "error": 0
+      }
+    ],
+    "final_profile": "raw_3920_2946_25",
+    "active_error": "active_error = false\n",
+    "system_mount": "/dev/block/mmcblk0p16 /system ext4 ro,seclabel,relatime 0 0\n",
+    "limitations": [
+      "Initial recording after video entry can drop a few frames; warm clips had zero drops.",
+      "Not a long-duration or all-scene test.",
+      "Camera power cycle was not tested; compositor automatic startup was tested."
+    ],
+    "archived_unused_libraries": [
+      [
+        "/system/lib64/libx2v_cd_observer_20261016.so",
+        "e2ae59a1fed57dab05bf0907019cf77a036f45022f6d4008f1a093cefb6a762f"
+      ],
+      [
+        "/system/lib64/libx2v_range_observer_20261016.so",
+        "3da12f9eb5945c93d81c67ba06ecda4a19099b4a468918699c9513ae735affdc"
+      ]
+    ]
+  }
+}

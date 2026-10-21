@@ -1,0 +1,46 @@
+{
+  "scope": "RX18 offline dual RAW+ISP metadata observation; not H264, no execution approval",
+  "production_sources": {
+    "receiver.c": "89fa431c12827960920169c019bcc8063f43ae40c9e3cfb1bb1a4107aacb4f53",
+    "vendor_hook.c": "27e4bcfd65bf9aadbb79bc15edf9b2d71c875957e9d1448c1ca5b28f247224eb",
+    "control.c": "ea105bd91b1a17075ab31aebdb381fca89a3449e40ebb2817682a4ec64376994",
+    "copy_provider.c": "2cbc1d70d585cfa3b223e0fa7fd59966351054b4061817e1028bb8249fedc2ca",
+    "io_provider.c": "d9e4391ee44dc0d10186aadda8dd85e6fbee3067c79faef800244cb618e3cbca",
+    "target_start_gate.c": "0a634000a794a1af8d51fad15c2e387d11870a5c72898a032bb74a3adaf5c650",
+    "target_parser_gate.c": "ad09944cc7da317593dfc72764e968dbacae0f548c88383f9141d5a9c43fcf99",
+    "target_topology.c": "13e555ca595ffbcb2c40930ba5bc7817e99bf2223739bf613dac5b9dae81b7ed",
+    "graph_binding.c": "dcadbdfe6f07ebbc22e153f0703a76d3d82478b4a47c510e2528daf28841b800",
+    "hal_topology_glue.c": "d1dc024e4e9b52f49030bdd5f4553e0977e1124b10b1bd0f60ed43d9865549eb",
+    "fps_guard_session.c": "7f7c1f75f84179e2171a89dbe5881d6e573a9975f5a81c3bb78ea7c2ba65e4a8",
+    "source_mode21_guard_preload.c": "6368fac2cb94f57f3ad205b868546ac088bfff91f3d3f091e99ad69fea24d00e",
+    "target_descriptor.c": "65d703105bf235ae94041d9de269d58f30c8b5051cca0353c6c8639d334752b9",
+    "dng_prepacked.c": "05b0ef385bccf551a73f69626d95974fd2471a96ac1ccb235528e7102758c97a",
+    "frame_writer.c": "bc3d165755059d2655ca1ec54c7ad9e72cebb5f5f47ca9b8755ff945d9999041",
+    "android_abi_check.c": "4f3514aabec160549cc0f6316a56dcbc3be5f3226c294942cc701ff727c22c4d",
+    "geometry.c": "3933b0bceba1cc664b43ae38e764da0a0721229d2082b81382c63bb6acd8e9f0",
+    "color_observer.c": "7a143acc5dff8b1f8fba59aa2192e170e8a5cb8885edc86e8e905554e75565c0"
+  },
+  "headers": {
+    "target_descriptor.h": "a06d56fb532808170aae30f428c9bfbbcc5027cc12d7ea0aed534010805bb993",
+    "hook.h": "1d6eb10663219f28dda2250e640b737959ccc232a3496ff7c185bc2713172fcf",
+    "target_rows.h": "ba382683bd9d3e88bbed9afc5af1a88a175ccdcedb22088e22fed8c92727757c",
+    "dng_prepacked.h": "51026d0b451f17ea0be6177650ce10c1ffa2bed9831fc60f722ec66a017dc73b",
+    "copy_provider.h": "66c5336c7b1b5f2390839e9efbae7b1a90d9d30a5888d4e8a8da157e3e57e71e",
+    "shape.h": "3432ff0687c71ebf89cef6324dc8f63e63871049d8596be4720daa555319d92b",
+    "target_topology.h": "2442d46f56f260184c6ae6f83f9d9c2918fe6a62dc0393ec5afa58cb730ba9fc",
+    "copy_provider_pin.h": "9e60307353b276069945e9dde4398733fdeae0e7917c829fb022a229efbd17ab",
+    "receiver.h": "a22afea70d5cbc9e6c7f7f7f52ac22e21d24de68d11daae808acf9756db22f24",
+    "frame_writer.h": "f42cc96169b4674272008506516860b51bbd1106f2c31ed2dfc374143c3b39a8",
+    "profile_provisional.h": "34167f267867c1799f94657d3789d42e05db9421b294318d8794594ef109a23c",
+    "io_provider.h": "37889b77757583b0c8bf8706fdcfbb97ac32a79bfb711e1a228d258afaedea7d",
+    "native_sub_pin.h": "1658f6cece76596a316864d4c13c4216119a65a500def6a229469a534be71cd3"
+  },
+  "clip_gate_freeze_sha256": "60bbbea78de3491c5edf09c4b0260bd1441a81b7930791da67df58688d06d3fc",
+  "backend_snapshot": {
+    "dng_prepacked.c": "05b0ef385bccf551a73f69626d95974fd2471a96ac1ccb235528e7102758c97a",
+    "dng_prepacked.h": "51026d0b451f17ea0be6177650ce10c1ffa2bed9831fc60f722ec66a017dc73b",
+    "frame_writer.c": "bc3d165755059d2655ca1ec54c7ad9e72cebb5f5f47ca9b8755ff945d9999041",
+    "frame_writer.h": "f42cc96169b4674272008506516860b51bbd1106f2c31ed2dfc374143c3b39a8",
+    "android_abi_check.c": "4f3514aabec160549cc0f6316a56dcbc3be5f3226c294942cc701ff727c22c4d"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "path": "/mnt/media_rw/ssd/X2V_RAW/X2V_PRR_20261017_205731.mov",
+  "clip": {
+    "schema": 1,
+    "format": "ProRes RAW",
+    "fourcc": "aprn",
+    "width": 3888,
+    "height": 2912,
+    "fps": 24,
+    "frames": 48,
+    "dropped": 1,
+    "lost": 0,
+    "seen": 49,
+    "bytes": 208234361,
+    "seconds": 2.152,
+    "duration": 2.0,
+    "source_span_raw": 2041717,
+    "queue_max": 4354887,
+    "write_ms_max": 11,
+    "direct": 1,
+    "wb": [
+      2.1619,
+      2.1672
+    ],
+    "copy_ms_max": 71,
+    "acq_ms_max": 0,
+    "pre_ms_max": 56,
+    "sub_ms_max": 30,
+    "harv_ms_max": 14,
+    "drop_phase": [
+      0,
+      0,
+      1,
+      0
+    ],
+    "error": 0
+  },
+  "catalog_match": [
+    {
+      "id": "X2V_PRR_20261017_205731",
+      "state": "saved",
+      "finalized": true,
+      "source": "/mnt/media_rw/ssd/X2V_RAW/X2V_PRR_20261017_205731.mov",
+      "thumbnail": "/mnt/media_rw/ssd/X2V_RAW/.x2v-meta/X2V_PRR_20261017_205731.ppm",
+      "title": "X2V_PRR_20261017_205731",
+      "duration": 2.0,
+      "bytes": 208234361,
+      "width": 3888,
+      "height": 2912,
+      "format": "ProRes RAW"
+    }
+  ],
+  "file": "-rwxrwx--- 1 media_rw media_rw 208235524 2026-10-17 20:57 /mnt/media_rw/ssd/X2V_RAW/X2V_PRR_20261017_205731.mov\n",
+  "staging": "",
+  "error": "active_error = false\n",
+  "note": "Short capture stopped by test finally after transient empty status reply; 48 frames finalized successfully."
+}

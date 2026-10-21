@@ -1,0 +1,805 @@
+{
+  "recordings": [
+    {
+      "fps": 25,
+      "take": 1,
+      "path": "/mnt/media_rw/ssd/X2V_RAW/X2V_PRR_20261021_145740.mov",
+      "metadata": {
+        "schema": 1,
+        "format": "ProRes RAW",
+        "fourcc": "aprn",
+        "width": 3888,
+        "height": 2912,
+        "fps": 25,
+        "frames": 114,
+        "dropped": 2,
+        "lost": 0,
+        "seen": 116,
+        "bytes": 272612643,
+        "seconds": 4.664,
+        "duration": 4.56,
+        "source_span_raw": 4600100,
+        "queue_max": 2397274,
+        "write_ms_max": 14,
+        "direct": 1,
+        "wb": [
+          2.6782,
+          1.77
+        ],
+        "copy_ms_max": 58,
+        "acq_ms_max": 0,
+        "pre_ms_max": 56,
+        "sub_ms_max": 24,
+        "harv_ms_max": 24,
+        "drop_phase": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "error": 0
+      },
+      "progress": [
+        {
+          "seconds": 1.4,
+          "seen": 35,
+          "written": 31,
+          "dropped": 2,
+          "lost": 0
+        },
+        {
+          "seconds": 1.93,
+          "seen": 49,
+          "written": 44,
+          "dropped": 2,
+          "lost": 0
+        },
+        {
+          "seconds": 2.46,
+          "seen": 62,
+          "written": 57,
+          "dropped": 2,
+          "lost": 0
+        },
+        {
+          "seconds": 3.08,
+          "seen": 77,
+          "written": 73,
+          "dropped": 2,
+          "lost": 0
+        },
+        {
+          "seconds": 3.62,
+          "seen": 91,
+          "written": 86,
+          "dropped": 2,
+          "lost": 0
+        }
+      ]
+    },
+    {
+      "fps": 25,
+      "take": 2,
+      "path": "/mnt/media_rw/ssd/X2V_RAW/X2V_PRR_20261021_145747.mov",
+      "metadata": {
+        "schema": 1,
+        "format": "ProRes RAW",
+        "fourcc": "aprn",
+        "width": 3888,
+        "height": 2912,
+        "fps": 25,
+        "frames": 103,
+        "dropped": 0,
+        "lost": 0,
+        "seen": 103,
+        "bytes": 247296293,
+        "seconds": 4.182,
+        "duration": 4.12,
+        "source_span_raw": 4080083,
+        "queue_max": 2409456,
+        "write_ms_max": 8,
+        "direct": 1,
+        "wb": [
+          2.6796,
+          1.7699
+        ],
+        "copy_ms_max": 14,
+        "acq_ms_max": 0,
+        "pre_ms_max": 42,
+        "sub_ms_max": 21,
+        "harv_ms_max": 11,
+        "drop_phase": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "error": 0
+      },
+      "progress": [
+        {
+          "seconds": 0.89,
+          "seen": 22,
+          "written": 19,
+          "dropped": 0,
+          "lost": 0
+        },
+        {
+          "seconds": 1.41,
+          "seen": 35,
+          "written": 32,
+          "dropped": 0,
+          "lost": 0
+        },
+        {
+          "seconds": 2.05,
+          "seen": 51,
+          "written": 48,
+          "dropped": 0,
+          "lost": 0
+        },
+        {
+          "seconds": 2.58,
+          "seen": 64,
+          "written": 62,
+          "dropped": 0,
+          "lost": 0
+        },
+        {
+          "seconds": 3.1,
+          "seen": 77,
+          "written": 75,
+          "dropped": 0,
+          "lost": 0
+        }
+      ]
+    },
+    {
+      "fps": 24,
+      "take": 1,
+      "path": "/mnt/media_rw/ssd/X2V_RAW/X2V_PRR_20261021_145812.mov",
+      "metadata": {
+        "schema": 1,
+        "format": "ProRes RAW",
+        "fourcc": "aprn",
+        "width": 3888,
+        "height": 2912,
+        "fps": 24,
+        "frames": 92,
+        "dropped": 3,
+        "lost": 0,
+        "seen": 95,
+        "bytes": 220684374,
+        "seconds": 3.999,
+        "duration": 3.833,
+        "source_span_raw": 3916750,
+        "queue_max": 2404683,
+        "write_ms_max": 12,
+        "direct": 1,
+        "wb": [
+          2.6756,
+          1.7737
+        ],
+        "copy_ms_max": 58,
+        "acq_ms_max": 0,
+        "pre_ms_max": 62,
+        "sub_ms_max": 32,
+        "harv_ms_max": 12,
+        "drop_phase": [
+          0,
+          0,
+          3,
+          0
+        ],
+        "error": 0
+      },
+      "progress": [
+        {
+          "seconds": 1.59,
+          "seen": 38,
+          "written": 34,
+          "dropped": 2,
+          "lost": 0
+        },
+        {
+          "seconds": 2.1,
+          "seen": 51,
+          "written": 47,
+          "dropped": 2,
+          "lost": 0
+        },
+        {
+          "seconds": 2.73,
+          "seen": 66,
+          "written": 62,
+          "dropped": 2,
+          "lost": 0
+        },
+        {
+          "seconds": 3.26,
+          "seen": 79,
+          "written": 74,
+          "dropped": 2,
+          "lost": 0
+        }
+      ]
+    },
+    {
+      "fps": 24,
+      "take": 2,
+      "path": "/mnt/media_rw/ssd/X2V_RAW/X2V_PRR_20261021_145818.mov",
+      "metadata": {
+        "schema": 1,
+        "format": "ProRes RAW",
+        "fourcc": "aprn",
+        "width": 3888,
+        "height": 2912,
+        "fps": 24,
+        "frames": 116,
+        "dropped": 0,
+        "lost": 0,
+        "seen": 116,
+        "bytes": 278607966,
+        "seconds": 4.9,
+        "duration": 4.833,
+        "source_span_raw": 4791766,
+        "queue_max": 2409246,
+        "write_ms_max": 9,
+        "direct": 1,
+        "wb": [
+          2.675,
+          1.7738
+        ],
+        "copy_ms_max": 13,
+        "acq_ms_max": 0,
+        "pre_ms_max": 57,
+        "sub_ms_max": 27,
+        "harv_ms_max": 9,
+        "drop_phase": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "error": 0
+      },
+      "progress": [
+        {
+          "seconds": 1.26,
+          "seen": 30,
+          "written": 27,
+          "dropped": 0,
+          "lost": 0
+        },
+        {
+          "seconds": 1.89,
+          "seen": 45,
+          "written": 42,
+          "dropped": 0,
+          "lost": 0
+        },
+        {
+          "seconds": 2.42,
+          "seen": 58,
+          "written": 55,
+          "dropped": 0,
+          "lost": 0
+        },
+        {
+          "seconds": 3.04,
+          "seen": 73,
+          "written": 70,
+          "dropped": 0,
+          "lost": 0
+        },
+        {
+          "seconds": 3.57,
+          "seen": 85,
+          "written": 83,
+          "dropped": 0,
+          "lost": 0
+        }
+      ]
+    }
+  ],
+  "before": {
+    "schema": 1,
+    "backend_ready": true,
+    "profile_id": "raw_3920_2946_24",
+    "codec": "prores_raw",
+    "phase": "idle",
+    "detail": "",
+    "fresh": true,
+    "uptime": 3297,
+    "mode": "video",
+    "session": "up",
+    "seconds": 0.0,
+    "frames": 0,
+    "preview_gen": 194,
+    "duration_limit_seconds": 300,
+    "temperature_status": "low",
+    "supervisor_pid": 10220
+  },
+  "automatic_boot_cmdline": "sh /system/etc/x2v/x2v_product_boot_20261021a.sh ",
+  "after": {
+    "schema": 1,
+    "backend_ready": true,
+    "profile_id": "raw_3920_2946_25",
+    "codec": "prores_raw",
+    "phase": "idle",
+    "detail": "",
+    "fresh": true,
+    "uptime": 3397,
+    "mode": "video",
+    "session": "up",
+    "seconds": 0.0,
+    "frames": 0,
+    "preview_gen": 4,
+    "duration_limit_seconds": 300,
+    "temperature_status": "unknown",
+    "supervisor_pid": 20949
+  },
+  "gui": {
+    "focusPoint": 327685000,
+    "focusSession": false,
+    "focusCanChange": true,
+    "focusTouch": true,
+    "focusVideoMove": false,
+    "afStatus": 1,
+    "afNav": true,
+    "screenStatus": 0,
+    "t": 1792565936724,
+    "up": 3397,
+    "seenAgeMs": 498,
+    "badge": "\u89c6\u9891",
+    "badgeVisible": true,
+    "notice": "",
+    "phase": "idle",
+    "fresh": true,
+    "mode": "video",
+    "session": "up",
+    "profile": "raw_3920_2946_25",
+    "gallery": false,
+    "clips": 141,
+    "playing": false,
+    "firstClip": "X2V_PRR_20261021_145818",
+    "settings": false,
+    "drive": false,
+    "stock": "liveview",
+    "keyHooked": false,
+    "browseHooked": true,
+    "nativeShutter": true,
+    "keyOverride": 0,
+    "focusMagnify": false,
+    "playbackPhase": "idle",
+    "canPause": false,
+    "canResume": false,
+    "pvShown": 0,
+    "pvVisible": false,
+    "ispView": true,
+    "recButton": {
+      "visible": true,
+      "x": 942,
+      "y": 470
+    },
+    "isoWb": false,
+    "events": [
+      {
+        "t": 1792565915867,
+        "e": "badge",
+        "d": {
+          "text": "\u5feb\u95e8\u672a\u63a5"
+        }
+      },
+      {
+        "t": 1792565916138,
+        "e": "keymap",
+        "d": {
+          "HalfPress": [
+            65
+          ],
+          "E_Button_HalfPress": [
+            65
+          ],
+          "JstkDown": [
+            66
+          ],
+          "Down": [
+            66,
+            16777237
+          ],
+          "Select": [
+            67,
+            68,
+            85,
+            87,
+            16777220,
+            16777221,
+            16777267
+          ],
+          "ZoomIn": [
+            67
+          ],
+          "Enter": [
+            68,
+            16777220,
+            16777221,
+            16777267
+          ],
+          "Afd": [
+            68
+          ],
+          "E_Button_Afd": [
+            68
+          ],
+          "E_Button_FullPress": [
+            69
+          ],
+          "JstkUp": [
+            71
+          ],
+          "Up": [
+            71,
+            16777235
+          ],
+          "E_Button_IsoWb": [
+            73
+          ],
+          "Escape": [
+            76,
+            16777216
+          ],
+          "Ael": [
+            76
+          ],
+          "E_Button_Ael": [
+            76
+          ],
+          "JstkRight": [
+            78
+          ],
+          "Right": [
+            78,
+            16777236
+          ],
+          "JstkLeft": [
+            86
+          ],
+          "Left": [
+            86,
+            16777234
+          ],
+          "Menu": [
+            16777264
+          ],
+          "E_Button_Menu": [
+            16777264
+          ],
+          "Cross": [
+            16777265
+          ],
+          "Square": [
+            16777267
+          ],
+          "Play": [
+            16777268
+          ],
+          "E_Button_Play": [
+            16777268
+          ]
+        }
+      },
+      {
+        "t": 1792565916474,
+        "e": "fresh",
+        "d": {
+          "fresh": true,
+          "up": 3377
+        }
+      },
+      {
+        "t": 1792565916476,
+        "e": "phase",
+        "d": {
+          "phase": "entering"
+        }
+      },
+      {
+        "t": 1792565916476,
+        "e": "mode",
+        "d": {
+          "mode": "video"
+        }
+      },
+      {
+        "t": 1792565916896,
+        "e": "isp_view",
+        "d": {
+          "on": true
+        }
+      },
+      {
+        "t": 1792565917449,
+        "e": "key_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"keyPressed\""
+        }
+      },
+      {
+        "t": 1792565917449,
+        "e": "stock_root_loaded",
+        "d": {
+          "status": 1
+        }
+      },
+      {
+        "t": 1792565918258,
+        "e": "browse_hook",
+        "d": {
+          "installed": true
+        }
+      },
+      {
+        "t": 1792565918258,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565919055,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565919876,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565920440,
+        "e": "stock_state",
+        "d": {
+          "state": "control_screen"
+        }
+      },
+      {
+        "t": 1792565920650,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565921449,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565922249,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565923049,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565923848,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565924649,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565925449,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565926248,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565927049,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565927849,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565928649,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565929449,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565930077,
+        "e": "native_shutter",
+        "d": {
+          "on": true
+        }
+      },
+      {
+        "t": 1792565930249,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565930462,
+        "e": "stock_state",
+        "d": {
+          "state": "request_start_liveview"
+        }
+      },
+      {
+        "t": 1792565930768,
+        "e": "stock_state",
+        "d": {
+          "state": "liveview"
+        }
+      },
+      {
+        "t": 1792565931049,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565931848,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565932649,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565933449,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565933677,
+        "e": "stock_state",
+        "d": {
+          "state": "control_screen"
+        }
+      },
+      {
+        "t": 1792565934249,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565935050,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565935686,
+        "e": "stock_state",
+        "d": {
+          "state": "liveview"
+        }
+      },
+      {
+        "t": 1792565935849,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      },
+      {
+        "t": 1792565936474,
+        "e": "badge",
+        "d": {
+          "text": "\u89c6\u9891"
+        }
+      },
+      {
+        "t": 1792565936476,
+        "e": "phase",
+        "d": {
+          "phase": "idle"
+        }
+      },
+      {
+        "t": 1792565936477,
+        "e": "session",
+        "d": {
+          "session": "up"
+        }
+      },
+      {
+        "t": 1792565936649,
+        "e": "zoom_hook",
+        "d": {
+          "installed": false,
+          "error": "TypeError: Cannot assign to read-only property \"zoomInCurrentFocusPoint\""
+        }
+      }
+    ]
+  },
+  "error": "active_error = false\n",
+  "mount": "/dev/block/mmcblk0p16 /system ext4 ro,seclabel,relatime 0 0\n",
+  "installed": true,
+  "compositor_autostart_verified": true,
+  "full_camera_reboot_tested": false
+}

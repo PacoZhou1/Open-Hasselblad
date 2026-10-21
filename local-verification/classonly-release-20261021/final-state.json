@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "backend_ready": true,
+  "profile_id": "raw_3920_2946_25",
+  "codec": "prores_raw",
+  "phase": "idle",
+  "detail": "",
+  "fresh": true,
+  "uptime": 3756,
+  "mode": "video",
+  "session": "up",
+  "seconds": 0.0,
+  "frames": 0,
+  "preview_gen": 752,
+  "duration_limit_seconds": 300,
+  "temperature_status": "low",
+  "supervisor_pid": 20949
+}

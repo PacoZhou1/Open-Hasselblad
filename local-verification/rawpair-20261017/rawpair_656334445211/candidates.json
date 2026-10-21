@@ -1,0 +1,35 @@
+{
+  "blue": {
+    "changed_pixels": 934604,
+    "changed_outside_defective_class": 0
+  },
+  "guide": {
+    "changed_pixels": 940850,
+    "changed_outside_defective_class": 0
+  },
+  "edge": {
+    "changed_pixels": 940507,
+    "changed_outside_defective_class": 0
+  },
+  "synthetic_bayer_reconstruction_rmse": {
+    "neutral_spokes": {
+      "row": 269.75649521473315,
+      "blue": 139.4655481558762,
+      "guide": 73.35843703368975,
+      "edge": 66.82180791135076
+    },
+    "neutral_diagonal": {
+      "row": 1935.4214818737466,
+      "blue": 1002.113376154863,
+      "guide": 633.2108900021917,
+      "edge": 439.0842766927498
+    },
+    "colored_texture": {
+      "row": 2231.5568551776178,
+      "blue": 1406.6058307569638,
+      "guide": 1662.052192854756,
+      "edge": 1618.6883944232704
+    }
+  },
+  "limits": "Synthetic results compare interpolation damage against known clean samples, not sensor sampling aliasing. Real scene has no clean sensor ground truth."
+}

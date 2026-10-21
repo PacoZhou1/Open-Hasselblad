@@ -1,0 +1,43 @@
+{
+  "before": {
+    "schema": 1,
+    "backend_ready": false,
+    "profile_id": "raw_3920_2946_24",
+    "codec": "prores_raw",
+    "phase": "idle",
+    "detail": "",
+    "fresh": true,
+    "uptime": 377,
+    "mode": "photo",
+    "session": "down",
+    "seconds": 0,
+    "frames": 0,
+    "preview_gen": 0,
+    "duration_limit_seconds": 300,
+    "temperature_status": "unknown",
+    "supervisor_pid": 436
+  },
+  "install": "SELinux: Loaded file_contexts\nSELinux: Loaded file_contexts\nSELinux: Loaded file_contexts\nSELinux: Loaded file_contexts\nOK\n",
+  "system_mount": "/dev/block/mmcblk0p16 /system ext4 ro,seclabel,relatime 0 0\n",
+  "pid": 5840,
+  "after": {
+    "schema": 1,
+    "backend_ready": true,
+    "profile_id": "raw_3920_2946_24",
+    "codec": "prores_raw",
+    "phase": "idle",
+    "detail": "",
+    "fresh": true,
+    "uptime": 389,
+    "mode": "video",
+    "session": "up",
+    "seconds": 0.0,
+    "frames": 0,
+    "preview_gen": 4,
+    "duration_limit_seconds": 300,
+    "temperature_status": "low",
+    "supervisor_pid": 5840
+  },
+  "error": "active_error = false\n",
+  "installed": true
+}

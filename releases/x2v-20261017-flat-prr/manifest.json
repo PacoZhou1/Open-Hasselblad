@@ -1,0 +1,59 @@
+{
+  "release": "x2v-20261017-flat-prr",
+  "base": "6648b237",
+  "installed": true,
+  "device_verified": true,
+  "assets": [
+    {
+      "source": "local-verification/prr-flat-storage-20261017/session.sh",
+      "file": "files/system/etc/x2v/x2v_video_session_20261017flat.sh",
+      "destination": "/system/etc/x2v/x2v_video_session_20261017flat.sh",
+      "mode": "755",
+      "sha256": "0fce4f7d397691d916d02d0cf7490a92a1c3a03310bcccb85b737c9c2bf2a60a"
+    },
+    {
+      "source": "local-verification/prr-flat-storage-20261017/supervisor.sh",
+      "file": "files/system/etc/x2v/x2v_product_boot_20261017a.sh",
+      "destination": "/system/etc/x2v/x2v_product_boot_20261017a.sh",
+      "mode": "755",
+      "sha256": "8b2d18f9210623a42798ae9bd9c4d0d1ce2e73040e1bac0cb39b38521390cd80"
+    },
+    {
+      "source": "local-verification/prr-flat-storage-20261017/flat-storage.sh",
+      "file": "files/system/etc/x2v/x2v_flat_storage_20261017a.sh",
+      "destination": "/system/etc/x2v/x2v_flat_storage_20261017a.sh",
+      "mode": "755",
+      "sha256": "225b70f81eb6a817a571d4e29cc135ba23b7d99ff2077be13fc387d07dc5e95b"
+    },
+    {
+      "source": "local-verification/prr-flat-storage-20261017/build/x2v_sync_paths_20261017a",
+      "file": "files/system/bin/x2v_sync_paths_20261017a",
+      "destination": "/system/bin/x2v_sync_paths_20261017a",
+      "mode": "755",
+      "sha256": "9d664938683fcefdaa24f1d632fefb64bf8464c0ac5436968bd28d96adf0374b"
+    }
+  ],
+  "verification": {
+    "recording": "48 frames, error 0; one drop at stop",
+    "playback": "48 frames decoded, ended, no error",
+    "assets_readback": [
+      {
+        "destination": "/system/etc/x2v/x2v_video_session_20261017flat.sh",
+        "matches": true
+      },
+      {
+        "destination": "/system/etc/x2v/x2v_product_boot_20261017a.sh",
+        "matches": true
+      },
+      {
+        "destination": "/system/etc/x2v/x2v_flat_storage_20261017a.sh",
+        "matches": true
+      },
+      {
+        "destination": "/system/bin/x2v_sync_paths_20261017a",
+        "matches": true
+      }
+    ],
+    "reboot_tested": false
+  }
+}

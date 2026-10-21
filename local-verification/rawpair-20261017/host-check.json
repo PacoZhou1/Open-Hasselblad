@@ -1,0 +1,9 @@
+{
+  "host_tests": [
+    "real preprocessing preserves every non-reconstructed row",
+    "only y_mod_6_eq_5 changes",
+    "uniform input identical with correction on/off"
+  ],
+  "passed": true,
+  "camera_capture": false
+}

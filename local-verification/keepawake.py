@@ -35,6 +35,16 @@ def ensure():
   actual=r.factory_shell('odindb-send -s system -p screen_idle_timeout').strip()
   if actual.split('=')[-1].strip()!='0':raise RuntimeError(actual)
  state.update(boot_id=boot,verified_at=time.time(),screen_idle_timeout=0,wake_reply=wake)
+ # A cached active flag survives a Mac restart; it does not prove that the
+ # process renewing the 120-second camera lease is still alive.
+ host_pid=state.get('host_pid')
+ host_command=subprocess.run(['ps','-p',str(host_pid or 0),'-o','command='],capture_output=True,text=True).stdout
+ if str(Path(__file__).resolve()) not in host_command or ' worker' not in host_command:
+  state['host_pid']=None
+  temp=STATE.with_suffix('.tmp');temp.write_text(json.dumps(state,indent=2));temp.replace(STATE)
+  with (ROOT/'keepawake-host.log').open('a') as log:
+   host=subprocess.Popen([sys.executable,str(Path(__file__).resolve()),'worker'],stdin=subprocess.DEVNULL,stdout=log,stderr=log,start_new_session=True)
+  state['host_pid']=host.pid
  temp=STATE.with_suffix('.tmp');temp.write_text(json.dumps(state,indent=2));temp.replace(STATE)
  print(json.dumps(state));return state
 

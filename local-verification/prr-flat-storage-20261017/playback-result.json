@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "phase": "ended",
+  "source": "/mnt/media_rw/ssd/X2V_RAW/X2V_PRR_20261017_205731.mov",
+  "index": 47,
+  "count": 48,
+  "width": 972,
+  "height": 728,
+  "position": 1.9583,
+  "duration": 2.0,
+  "generation": 48,
+  "frame_ms": [
+    24.2,
+    0.1,
+    6.4,
+    18.2,
+    7.9
+  ],
+  "error": ""
+}

@@ -1,0 +1,37 @@
+{
+  "actual_matches_candidate_C_exactly": true,
+  "healthy_samples_unchanged": true,
+  "bad_samples_same_as_production": true,
+  "production_altered_samples": 1799271,
+  "candidate_altered_samples": 935495,
+  "normal_clip_frames": 104,
+  "normal_clip_dropped": 0,
+  "normal_clip_lost": 0,
+  "camera_error": "active_error = false\n",
+  "gray_card_phase": {
+    "unfixed": {
+      "median_blue_y_mod6_1_3_5": [
+        3648.0,
+        3648.0,
+        2890.0
+      ],
+      "range_over_mean": 0.2232475947378755
+    },
+    "current": {
+      "median_blue_y_mod6_1_3_5": [
+        3648.0,
+        3648.0,
+        3648.0
+      ],
+      "range_over_mean": 0.0
+    },
+    "candidate": {
+      "median_blue_y_mod6_1_3_5": [
+        3648.0,
+        3648.0,
+        3648.0
+      ],
+      "range_over_mean": 0.0
+    }
+  }
+}
