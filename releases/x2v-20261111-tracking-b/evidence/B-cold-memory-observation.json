@@ -1,0 +1,204 @@
+{
+  "samples": [
+    {
+      "elapsed": 0.01,
+      "gui_pid": 1709,
+      "VmSize": 432336,
+      "VmRSS": 283860,
+      "VmSwap": 0,
+      "MemFree": 161800,
+      "MemAvailable": 347332,
+      "requests": {
+        "allocated": 10,
+        "busy": 1,
+        "completed": 6657
+      },
+      "stock": "liveview",
+      "mode": "video",
+      "gallery": false,
+      "source_pid": null
+    },
+    {
+      "elapsed": 15.46,
+      "gui_pid": 1709,
+      "VmSize": 434432,
+      "VmRSS": 286372,
+      "VmSwap": 0,
+      "MemFree": 155532,
+      "MemAvailable": 344356,
+      "requests": {
+        "allocated": 11,
+        "busy": 1,
+        "completed": 7262
+      },
+      "stock": "liveview",
+      "mode": "video",
+      "gallery": false,
+      "source_pid": null
+    },
+    {
+      "elapsed": 30.87,
+      "gui_pid": 1709,
+      "VmSize": 442640,
+      "VmRSS": 288120,
+      "VmSwap": 0,
+      "MemFree": 148896,
+      "MemAvailable": 340472,
+      "requests": {
+        "allocated": 11,
+        "busy": 1,
+        "completed": 7848
+      },
+      "stock": "liveview",
+      "mode": "video",
+      "gallery": false,
+      "source_pid": null
+    },
+    {
+      "elapsed": 46.27,
+      "gui_pid": 1709,
+      "VmSize": 444736,
+      "VmRSS": 291032,
+      "VmSwap": 0,
+      "MemFree": 143848,
+      "MemAvailable": 338496,
+      "requests": {
+        "allocated": 11,
+        "busy": 1,
+        "completed": 8466
+      },
+      "stock": "liveview",
+      "mode": "video",
+      "gallery": false,
+      "source_pid": null
+    },
+    {
+      "elapsed": 61.76,
+      "gui_pid": 1709,
+      "VmSize": 446788,
+      "VmRSS": 294300,
+      "VmSwap": 0,
+      "MemFree": 136656,
+      "MemAvailable": 334340,
+      "requests": {
+        "allocated": 11,
+        "busy": 1,
+        "completed": 9083
+      },
+      "stock": "liveview",
+      "mode": "video",
+      "gallery": false,
+      "source_pid": null
+    },
+    {
+      "elapsed": 77.17,
+      "gui_pid": 1709,
+      "VmSize": 447108,
+      "VmRSS": 296240,
+      "VmSwap": 0,
+      "MemFree": 132876,
+      "MemAvailable": 332560,
+      "requests": {
+        "allocated": 11,
+        "busy": 1,
+        "completed": 9664
+      },
+      "stock": "liveview",
+      "mode": "video",
+      "gallery": false,
+      "source_pid": null
+    },
+    {
+      "elapsed": 92.58,
+      "gui_pid": 1709,
+      "VmSize": 447112,
+      "VmRSS": 297868,
+      "VmSwap": 0,
+      "MemFree": 126584,
+      "MemAvailable": 328108,
+      "requests": {
+        "allocated": 11,
+        "busy": 1,
+        "completed": 10246
+      },
+      "stock": "liveview",
+      "mode": "video",
+      "gallery": false,
+      "source_pid": null
+    },
+    {
+      "elapsed": 108.03,
+      "gui_pid": 1709,
+      "VmSize": 449164,
+      "VmRSS": 299204,
+      "VmSwap": 0,
+      "MemFree": 125436,
+      "MemAvailable": 328944,
+      "requests": {
+        "allocated": 11,
+        "busy": 1,
+        "completed": 10826
+      },
+      "stock": "liveview",
+      "mode": "video",
+      "gallery": false,
+      "source_pid": null
+    },
+    {
+      "elapsed": 123.46,
+      "gui_pid": 1709,
+      "VmSize": 453264,
+      "VmRSS": 301188,
+      "VmSwap": 0,
+      "MemFree": 120832,
+      "MemAvailable": 326248,
+      "requests": {
+        "allocated": 11,
+        "busy": 1,
+        "completed": 11408
+      },
+      "stock": "liveview",
+      "mode": "video",
+      "gallery": false,
+      "source_pid": null
+    },
+    {
+      "elapsed": 138.86,
+      "gui_pid": 1709,
+      "VmSize": 455316,
+      "VmRSS": 302536,
+      "VmSwap": 0,
+      "MemFree": 117324,
+      "MemAvailable": 324692,
+      "requests": {
+        "allocated": 11,
+        "busy": 1,
+        "completed": 11971
+      },
+      "stock": "liveview",
+      "mode": "video",
+      "gallery": false,
+      "source_pid": null
+    },
+    {
+      "elapsed": 154.26,
+      "gui_pid": 1709,
+      "VmSize": 455320,
+      "VmRSS": 304512,
+      "VmSwap": 0,
+      "MemFree": 113496,
+      "MemAvailable": 323400,
+      "requests": {
+        "allocated": 11,
+        "busy": 1,
+        "completed": 12574
+      },
+      "stock": "liveview",
+      "mode": "video",
+      "gallery": false,
+      "source_pid": null
+    }
+  ],
+  "done": true,
+  "elapsed": 154.76
+}

@@ -1,0 +1,518 @@
+{
+  "version": "20261111b",
+  "firmware": "1.3.16.2",
+  "boot": "/system/etc/x2v/x2v_product_boot_20261111b.sh",
+  "gui_directory": "/blackbox/x2v-native-20261011/gui-tracking-b",
+  "built_at": "2026-11-11T16:22:28.204562",
+  "installed": true,
+  "AF_user_accepted": true,
+  "lock_speed_user_accepted": true,
+  "native_BFM_cache_input_Hz": 24,
+  "AF_native_binary_unchanged": {
+    "source": "/Users/paco/Documents/ChatGPT/哈苏/native-video/experimental/x2v-touch-tracking-20261110/bfm-ab/build/libx2v_prr_resident.so",
+    "device_path": "/system/lib64/libx2v_vot24_bfmcache_20261111ab_trial.so",
+    "sha256": "b4adecf583e57aa6db49f4247647c337aaf1cc52d5899f6d1870a354237b5abf"
+  },
+  "loss_behavior": "Native loss ends current touch lease; stop AF, clear touch-origin bits, release owner; a new tap is required",
+  "loss_host_tests": "/Users/paco/Documents/ChatGPT/哈苏/native-video/experimental/x2v-touch-tracking-20261110/lost-terminal/test-receipt.json",
+  "loss_physical_test": "passed",
+  "photo_IQ_readout_pixel_math_unchanged": true,
+  "retained_fallback_boot": "/system/etc/x2v/x2v_product_boot_20261111a.sh",
+  "physical_cold_boot_verified": true,
+  "files": [
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui/ExperimentalVideoSettings.qml",
+      "sha256": "0d8fc33199f4a88edc032dda207673fd02ac4d6577bdc5023cd3ff8c9c5b3959",
+      "bytes": 9151
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui/ExperimentalVideoUi.qml",
+      "sha256": "e5ea6d0b8dd2487b70b8b1bf806a91429056818bbfe0cfb71e32cf9ffbbb6fcc",
+      "bytes": 4792
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui/ExposureAssistData.js",
+      "sha256": "4136b346d5c435f1af87149a7a323ab35a4d35464a1cfde79bceecd4b57eb13d",
+      "bytes": 1284
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui/ExposureAssistOverlay.qml",
+      "sha256": "21fdc39ed6c0b6ecd9f20ef0dfe228d2be01bf0fb48859997fd8be3624c95c57",
+      "bytes": 7534
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui/ExposureModeChange.js",
+      "sha256": "ecca03572365cbf4f6bc52219e7cc55001fe042a5b040406d6386b3b73872252",
+      "bytes": 1130
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui/RecordingProfiles.qml",
+      "sha256": "a0ee78a15f626db8b043869eef0ece260396ae0dd9f5f6e69a5ff6953229dc2a",
+      "bytes": 5278
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui/X2VControlScreenViewModel.qml",
+      "sha256": "6072e192218b71abe53ec5097a037b3f818dbc61be4add0963695172571c3392",
+      "bytes": 486
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui/X2VLiveViewImage.qml",
+      "sha256": "14985dd17b2c7d6a02e24565971d888d4f83074cec73f7ca0e4651b07045f78b",
+      "bytes": 12969
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui/X2VLiveViewOverlay.qml",
+      "sha256": "622adff2c49fd226456a32219b368657f340a869627f334037766b6e94ad2405",
+      "bytes": 66125
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui/X2VLiveviewViewModel.qml",
+      "sha256": "87e5c7aa4b4c7f7b8a4d02bf65da638509286d7d8b037d97d430d62671c06a40",
+      "bytes": 4512
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui/X2VMainContent.qml",
+      "sha256": "d85cf4d1d7e0ebbf7fb05b7a80bdbe6814b6579a08a539f1ace0535e8d8ac5ee",
+      "bytes": 28721
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui/X2VMainViewModel.qml",
+      "sha256": "a12c157828cca436e61ff9cb06e68fdddaa9467a19d9142a61b6bf0056e8f5b9",
+      "bytes": 7724
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui/main.qml",
+      "sha256": "0e56f129845f06fbf5994ba577c77a49cf1a2180428ef7a775e23d534352d8d6",
+      "bytes": 49093
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/BodyKeys.qml",
+      "sha256": "68cf4ae8be1137df52820195ef0a2d343f3fb9f7f501355acee3554c46f374a0",
+      "bytes": 5421
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/Catalog.js",
+      "sha256": "8691ffd9ff44dfbc7e288eb79bf3810512e024a1bdef88c739badc6f68606d25",
+      "bytes": 2325
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/DriveAttach.qml",
+      "sha256": "c4bd62b47749b8f4951e4040ed8fb4f6426a291aeb8b8702ab5822f36f0fcfd1",
+      "bytes": 2568
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/ExperimentalMenuEntry.qml",
+      "sha256": "3fe2c6ddf52df8bced6f3a3158e4af88fa99f73e1c3164285ad2fe0cf695a7a3",
+      "bytes": 925
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/ExperimentalVideoSettings.qml",
+      "sha256": "0d8fc33199f4a88edc032dda207673fd02ac4d6577bdc5023cd3ff8c9c5b3959",
+      "bytes": 9151
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/ExperimentalVideoUi.qml",
+      "sha256": "e5ea6d0b8dd2487b70b8b1bf806a91429056818bbfe0cfb71e32cf9ffbbb6fcc",
+      "bytes": 4792
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/ExposureAssistData.js",
+      "sha256": "90e00c22b5916a9091d639947c4f69aafe1a8644d6d80dda47d7768d1da93249",
+      "bytes": 2530
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/ExposureAssistOverlay.qml",
+      "sha256": "c176c66c486feb42ceb11fd6b0fc63c8da75f2f268af9d74e1da36d4eba5a33a",
+      "bytes": 8108
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/ExposureModeChange.js",
+      "sha256": "ecca03572365cbf4f6bc52219e7cc55001fe042a5b040406d6386b3b73872252",
+      "bytes": 1130
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/ExposureTouchTabs.qml",
+      "sha256": "4655c5d1e216e606f9593221a0e4c27401708fa39368ff44f050fdaf45576360",
+      "bytes": 7976
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/ModeTransitionGate.js",
+      "sha256": "a80c579d736c9761c00b4b059383e9e6815fa47ed667ef765bb3fe53faa84c9b",
+      "bytes": 1349
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/ModeTransitionOverlay.qml",
+      "sha256": "6254b7c8af3531a0815e8e8b56a55adb55ffe2982e8ab73e4a8d23468013fd2f",
+      "bytes": 2018
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/PRODUCT_GUI.installed",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/PlaybackSession.qml",
+      "sha256": "e5a4b55065b2a099b22995d0a7ee82c7a84a0eec0cd44d0ab7ed292d96253370",
+      "bytes": 5365
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/PrrFrameSurface.qml",
+      "sha256": "0e20d94cacc8c2450ba14c493f68daba2cc19c439ddabe2b98bd722069378139",
+      "bytes": 5139
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/RecordingOverlay.qml",
+      "sha256": "79adcfa46ca9bd32acd985f11c04ff4b897618d0c5766daceeddb138e1e7c494",
+      "bytes": 3646
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/RecordingProfiles.qml",
+      "sha256": "a0ee78a15f626db8b043869eef0ece260396ae0dd9f5f6e69a5ff6953229dc2a",
+      "bytes": 5278
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/VideoDriveGrid.qml",
+      "sha256": "6c9d291fa1c368f1e0adfaaf82d200c4845efb321041ea6b6de6258a0be200b4",
+      "bytes": 5269
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/VideoGallery.qml",
+      "sha256": "76f68b049ad49e087291d023baf866279ce61275e2a3dcd477112a189de6f1ba",
+      "bytes": 8514
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/VideoItemSessionAdapter.qml",
+      "sha256": "78dd1967fdedffcc0950c3829855524328e53be9424e536462ce6fd19b28bc3d",
+      "bytes": 8218
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/VideoPlaybackControls.qml",
+      "sha256": "97deabf1cb946b3518c1f03c743595273c9f087767aab5a460bbf6a7c85e1702",
+      "bytes": 2853
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/X2VControlScreenViewModel.qml",
+      "sha256": "6072e192218b71abe53ec5097a037b3f818dbc61be4add0963695172571c3392",
+      "bytes": 486
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/X2VLiveViewImage.qml",
+      "sha256": "14985dd17b2c7d6a02e24565971d888d4f83074cec73f7ca0e4651b07045f78b",
+      "bytes": 12969
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/X2VLiveViewOverlay.qml",
+      "sha256": "622adff2c49fd226456a32219b368657f340a869627f334037766b6e94ad2405",
+      "bytes": 66125
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/X2VLiveviewViewModel.qml",
+      "sha256": "87e5c7aa4b4c7f7b8a4d02bf65da638509286d7d8b037d97d430d62671c06a40",
+      "bytes": 4512
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/X2VMainContent.qml",
+      "sha256": "e2881b4410f36c71e63be8a338ff5b92ec5c872c502ce3e172423200bb887fe0",
+      "bytes": 29091
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/X2VMainViewModel.qml",
+      "sha256": "a12c157828cca436e61ff9cb06e68fdddaa9467a19d9142a61b6bf0056e8f5b9",
+      "bytes": 7724
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/X2VStateMachineViewModel.qml",
+      "sha256": "c6ffdc1ff9b8c9329683d1cc10d8105270283f17e2d4b5180b2579336d7d827d",
+      "bytes": 1076
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-handoff-h/main.qml",
+      "sha256": "fe362ebc523d2db37b5940324ae6b81b9720536693acaf5aabe81e550c72e374",
+      "bytes": 52233
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/BodyKeys.qml",
+      "sha256": "68cf4ae8be1137df52820195ef0a2d343f3fb9f7f501355acee3554c46f374a0",
+      "bytes": 5421
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/Catalog.js",
+      "sha256": "8691ffd9ff44dfbc7e288eb79bf3810512e024a1bdef88c739badc6f68606d25",
+      "bytes": 2325
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/DriveAttach.qml",
+      "sha256": "c4bd62b47749b8f4951e4040ed8fb4f6426a291aeb8b8702ab5822f36f0fcfd1",
+      "bytes": 2568
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/ExperimentalMenuEntry.qml",
+      "sha256": "3fe2c6ddf52df8bced6f3a3158e4af88fa99f73e1c3164285ad2fe0cf695a7a3",
+      "bytes": 925
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/ExperimentalVideoSettings.qml",
+      "sha256": "0d8fc33199f4a88edc032dda207673fd02ac4d6577bdc5023cd3ff8c9c5b3959",
+      "bytes": 9151
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/ExperimentalVideoUi.qml",
+      "sha256": "e5ea6d0b8dd2487b70b8b1bf806a91429056818bbfe0cfb71e32cf9ffbbb6fcc",
+      "bytes": 4792
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/ExposureAssistData.js",
+      "sha256": "90e00c22b5916a9091d639947c4f69aafe1a8644d6d80dda47d7768d1da93249",
+      "bytes": 2530
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/ExposureAssistOverlay.qml",
+      "sha256": "c176c66c486feb42ceb11fd6b0fc63c8da75f2f268af9d74e1da36d4eba5a33a",
+      "bytes": 8108
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/ExposureModeChange.js",
+      "sha256": "ecca03572365cbf4f6bc52219e7cc55001fe042a5b040406d6386b3b73872252",
+      "bytes": 1130
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/ExposureTouchTabs.qml",
+      "sha256": "4655c5d1e216e606f9593221a0e4c27401708fa39368ff44f050fdaf45576360",
+      "bytes": 7976
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/FileRequests.js",
+      "sha256": "4e508668cdaf02badd903e8f0262edc4f85fdd5cf42190260c892e2c2e62b795",
+      "bytes": 1633
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/ModeTransitionGate.js",
+      "sha256": "a80c579d736c9761c00b4b059383e9e6815fa47ed667ef765bb3fe53faa84c9b",
+      "bytes": 1349
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/ModeTransitionOverlay.qml",
+      "sha256": "6254b7c8af3531a0815e8e8b56a55adb55ffe2982e8ab73e4a8d23468013fd2f",
+      "bytes": 2018
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/PRODUCT_GUI.installed",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/PlaybackSession.qml",
+      "sha256": "e5a4b55065b2a099b22995d0a7ee82c7a84a0eec0cd44d0ab7ed292d96253370",
+      "bytes": 5365
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/PrrFrameSurface.qml",
+      "sha256": "0e20d94cacc8c2450ba14c493f68daba2cc19c439ddabe2b98bd722069378139",
+      "bytes": 5139
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/RecordingOverlay.qml",
+      "sha256": "79adcfa46ca9bd32acd985f11c04ff4b897618d0c5766daceeddb138e1e7c494",
+      "bytes": 3646
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/RecordingProfiles.qml",
+      "sha256": "a0ee78a15f626db8b043869eef0ece260396ae0dd9f5f6e69a5ff6953229dc2a",
+      "bytes": 5278
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/TouchTrackingController.js",
+      "sha256": "c307c0f1533740998994b4bd36e932843a53bbb1f63740e7c40a1f1a17b8f8df",
+      "bytes": 9470
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/TrackingIndicator.qml",
+      "sha256": "69743184ec9a553ed72f7cbf3502091da4fbd3c6dc886b3d6ca75bab1ca51602",
+      "bytes": 5344
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/VideoDriveGrid.qml",
+      "sha256": "6c9d291fa1c368f1e0adfaaf82d200c4845efb321041ea6b6de6258a0be200b4",
+      "bytes": 5269
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/VideoGallery.qml",
+      "sha256": "76f68b049ad49e087291d023baf866279ce61275e2a3dcd477112a189de6f1ba",
+      "bytes": 8514
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/VideoItemSessionAdapter.qml",
+      "sha256": "78dd1967fdedffcc0950c3829855524328e53be9424e536462ce6fd19b28bc3d",
+      "bytes": 8218
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/VideoPlaybackControls.qml",
+      "sha256": "97deabf1cb946b3518c1f03c743595273c9f087767aab5a460bbf6a7c85e1702",
+      "bytes": 2853
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/VideoTouchTracking.qml",
+      "sha256": "75658ea40732b4dc46d827670c1c29557e7744d3c806f16e27780c7a23074c04",
+      "bytes": 12315
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/X2VControlScreenViewModel.qml",
+      "sha256": "6072e192218b71abe53ec5097a037b3f818dbc61be4add0963695172571c3392",
+      "bytes": 486
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/X2VLiveViewImage.qml",
+      "sha256": "d6111a56b4b1478be6c04e42a449a1720176e51bd3bde9a64a6ca24b7ce4dfbe",
+      "bytes": 19590
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/X2VLiveViewOverlay.qml",
+      "sha256": "d2152974e47e75fd13f72317136a335d8f818c52864fa2612a030a188a4303b2",
+      "bytes": 66249
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/X2VLiveviewViewModel.qml",
+      "sha256": "340bae3a3affa50138924e68ccd9c3c34ca2d0bcf7792f7dd0f1912f157ec88c",
+      "bytes": 4602
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/X2VMainContent.qml",
+      "sha256": "e2881b4410f36c71e63be8a338ff5b92ec5c872c502ce3e172423200bb887fe0",
+      "bytes": 29091
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/X2VMainViewModel.qml",
+      "sha256": "a12c157828cca436e61ff9cb06e68fdddaa9467a19d9142a61b6bf0056e8f5b9",
+      "bytes": 7724
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/X2VStateMachineViewModel.qml",
+      "sha256": "c6ffdc1ff9b8c9329683d1cc10d8105270283f17e2d4b5180b2579336d7d827d",
+      "bytes": 1076
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/gui-tracking-b/main.qml",
+      "sha256": "c92f3af0d23b9e42b4617cb8fc8ec9606fec4d43d6b07a2a0998c441a58da509",
+      "bytes": 59208
+    },
+    {
+      "dest": "/blackbox/x2v-native-20261011/iq/hb722_reference_20261110c.bin",
+      "sha256": "c3332f46040ba29098abe520076bc511df78ee58238ba1c72f485af20c2e985d",
+      "bytes": 8405400
+    },
+    {
+      "dest": "/blackbox/x2v-touch-tracking-20261111-terminal-loss-trial/imx861bqr_hb722.conf",
+      "sha256": "0e3afa43b9510ea10d05a528fc75f8cef47bb46b21199c41661de7682279709e",
+      "bytes": 138349
+    },
+    {
+      "dest": "/blackbox/x2v-touch-tracking-20261111-terminal-loss-trial/imx861bqr_hb722.sp",
+      "sha256": "631afbb11aba2252a638b7411cca59646221e1e86501da5bcfabdbb638f78dd8",
+      "bytes": 103154
+    },
+    {
+      "dest": "/system/bin/x2v_prr_play_20261110a",
+      "sha256": "23d45f34790c02132231f40f775cd214e4a8cad613694aa334457e61291b2937",
+      "bytes": 24536
+    },
+    {
+      "dest": "/system/etc/x2v/video-afc-watch_20261110h.sh",
+      "sha256": "7a0561000815ebfaeb421e55446aab34ce4e66dfa33d0755683d11c6e9caf5ba",
+      "bytes": 4075
+    },
+    {
+      "dest": "/system/etc/x2v/video-afc-watch_20261111y.sh",
+      "sha256": "c449dc72f112f5763f5a67a7e0ed9f9f32b33e05b83cb8a90188c13daf8d5b0c",
+      "bytes": 7750
+    },
+    {
+      "dest": "/system/etc/x2v/x2v_product_boot_20261110g.sh",
+      "sha256": "078cdb4dca9247adf469b548171bac36fadf63612a6c2cae0505a6a6c71f807a",
+      "bytes": 31027
+    },
+    {
+      "dest": "/system/etc/x2v/x2v_product_boot_20261111a.sh",
+      "sha256": "ad9520cec71aa4fff75b09ba7fb3da1f149c2141c60d30135b181ac42d957bd3",
+      "bytes": 32298
+    },
+    {
+      "dest": "/system/etc/x2v/x2v_product_boot_20261111b.sh",
+      "sha256": "37d68c41d8607a37536cec1f1f5dde1bbe458d4e3a9cc8f58860d393cdfb06c4",
+      "bytes": 32300
+    },
+    {
+      "dest": "/system/etc/x2v/x2v_video_session_20261110g.sh",
+      "sha256": "7b920f4032f28168cab95d41cf02736663fb9bbf9e3ff43850571c64caca283f",
+      "bytes": 20117
+    },
+    {
+      "dest": "/system/etc/x2v/x2v_video_session_20261111a.sh",
+      "sha256": "cb1220c9026256a780c669b85e5f4b9b672d921c19ee9f9f6ae8038129743760",
+      "bytes": 21610
+    },
+    {
+      "dest": "/system/etc/x2v/x2v_video_session_20261111b.sh",
+      "sha256": "b30f0bed0db298749ac0a9b9fba814202bf0298580dac6458f837496e09ab456",
+      "bytes": 22966
+    },
+    {
+      "dest": "/system/lib64/libx2v_gui_handoff_20261110h.so",
+      "sha256": "555935d781e8d96ef89a398ad40ef520182697555ea122a3c403865b1a8e7e59",
+      "bytes": 11992
+    },
+    {
+      "dest": "/system/lib64/libx2v_gui_tracking_20261111b.so",
+      "sha256": "17d1dda1e2074bfe9dedafce9455bc8c35853703a1ed4a1df3c867eddc634a00",
+      "bytes": 12032
+    },
+    {
+      "dest": "/system/lib64/libx2v_tools24_20261110f.so",
+      "sha256": "1a266a8cac783749728213c637a10adccdac34cecb351c8c3b456d487132b037",
+      "bytes": 168768
+    },
+    {
+      "dest": "/system/lib64/libx2v_tools25_20261110g.so",
+      "sha256": "557cb6e4042e236d51492be782ba238435f9de73043f06bdbe081390790bd35e",
+      "bytes": 169992
+    },
+    {
+      "dest": "/system/lib64/libx2v_tools30_20261110f.so",
+      "sha256": "a06f07d3e21f6e89b44f1351ad155f2641de4aff38662361774c8ce4a74cfe62",
+      "bytes": 169720
+    },
+    {
+      "dest": "/system/lib64/libx2v_vot24_bfmcache_20261111ab_trial.so",
+      "sha256": "b4adecf583e57aa6db49f4247647c337aaf1cc52d5899f6d1870a354237b5abf",
+      "bytes": 178344
+    },
+    {
+      "dest": "/system/lib64/libx2v_vot_observer_20261111g_trial.so",
+      "sha256": "5302c43d7c273b63def13dfc955bcd9affbe4d2b40b51920db0e461a8f2ba857",
+      "bytes": 15696
+    }
+  ],
+  "installed_at": "2026-11-11T16:19:12.061438",
+  "installation_receipt": "/Users/paco/Documents/ChatGPT/哈苏/local-verification/video-tools-20261110/tracking-b-cold-publication.json",
+  "cold_verification_pending": false,
+  "memory_request_pool": {
+    "host_verified_requests": 4000,
+    "allocated_objects": 1,
+    "hardware_growth_test": "Bounded objects confirmed; residual RSS growth remains",
+    "observed_seconds": 154.76,
+    "allocated_objects_last": 11,
+    "GUI_RSS_start_KiB": 283860,
+    "GUI_RSS_end_KiB": 304512,
+    "swap_KiB_last": 0,
+    "long_term_stability_passed": false
+  },
+  "cold_boot_id": "f835f0f0-a0ed-47a4-9137-b29040e0c953",
+  "controls_user_accepted": true,
+  "acceptance": "User accepted loss/reclick behavior, Menu and Playback response on2026-11-11",
+  "focus_accuracy_across_exposure_validated": false,
+  "known_limits": [
+    "AF-C settings use native ToF as primary; continuous photo-equivalent PD/CD statistics are not established in MODE21.",
+    "Initial still contrast scan is bypassed; ToF peak acceptance80->60; fixed AFC parameter snapshot used.",
+    "Precision across distance/exposure/lenses remains pending.",
+    "GUI RSS still rose20652KiB in about155seconds despite bounded XHR objects; do not claim memory growth fully fixed."
+  ]
+}

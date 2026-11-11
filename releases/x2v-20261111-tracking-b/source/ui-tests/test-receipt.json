@@ -1,0 +1,5 @@
+{
+  "passed": 9,
+  "hardware": false,
+  "scope": "Real lock/loss/recovered packet counterexample; release ACK; late-frame rejection; explicit new tap; receipt timeout; MF/navigation/cancel"
+}

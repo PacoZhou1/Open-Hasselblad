@@ -1,0 +1,80 @@
+{
+  "sourcePid": 6393,
+  "capturedAt": 1794389095730,
+  "events": [
+    {
+      "t": 1794389087839,
+      "e": "vot_stop_af",
+      "d": {
+        "type": "stop_af",
+        "reason": "target_lost",
+        "guiAt": 1794389087837
+      }
+    },
+    {
+      "t": 1794389087937,
+      "e": "vot_restore",
+      "d": {
+        "type": "restore",
+        "reason": "target_lost",
+        "guiAt": 1794389087935
+      }
+    },
+    {
+      "t": 1794389087937,
+      "e": "vot_unclaim",
+      "d": {
+        "type": "unclaim",
+        "reason": "target_lost",
+        "guiAt": 1794389087937
+      }
+    },
+    {
+      "t": 1794389089681,
+      "e": "vot_tap_received",
+      "d": {
+        "point": {
+          "x": 0.7336578369140625,
+          "y": 0.4096221923828125
+        },
+        "observedAt": 1794389089681
+      }
+    },
+    {
+      "t": 1794389094395,
+      "e": "vot_stop_af",
+      "d": {
+        "type": "stop_af",
+        "reason": "target_lost",
+        "guiAt": 1794389094393
+      }
+    },
+    {
+      "t": 1794389094479,
+      "e": "vot_restore",
+      "d": {
+        "type": "restore",
+        "reason": "target_lost",
+        "guiAt": 1794389094477
+      }
+    },
+    {
+      "t": 1794389094480,
+      "e": "vot_unclaim",
+      "d": {
+        "type": "unclaim",
+        "reason": "target_lost",
+        "guiAt": 1794389094479
+      }
+    }
+  ],
+  "phases": [
+    "claiming",
+    "idle",
+    "locked",
+    "pending",
+    "releasing",
+    "seeding"
+  ],
+  "user_accepted": true
+}

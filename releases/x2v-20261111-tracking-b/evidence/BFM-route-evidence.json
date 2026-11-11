@@ -1,0 +1,36 @@
+{
+  "baseline": "AA / Z: BFM async policy role4; no dcam_af_set_stat 210150 during trace",
+  "native_source_verified": {
+    "aio_mode": 1,
+    "producer_present": true,
+    "producer_and_consumer_share_pool": true,
+    "dequeue_rc": 0,
+    "enqueue_rc": 0,
+    "bfm_item_routing_kind": 1
+  },
+  "native_cached_policy": {
+    "file": "AA-policy-config.asm",
+    "entry": "_stats_policy_send_with_slave_stats",
+    "role1_test": "1890ec cmp w8,#1",
+    "cache_getter_call": "189100 native mgr+0x98"
+  },
+  "candidate": "20261111ab: BFM native cached role1; ToF asynchronous role4 retained",
+  "permanent_boot_changed": false,
+  "pixel_IQ_readout_changed": false,
+  "candidate_live_result": {
+    "version": "20261111ab",
+    "BFM_native_AF_calls_per_second": 24.00186733927853,
+    "BFM_call_rc": 0,
+    "AF_frame_minus_BFM_frame_range": [
+      1,
+      1
+    ],
+    "same_frame_roi_comparisons": 14,
+    "same_frame_roi_max_normalized_difference": 1.1920928966180355e-08,
+    "first_white_ms": 18,
+    "first_native_locked_roi_ms": 1641,
+    "optical_motion_acceptance": "pending user test",
+    "permanent_boot_changed": false,
+    "IQ_readout_pixels_changed": false
+  }
+}

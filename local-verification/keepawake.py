@@ -7,9 +7,33 @@ ROOT=Path(__file__).resolve().parent
 STATE=ROOT/'keepawake-state.json'
 REMOTE='/blackbox/x2v-native-20261011'
 SCRIPT=REMOTE+'/keepawake.sh';LEASE=REMOTE+'/keepawake.lease'
+LAUNCHER=REMOTE+'/keepawake-launch.sh';GATE=REMOTE+'/keepawake.go'
 def adb(*args):return subprocess.run(['adb','-s','123456789ABCDEF',*args],capture_output=True,text=True,timeout=8,check=True).stdout
 
-def ensure():
+def launch_watchdog(reader):
+ # Move the launcher before it forks native D-Bus clients. Moving only the
+ # already-running parent left its earliest children in camera-test's group.
+ local=ROOT/'keepawake-launch.sh'
+ local.write_text(f'''#!/system/bin/sh
+while [ ! -f {GATE} ]; do sleep .03; done
+exec sh {SCRIPT}
+''')
+ adb('push',str(local),LAUNCHER)
+ adb('shell',f'rm -f {GATE}')
+ result=reader.factory_shell(f'toybox nohup setsid sh {LAUNCHER} >{REMOTE}/keepawake.log 2>&1 & echo $!').strip()
+ if not result.isdigit():raise RuntimeError('Camera watchdog did not launch: '+result)
+ adb('shell',f'p=$(pidof adbd);echo {int(result)} >/acct/uid_0/pid_$p/cgroup.procs')
+ adb('shell',f'touch {GATE}')
+ return int(result)
+
+def release_debug_lock(reader):
+ try:
+  return reader.factory_shell('odindb-send -s system -m release_wake_lock -- x2v-debug-session').strip()
+ except Exception as error:
+  if 'Wake lock does not exist x2v-debug-session' not in str(error):raise
+  return 'not held'
+
+def ensure(*,verify_identity=True):
  """Re-arm at an operator-owned capture boundary, never from a competing worker."""
  state=json.loads(STATE.read_text())
  if not state.get('active'):raise RuntimeError('Keepawake is not enabled')
@@ -17,7 +41,7 @@ def ensure():
  if owner.get('owner')!='codex-preview-debug':raise RuntimeError('Camera belongs to another operator')
  from factory_session import connect
  adb('shell',f'echo {int(time.time())+120} > {LEASE}')
- with connect() as r:
+ with connect(verify_identity=verify_identity) as r:
   thermal=r.factory_shell('odindb-send -s system -p temperature_status').strip()
   if thermal not in ('temperature_status = E_TemperatureStatus_Low(1)', 'temperature_status = E_TemperatureStatus_Moderate(2)'):
    raise RuntimeError('Keepawake refused: '+thermal)
@@ -25,16 +49,18 @@ def ensure():
   pid=int(state.get('camera_pid') or 0)
   alive=r.factory_shell(f"tr '\\000' ' ' < /proc/{pid}/cmdline;true").strip() if pid else ''
   if SCRIPT not in alive:
-   result=r.factory_shell(f'toybox nohup sh {SCRIPT} >{REMOTE}/keepawake.log 2>&1 & echo $!').strip()
-   if not result.isdigit():raise RuntimeError('Camera watchdog did not launch: '+result)
-   state['camera_pid']=int(result)
-   # Development factory commands inherit camera-test's disposable cgroup.
-   adb('shell',f'p=$(pidof adbd); echo {int(result)} > /acct/uid_0/pid_$p/cgroup.procs')
-  wake=r.factory_shell('odindb-send -s system -m acquire_wake_lock -- x2v-debug-session').strip()
+   state['camera_pid']=launch_watchdog(r)
+   # Retain ownership even if a later D-Bus read fails; a retry must not
+   # silently create a second watchdog for the same lease.
+   STATE.write_text(json.dumps(state,indent=2))
+  # screen_idle_timeout=0 keeps the monitor awake. A persistent global wake
+  # lock also blocks normal power-off if the watchdog dies before its trap.
+  # Release leases created by earlier versions; never acquire one here.
+  wake=release_debug_lock(r)
   r.factory_shell('odindb-send -s system -p screen_idle_timeout -- 0')
   actual=r.factory_shell('odindb-send -s system -p screen_idle_timeout').strip()
   if actual.split('=')[-1].strip()!='0':raise RuntimeError(actual)
- state.update(boot_id=boot,verified_at=time.time(),screen_idle_timeout=0,wake_reply=wake)
+ state.update(boot_id=boot,verified_at=time.time(),screen_idle_timeout=0,wake_reply=wake,wake_lock_held=False)
  # A cached active flag survives a Mac restart; it does not prove that the
  # process renewing the 120-second camera lease is still alive.
  host_pid=state.get('host_pid')
@@ -81,10 +107,8 @@ done
   # system_data_file is readable by both the factory and ADB domains.
   adb('push',str(local),SCRIPT)
   adb('shell',f'echo {int(time.time())+120} > {LEASE}')
-  pid=r.factory_shell(f'toybox nohup sh {SCRIPT} >{REMOTE}/keepawake.log 2>&1 & echo $!').strip()
-  if not pid.isdigit():raise RuntimeError('Camera watchdog did not launch')
-  adb('shell',f'p=$(pidof adbd); echo {int(pid)} > /acct/uid_0/pid_$p/cgroup.procs')
-  r.factory_shell('odindb-send -s system -m acquire_wake_lock -- x2v-debug-session')
+  pid=launch_watchdog(r)
+  release_debug_lock(r)
   r.factory_shell('odindb-send -s system -p screen_idle_timeout -- 0')
   r.factory_shell('odindb-send -s system -m set_screen_enabled -- true')
  STATE.write_text(json.dumps(dict(active=True,baseline_timeout=old,camera_pid=int(pid),host_pid=None),indent=2))

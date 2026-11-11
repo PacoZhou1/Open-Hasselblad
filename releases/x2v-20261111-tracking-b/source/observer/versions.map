@@ -1,0 +1,1 @@
+libduml_fastrtps_v_lz { global: duss_ps_subscriber_create; duss_ps_publisher_create; duss_ps_msg_async_receive; duss_ps_msg_send; duss_ps_msg_receive; duss_ps_subscriber_destroy; local: *; };

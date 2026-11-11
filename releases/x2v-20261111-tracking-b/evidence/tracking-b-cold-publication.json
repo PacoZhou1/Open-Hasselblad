@@ -1,0 +1,10 @@
+{
+  "version": "20261111b",
+  "before_newest": "/system/etc/x2v/x2v_product_boot_20261111a.sh",
+  "cold_verification_pending": true,
+  "original_boot_retained": true,
+  "write": "BOOT_PUBLISHED_FOR_COLD_VERIFICATION\n",
+  "newest": "/system/etc/x2v/x2v_product_boot_20261111b.sh",
+  "system": "/dev/block/mmcblk0p16 /system ext4 ro,seclabel,relatime 0 0\n",
+  "published": true
+}

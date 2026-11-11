@@ -1,0 +1,16 @@
+{
+  "version": "20261111ab",
+  "BFM_native_AF_calls_per_second": 24.00186733927853,
+  "BFM_call_rc": 0,
+  "AF_frame_minus_BFM_frame_range": [
+    1,
+    1
+  ],
+  "same_frame_roi_comparisons": 14,
+  "same_frame_roi_max_normalized_difference": 1.1920928966180355e-08,
+  "first_white_ms": 18,
+  "first_native_locked_roi_ms": 1641,
+  "optical_motion_acceptance": "pending user test",
+  "permanent_boot_changed": false,
+  "IQ_readout_pixels_changed": false
+}

@@ -1,0 +1,29 @@
+{
+  "state": {
+    "schema": 1,
+    "backend_ready": true,
+    "gui_ready": true,
+    "command_id": "1794388754264-1",
+    "job_kind": "",
+    "photo_ready": false,
+    "raw_total": 1051,
+    "source_pid": 6393,
+    "profile_id": "raw_3920_2946_24",
+    "codec": "prores_raw",
+    "phase": "idle",
+    "detail": "",
+    "fresh": true,
+    "uptime": 213,
+    "mode": "video",
+    "session": "up",
+    "seconds": 0.0,
+    "frames": 0,
+    "preview_gen": 88,
+    "duration_limit_seconds": 300,
+    "temperature_status": "low",
+    "supervisor_pid": 429
+  },
+  "AF": "af_status = E_AutoFocusStatus_RunningCont(3)\nfocus_area = E_FocusArea_SpotPlus(2)\nfocus_mode = E_FocusModes_Afc(4)\nobject_detection = E_ObjectDetection_Off(0)\n",
+  "error": "active_error = false\n",
+  "memory": "GUI:1709\nVmSize:\t  413864 kB\nVmRSS:\t  272356 kB\nVmSwap:\t       0 kB\nMemTotal:         937312 kB\nMemFree:          184496 kB\nMemAvailable:     359972 kB\nBuffers:           43628 kB\n"
+}

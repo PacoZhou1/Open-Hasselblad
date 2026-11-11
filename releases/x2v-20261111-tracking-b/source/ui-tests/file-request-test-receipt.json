@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "hardware": false,
+  "host_Qt": "6.8.3",
+  "requests_completed": 4000,
+  "native_XHR_allocations": 1,
+  "changed_file_body_read_back": true,
+  "first": {
+    "allocated": 1,
+    "busy": 0,
+    "completed": 2000
+  },
+  "second": {
+    "allocated": 1,
+    "busy": 0,
+    "completed": 4000
+  }
+}

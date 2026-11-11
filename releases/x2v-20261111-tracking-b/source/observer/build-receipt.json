@@ -1,0 +1,53 @@
+{
+  "artifact": "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/x2v-touch-tracking-20261110/click-integration/handoff-a-observer/observer-g/libx2v_vot_observer_20261111g_trial.so",
+  "sha256": "5302c43d7c273b63def13dfc955bcd9affbe4d2b40b51920db0e461a8f2ba857",
+  "bytes": 15696,
+  "device_path": "/system/lib64/libx2v_vot_observer_20261111g_trial.so",
+  "commands": [
+    [
+      "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/.venv/bin/python",
+      "-m",
+      "ziglang",
+      "cc",
+      "-target",
+      "aarch64-linux-gnu",
+      "-std=c11",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-fPIC",
+      "-O2",
+      "-fno-stack-protector",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-I",
+      "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/x2v-touch-tracking-20261110/click-integration",
+      "-c",
+      "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/x2v-touch-tracking-20261110/click-integration/handoff-a-observer/observer-g/vot_native_observer_g.c",
+      "-o",
+      "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/x2v-touch-tracking-20261110/click-integration/handoff-a-observer/observer-g/vot_native_observer_g.o"
+    ],
+    [
+      "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/.venv/bin/python",
+      "-m",
+      "ziglang",
+      "cc",
+      "-target",
+      "aarch64-linux-gnu",
+      "-nostdlib",
+      "-shared",
+      "-Wl,--strip-all",
+      "-Wl,--gc-sections",
+      "-Wl,--allow-shlib-undefined",
+      "-Wl,--version-script=/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/x2v-touch-tracking-20261110/click-integration/handoff-a-observer/observer-g/versions.map",
+      "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/x2v-touch-tracking-20261110/click-integration/handoff-a-observer/observer-g/vot_native_observer_g.o",
+      "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/resources/extracted/X2DII_100C_v1_3_16_2(1)_extracted/system/lib64/libc.so",
+      "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/resources/extracted/X2DII_100C_v1_3_16_2(1)_extracted/system/lib64/libdl.so",
+      "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/resources/extracted/X2DII_100C_v1_3_16_2(1)_extracted/system/lib64/libm.so",
+      "-o",
+      "/Users/paco/Documents/ChatGPT/\u54c8\u82cf/native-video/experimental/x2v-touch-tracking-20261110/click-integration/handoff-a-observer/observer-g/libx2v_vot_observer_20261111g_trial.so"
+    ]
+  ],
+  "device_executed": false,
+  "change": "Read-only AIO ctx output mode and producer presence; F controls/callback forwarding unchanged"
+}

@@ -1,0 +1,347 @@
+{
+  "out": "/Users/paco/Documents/ChatGPT/哈苏/local-verification/video-tools-20261110/touch-ui-155649",
+  "version": "20261111b",
+  "permanent_boot_changed": false,
+  "stable_GUI_changed": false,
+  "recording_geometry_or_IQ_changed": false,
+  "connection": {
+    "temporary_adb_enabled": true,
+    "firmware": "text='v1.3.16.2' encoding=S9, raw=53 39 2c 76 31 2e 33 2e 31 36 2e 32"
+  },
+  "boot_id": "0cbc6a83-cf70-4563-be5a-7f3a82f0db71",
+  "firmware": "text='v1.3.16.2' encoding=S9, raw=53 39 2c 76 31 2e 33 2e 31 36 2e 32",
+  "before": {
+    "schema": 1,
+    "backend_ready": false,
+    "gui_ready": true,
+    "command_id": "1794383770158-1",
+    "job_kind": "",
+    "photo_ready": true,
+    "raw_total": 0,
+    "source_pid": 0,
+    "profile_id": "raw_3920_2946_24",
+    "codec": "prores_raw",
+    "phase": "idle",
+    "detail": "",
+    "fresh": true,
+    "uptime": 43,
+    "mode": "photo",
+    "session": "down",
+    "seconds": 0,
+    "frames": 0,
+    "preview_gen": 0,
+    "duration_limit_seconds": 300,
+    "temperature_status": "unknown",
+    "supervisor_pid": 432
+  },
+  "photo": {
+    "schema": 1,
+    "backend_ready": false,
+    "gui_ready": true,
+    "command_id": "1794383770158-1",
+    "job_kind": "",
+    "photo_ready": true,
+    "raw_total": 0,
+    "source_pid": 0,
+    "profile_id": "raw_3920_2946_24",
+    "codec": "prores_raw",
+    "phase": "idle",
+    "detail": "",
+    "fresh": true,
+    "uptime": 44,
+    "mode": "photo",
+    "session": "down",
+    "seconds": 0,
+    "frames": 0,
+    "preview_gen": 0,
+    "duration_limit_seconds": 300,
+    "temperature_status": "unknown",
+    "supervisor_pid": 432
+  },
+  "saved_native": "arbitrary_tracking = true\nfocus_area = E_FocusArea_SpotPlus(2)\nfocus_mode = E_FocusModes_Afc(4)\nfocus_point = 327685000\nlive_view_state = E_LiveViewState_Active(1)\nobject_detection = E_ObjectDetection_Off(0)\nstream_group = E_StreamGroup_Still16bit(0)\ntouch_tracking = false\n",
+  "original_trial_settings_inherited_from": "local-verification/video-tools-20261110/touch-ui-022343/saved-settings.json",
+  "settings_restore": {
+    "focus_mode": "4",
+    "focus_area": "2",
+    "object_detection": "1",
+    "touch_tracking": "false",
+    "arbitrary_tracking": "true",
+    "focus_point": "327685000"
+  },
+  "trial_photo": {
+    "schema": 1,
+    "backend_ready": false,
+    "gui_ready": true,
+    "command_id": "1794383810281-1",
+    "job_kind": "",
+    "photo_ready": true,
+    "raw_total": 0,
+    "source_pid": 0,
+    "profile_id": "raw_3920_2946_24",
+    "codec": "prores_raw",
+    "phase": "idle",
+    "detail": "",
+    "fresh": true,
+    "uptime": 52,
+    "mode": "photo",
+    "session": "down",
+    "seconds": 0,
+    "frames": 0,
+    "preview_gen": 0,
+    "duration_limit_seconds": 300,
+    "temperature_status": "unknown",
+    "supervisor_pid": 3224
+  },
+  "gui_loaded": {
+    "focusPoint": 327685000,
+    "expMode": -1,
+    "exposurePending": false,
+    "focusSession": false,
+    "focusCanChange": false,
+    "focusTouch": false,
+    "focusVideoMove": false,
+    "afStatus": -1,
+    "afNav": false,
+    "screenStatus": -1,
+    "t": 1794383811777,
+    "up": 52,
+    "seenAgeMs": 908,
+    "badge": "快门未接",
+    "badgeVisible": false,
+    "notice": "",
+    "modeSwitchActive": false,
+    "modeSwitchTarget": "photo",
+    "modeSwitchPainted": false,
+    "handoffSuppressedCount": 0,
+    "phase": "idle",
+    "fresh": true,
+    "mode": "photo",
+    "session": "down",
+    "profile": "raw_3920_2946_24",
+    "histogramEnabled": true,
+    "histogramVisible": false,
+    "rawHistogramValid": false,
+    "rawHighValid": false,
+    "rawHigh": [
+      false,
+      false,
+      false
+    ],
+    "gallery": false,
+    "clips": 162,
+    "playing": false,
+    "firstClip": "X2V_PRR_20261111_153848",
+    "settings": false,
+    "drive": false,
+    "stock": "",
+    "keyHooked": false,
+    "browseHooked": false,
+    "nativeShutter": false,
+    "keyOverride": 0,
+    "focusMagnify": false,
+    "playbackPhase": "idle",
+    "canPause": false,
+    "canResume": false,
+    "pvShown": 0,
+    "pvVisible": false,
+    "ispView": false,
+    "recButton": {
+      "visible": false,
+      "x": 942,
+      "y": 470
+    },
+    "isoWb": false,
+    "events": [
+      {
+        "t": 1794383810254,
+        "e": "badge",
+        "d": {
+          "text": "快门未接"
+        }
+      },
+      {
+        "t": 1794383810521,
+        "e": "keymap",
+        "d": {
+          "HalfPress": [
+            65
+          ],
+          "E_Button_HalfPress": [
+            65
+          ],
+          "JstkDown": [
+            66
+          ],
+          "Down": [
+            66,
+            16777237
+          ],
+          "Select": [
+            67,
+            68,
+            85,
+            87,
+            16777220,
+            16777221,
+            16777267
+          ],
+          "ZoomIn": [
+            67
+          ],
+          "Enter": [
+            68,
+            16777220,
+            16777221,
+            16777267
+          ],
+          "Afd": [
+            68
+          ],
+          "E_Button_Afd": [
+            68
+          ],
+          "E_Button_FullPress": [
+            69
+          ],
+          "JstkUp": [
+            71
+          ],
+          "Up": [
+            71,
+            16777235
+          ],
+          "E_Button_IsoWb": [
+            73
+          ],
+          "Escape": [
+            76,
+            16777216
+          ],
+          "Ael": [
+            76
+          ],
+          "E_Button_Ael": [
+            76
+          ],
+          "JstkRight": [
+            78
+          ],
+          "Right": [
+            78,
+            16777236
+          ],
+          "JstkLeft": [
+            86
+          ],
+          "Left": [
+            86,
+            16777234
+          ],
+          "Menu": [
+            16777264
+          ],
+          "E_Button_Menu": [
+            16777264
+          ],
+          "Cross": [
+            16777265
+          ],
+          "Square": [
+            16777267
+          ],
+          "Play": [
+            16777268
+          ],
+          "E_Button_Play": [
+            16777268
+          ]
+        }
+      },
+      {
+        "t": 1794383810869,
+        "e": "fresh",
+        "d": {
+          "fresh": true,
+          "up": 52
+        }
+      }
+    ]
+  },
+  "installed": true,
+  "trial_video": {
+    "schema": 1,
+    "backend_ready": true,
+    "gui_ready": true,
+    "command_id": "1794383812709-2",
+    "job_kind": "",
+    "photo_ready": false,
+    "raw_total": 60,
+    "source_pid": 3813,
+    "profile_id": "raw_3920_2946_24",
+    "codec": "prores_raw",
+    "phase": "idle",
+    "detail": "",
+    "fresh": true,
+    "uptime": 70,
+    "mode": "video",
+    "session": "up",
+    "seconds": 0.0,
+    "frames": 0,
+    "preview_gen": 5,
+    "duration_limit_seconds": 300,
+    "temperature_status": "low",
+    "supervisor_pid": 3224
+  },
+  "standby_AF": "af_status = E_AutoFocusStatus_RunningCont(3)\nexposure_status = E_ExposureStatus_InSession(16)\nfocus_area = E_FocusArea_SpotPlus(2)\nfocus_mode = E_FocusModes_Afc(4)\nobject_detection = E_ObjectDetection_Off(0)\nfind_focus_active = false\n",
+  "native_tracking": {
+    "schema": 1,
+    "enabled": true,
+    "backendReady": true,
+    "epoch": "vot/3813/64882183322/4",
+    "servicePid": 3813,
+    "observedAt": 1794383829824.601,
+    "sourceSeq": 0,
+    "nativeSeedSeq": 0,
+    "mlRunning": true,
+    "workerActive": true,
+    "lifecycleSeq": 6,
+    "mlStatusRaw": 2,
+    "ackError": 0,
+    "ackMonotonicNs": 69293989050,
+    "lastControlMonotonicNs": 69286267175,
+    "lastControlType": 1,
+    "lastControlStartType": 1,
+    "lastControlClickType": 8,
+    "controlRequestHex40": "00000000000000000201000001000000080000000000000000000000000000000000000000000000",
+    "ackHex16": "226a2904000000000202000000000000",
+    "controlRunMode": 8,
+    "callbackCount": 0,
+    "afNodeCallbackCount": 0,
+    "afNodeMode": 4294967295,
+    "afNodeHasProducer": 0,
+    "afNodeFrame": 0,
+    "afNodeBytes": 0,
+    "afNodeMonotonicNs": 0,
+    "invalidPacketCount": 0,
+    "slotDropCount": 0,
+    "resultReceivedMonotonicNs": 0,
+    "nativeFrameId": 0,
+    "packetKind": 0,
+    "header16Raw": "00000000000000000000000000000000",
+    "result": null
+  },
+  "error": "active_error = false\nCouldn't convert variant: QVariant(QVariantMap, QMap())\ncurrent_error = Item {}\n",
+  "system": "/dev/block/mmcblk0p16 /system ext4 ro,seclabel,relatime 0 0\n",
+  "trial_ready": true,
+  "keepawake": {
+    "active": true,
+    "baseline_timeout": 300,
+    "camera_pid": 4839,
+    "host_pid": 52746,
+    "boot_id": "0cbc6a83-cf70-4563-be5a-7f3a82f0db71",
+    "verified_at": 1794383842.8741708,
+    "screen_idle_timeout": 0,
+    "wake_reply": "not held",
+    "wake_lock_held": false
+  }
+}

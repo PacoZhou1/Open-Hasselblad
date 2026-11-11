@@ -9,7 +9,11 @@ import libusb_package
 from camera_access import SOURCE, EXPECTED
 
 @contextmanager
-def connect():
+def connect(*, verify_identity=True):
+    """Use verify_identity=False only within a session whose firmware is already
+    verified, notably recovery when a repeated filesystem hash blocks HblShell.
+    USB identity and interface layout are always checked below.
+    """
     spec = importlib.util.spec_from_file_location('factory_transport', SOURCE)
     m = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = m
@@ -28,9 +32,10 @@ def connect():
     try:
         usb.util.claim_interface(d, 4)
         r.out_ep, r.in_ep = ep[6], ep[0x87]
-        identity = r.factory_shell('getprop ro.product.device;sha256sum /system/bin/camera-service').strip().splitlines()
-        if len(identity) != 2 or identity[0] != 'eagle2_hb722' or identity[1].split()[0] != EXPECTED:
-            raise RuntimeError('Camera identity/hash mismatch')
+        if verify_identity:
+            identity = r.factory_shell('getprop ro.product.device;sha256sum /system/bin/camera-service').strip().splitlines()
+            if len(identity) != 2 or identity[0] != 'eagle2_hb722' or identity[1].split()[0] != EXPECTED:
+                raise RuntimeError('Camera identity/hash mismatch')
         yield r
     finally:
         r.close()

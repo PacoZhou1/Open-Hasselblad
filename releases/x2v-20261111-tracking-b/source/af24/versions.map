@@ -1,0 +1,10 @@
+libdcam_base_v_lz { global: taskbuf_inc_copy; taskbuf_attach; taskbuf_detach; taskbuf_get_consumer; };
+libaaa_v_lz { global: dcam_af_get_stat_cfg; af_scene_bfm_set_stats; dcam_af_set_stat; af_get_is_record; af_get_is_in_recording; afc_ctrl_process; af_get_afc_param; hybrid_af_start; af_get_frame_rate; alg_reset_all_alg_output_info; dcam_af_run; tof_dtof_ads6401_run; dcam_af_get_stat_cfglist; tof_lib_statistics_info; tof_dtof_ads6401_statistics; };
+LIBC { global: open; open64; openat; openat64; fopen; dlsym; __open_2; inotify_add_watch; };
+LIBC_N { global: fopen64; };
+libdcam_frwk_v_lz { global: cam_filter_dump_frame_data; cam_cap_eng_set_streaming_params; cam_cap_eng_start_streaming; cam_cap_eng_stop_streaming; cam_cap_eng_start_stream; cam_cap_eng_stop_stream; stream_group_mgr_create; cam_stream_consumer_get_parameter; };
+librcam_v_lz { global: rcam_imgsys_create; };
+libevdev_v_lz { global: libevdev_next_event; libevdev_uinput_write_event; };
+libdcam_x2dii_tof_stream_filter_v_lz { global: _ZN20X2DIITofStreamFilter8onBufferEP16cam_frame_buffer; _ZN20X2DIITofStreamFilter14sendDataToRcamERK26_af_tof_spot_input_data_s_RK8FocusRoi; };
+libdcam_observer_v_lz { global: cam_frame_buffer_remote_observer_start; };
+X2V_REVIEWED_INTERNAL { global: x2v_mode21_vendor_allowed; x2v_target_parser_owner; x2v_target_parser_class; local: *; };
